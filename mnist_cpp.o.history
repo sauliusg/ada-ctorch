@@ -1,0 +1,1 @@
+  701  g++ -c -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include mnist_cpp.cpp 
