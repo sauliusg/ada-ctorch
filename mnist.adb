@@ -11,5 +11,5 @@ procedure MNIST is
    
 begin
    Manual_Seed (1);
-   Put_Line ("Random number generator initialised from Adax");
+   Put_Line ("Random number generator initialised from Ada");
 end;
