@@ -7,7 +7,7 @@ procedure MNIST is
    procedure Manual_Seed (Seed : UInt_64)
      with Import => True,
      Convention => CPP,
-     External_Name => "_ZN2at11manual_seedEm";
+     External_Name => "_ZN5torch3mps11manual_seedEm";
    
 begin
    Manual_Seed (1);
