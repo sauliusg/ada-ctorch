@@ -1,0 +1,1 @@
+  575  g++ -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include mnist_cpp.cpp ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so /home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -o mnist_cpp
