@@ -1,2 +1,1 @@
-  537  gnatmake mnist.adb -largs ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so 
-  540  LD_LIBRARY_PATH=${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$LD_LIBRARY_PATH ./mnist 
+  555  gnatmake mnist.adb -largs ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so .obj/manual_seed.o ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++
