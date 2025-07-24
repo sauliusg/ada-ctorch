@@ -64,6 +64,10 @@ procedure MNIST is
       
       for DeviceType'Size use 8;
       
+      package NN is
+         
+      end NN;
+      
       procedure Manual_Seed (Seed : UInt_64)
         with Import => True,
         Convention => CPP,
