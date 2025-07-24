@@ -7,7 +7,7 @@
 
 extern "C" {
 
-    void manual_seed (unsigned long seed)
+    void torch_manual_seed (unsigned long seed)
     {
         torch::manual_seed (seed);
     }

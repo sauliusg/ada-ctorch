@@ -1,1 +1,3 @@
-  555  gnatmake mnist.adb -largs ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so .obj/manual_seed.o ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++
+  569  g++ -c -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include src/manual_seed.cpp -o .obj/manual_seed.o
+  574  gnatmake mnist.adb -largs ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so .obj/manual_seed.o ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++
+  583  LD_LIBRARY_PATH=${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:~/.alire/lib64:$LD_LIBRARY_PATH ./mnist

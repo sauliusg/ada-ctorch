@@ -3,7 +3,7 @@
 
 extern "C" {
 
-    void manual_seed (unsigned long);
+    void torch_manual_seed (unsigned long);
     
 };
 
