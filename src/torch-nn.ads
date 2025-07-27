@@ -18,6 +18,10 @@ private
    
    type Ada_Shadow_Module_Access is access Ada_Shadow_Module_Type;
    
+   type Module is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Module : Ada_Shadow_Module_Access; 
+   end record;
+   
    function New_AdaShadowModule (M : Module_Access) return Ada_Shadow_Module_Access
      with Import => True,
      Convention => CPP,
@@ -27,9 +31,5 @@ private
      with Import => True,
      Convention => CPP,
      External_Name => "delete_AdaShadowModule";
-   
-   type Module is new Ada.Finalization.Limited_Controlled with record
-      Shadow_Module : Ada_Shadow_Module_Access; 
-   end record;
    
 end Torch.NN;
