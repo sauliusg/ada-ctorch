@@ -24,17 +24,17 @@ extern "C" {
     {
         // We will handle allocation failure on the Ada side, no need to
         // throw (raise) and exception here:
-        using namespace std;
-        cout << "Creating a new shadow tensor " << endl;
+        ////using namespace std;
+        ////cout << "Creating a new shadow tensor " << endl;
         return new (std::nothrow) AdaShadowTensor ();
     }
 
     void delete_AdaShadowTensor (struct AdaShadowTensor* shadow_tensor)
     {
-        using namespace std;
         assert (shadow_tensor);
         assert (shadow_tensor->refcount == 0);
-        cout << "Deleting the shadow tensor " << shadow_tensor << endl;
+        ////using namespace std;
+        ////cout << "Deleting the shadow tensor " << shadow_tensor << endl;
         delete shadow_tensor;
     }
 
@@ -42,16 +42,16 @@ extern "C" {
     {
         assert (t);
         t->refcount ++;
-        using namespace std;
-        cout << "inc_refcount: " << t->refcount << endl;
+        ////using namespace std;
+        ////cout << "inc_refcount: " << t->refcount << endl;
     }
     
     int dec_tensor_refcount (AdaShadowTensor* t)
     {
         assert (t);
         t->refcount --;
-        using namespace std;
-        cout << "dec_refcount: " << t->refcount << endl;
+        ////using namespace std;
+        ////cout << "dec_refcount: " << t->refcount << endl;
         return t->refcount;
     }
     
