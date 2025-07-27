@@ -13,6 +13,7 @@ procedure MNIST is
    T1, T2 : Tensors.Tensor;
    
 begin
+   T1 := T2;
    Put_Line (Device'Size'Image);
    Torch.Manual_Seed (1);
    Put_Line ("Random number generator initialised from Ada");
