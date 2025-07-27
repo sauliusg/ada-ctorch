@@ -1,4 +1,4 @@
   569  g++ -c -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include src/manual_seed.cpp -o .obj/manual_seed.o
-  527  PATH=~/.alire/bin:$PATH
-  475  g++ -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include -fdump-ada-spec-slim /home/saulius/src/pytorch/c10/util/intrusive_ptr.h
-  533  LD_LIBRARY_PATH=${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:~/.alire/lib64:$LD_LIBRARY_PATH ./mnist
+  589  PATH=~/.alire/bin:$PATH
+  594  gnatmake -Isrc/ mnist.adb -largs .obj/manual_seed.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++ 
+  596  LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
