@@ -5,6 +5,8 @@
 struct AdaModule;
 
 // Defined on the Ada side:
+
+extern "C"
 torch::Tensor call_ada_forward_method (AdaModule *m, torch::Tensor x);
 
 // A shadow class to which all Ada side calls for methods inherited

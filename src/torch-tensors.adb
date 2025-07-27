@@ -1,4 +1,4 @@
-package body Tensors is
+package body Torch.Tensors is
    
    -- Tensors are shared during Ada variable assignments and implement
    --  copy-on-write – the C++ side shadow tensor should be cloned if
@@ -29,4 +29,4 @@ package body Tensors is
       end if;
    end;
    
-end Tensors;
+end Torch.Tensors;

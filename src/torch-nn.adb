@@ -1,3 +1,5 @@
+with Torch.Tensors; use Torch.Tensors;
+
 package body Torch.NN is
 
    overriding procedure Initialize (M : in out Module) is
@@ -23,5 +25,15 @@ package body Torch.NN is
    begin
       Delete_AdaShadowModule (M.Shadow_Module);
    end;
-
+   
+   function Call_Ada_Forward_Method
+     (
+      M : Module_Access;
+      T : Ada_Shadow_Tensor_Type
+     ) return Ada_Shadow_Tensor_Type
+   is
+   begin
+      return T;
+   end;
+   
 end;

@@ -1,6 +1,6 @@
 with Ada.Finalization;
 
-package Tensors is
+package Torch.Tensors is
    
    type Tensor is new Ada.Finalization.Controlled with private;
    
@@ -14,10 +14,6 @@ package Tensors is
    procedure Finalize (M : in out Tensor);
    
 private
-   
-   type Ada_Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
-   
-   type Ada_Shadow_Tensor_Access is access Ada_Shadow_Tensor_Type;
    
    type Tensor is new Ada.Finalization.Controlled with record
      Shadow_Tensor : Ada_Shadow_Tensor_Access;
@@ -48,4 +44,4 @@ private
      Convention => CPP,
      External_Name => "get_tensor_refcount";
    
-end Tensors;
+end Torch.Tensors;

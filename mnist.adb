@@ -2,7 +2,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 with Torch;
 with Torch.NN;
-with Tensors;
+with Torch.Tensors;
 
 procedure MNIST is
    
@@ -10,7 +10,7 @@ procedure MNIST is
    
    Net, Net2 : Torch.NN.Module;
    
-   T1, T2 : Tensors.Tensor;
+   T1, T2 : Torch.Tensors.Tensor;
    
 begin
    T1 := T2;

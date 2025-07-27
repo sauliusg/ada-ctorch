@@ -32,4 +32,14 @@ private
      Convention => CPP,
      External_Name => "delete_AdaShadowModule";
    
+   function Call_Ada_Forward_Method
+     (
+      M : Module_Access;
+      T : Ada_Shadow_Tensor_Type
+     ) return Ada_Shadow_Tensor_Type
+     with
+     Export => True,
+     Convention => C,
+     External_Name => "call_ada_forward_method";
+
 end Torch.NN;
