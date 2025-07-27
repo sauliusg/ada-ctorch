@@ -11,7 +11,7 @@ package body Tensors is
       
       if M.Shadow_Tensor = null then
          raise STORAGE_ERROR with
-           "coulr not allocate memry for a PyTorch shadow tensor";
+           "could not allocate memry for a PyTorch shadow tensor";
       end if;
    end;
    
