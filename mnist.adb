@@ -7,6 +7,8 @@ procedure MNIST is
    
    Device : Torch.DeviceType := Torch.CPU;
    
+   Net, Net2 : Torch.NN.Module;
+   
 begin
    Put_Line (Device'Size'Image);
    Torch.Manual_Seed (1);
