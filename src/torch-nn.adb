@@ -7,8 +7,10 @@ package body Torch.NN is
       --  exists. This will be ensured by makein the Ada own the
       --  allocated C++ object that holds the Ada object reference, to
       --  never let that reference to outside, and to let the
-      --  Initilaize/Adjust/Finalize handle the shared pointers. Thus,
-      --  we exepect the use of 'Unchecked_Access to be safe:
+      --  Initilaize and Finalize handle the shared pointers. We will
+      --  also make the Ada Module type limited so that no bitwise
+      --  copy of the type can occur. Thus, we exepect the use of
+      --  'Unchecked_Access to be safe:
       
       M.Shadow_Module := New_AdaShadowModule (M'Unchecked_Access);
       
