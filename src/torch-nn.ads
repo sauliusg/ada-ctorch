@@ -2,8 +2,6 @@ with Ada.Finalization;
 
 package Torch.NN is
    
-   type UInt_64 is mod 2**54;
-   
    type Ada_Module_Type is new Ada.Finalization.Controlled with private;
    
 private
