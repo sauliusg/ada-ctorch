@@ -1,5 +1,7 @@
 #include <torch/torch.h>
 
+#include <iostream>
+
 struct AdaModule;
 
 // Defined on the Ada side:
@@ -36,11 +38,15 @@ struct AdaShadowModule* new_AdaShadowModule (AdaModule *module)
 {
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
+    using namespace std;
+    cout << "Creating a new shadow object for Ada variable at " << module << endl;
     return new (std::nothrow) AdaShadowModule (module);
 }
 
 void delete_AdaShadowModule (struct AdaShadowModule* shadow_module)
 {
+    using namespace std;
+    cout << "Deleting the shadow object for Ada, object's address is " << shadow_module << endl;
     delete shadow_module;
 }
 
