@@ -17,6 +17,13 @@ package Torch.Tensors is
    
    type Shadow_Tensor_Access is access Shadow_Tensor_Type;
    
+   -- Copy the Src C++ tensor to the Dst tensor using the C++
+   --  assignment operator on the C++ side:
+   procedure Copy (Dst, Src : Shadow_Tensor_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "tensor_copy";
+   
 private
    
    type Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side

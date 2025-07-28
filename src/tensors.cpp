@@ -52,5 +52,12 @@ extern "C" {
         assert (t);
         return t->refcount;
     }
+
+    void tensor_copy (AdaShadowTensor* dst, AdaShadowTensor* src)
+    {
+        assert (dst);
+        assert (src);
+        *dst = *src;
+    }
     
 }; // extern "C"

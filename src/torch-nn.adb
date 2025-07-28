@@ -36,6 +36,7 @@ package body Torch.NN is
      ) return Shadow_Tensor_Access
    is
    begin
+      Copy (Result, X);
       return Result;
    end;
    
