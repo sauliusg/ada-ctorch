@@ -37,8 +37,8 @@ private
    function Call_Ada_Forward_Method
      (
       M : Module_Access;
-      T : Ada_Shadow_Tensor_Type
-     ) return Ada_Shadow_Tensor_Type
+      T : Shadow_Tensor_Type
+     ) return Shadow_Tensor_Type
      with
      Export => True,
      Convention => C,
