@@ -12,9 +12,13 @@ package Torch.NN is
    overriding
    procedure Finalize (M : in out Module);
    
+   function Forward (Self : in out Module'Class; X : Tensor) return Tensor;
+   
 private
    
    type Module_Access is access all Module;
+   
+   type Module_Class_Access is access all Module'Class;
    
    type Shadow_Module_Type is null record; -- Declared in full and managed on the C++ side
    
@@ -36,7 +40,7 @@ private
    
    function Call_Ada_Forward_Method
      (
-      M : Module_Access;
+      M : Module_Class_Access;
       X : Shadow_Tensor_Access;
       Result : Shadow_Tensor_Access
      ) return Shadow_Tensor_Access

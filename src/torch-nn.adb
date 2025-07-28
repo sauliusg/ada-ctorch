@@ -26,9 +26,14 @@ package body Torch.NN is
       Delete_AdaShadowModule (M.Shadow_Module);
    end;
    
+   function Forward (Self : in out Module'Class; X : Tensor) return Tensor is
+   begin
+      return X;
+   end;
+   
    function Call_Ada_Forward_Method
      (
-      M : Module_Access;
+      M : Module_Class_Access;
       X : Shadow_Tensor_Access;
       Result : Shadow_Tensor_Access
      ) return Shadow_Tensor_Access
@@ -37,8 +42,7 @@ package body Torch.NN is
    begin
       Copy (T, X);
       -- Do something with the T.Shadow_Tensor here – add NN layers, etc.
-      -- R := M.Forward (T);
-      R := T;
+      R := M.Forward (T);
       Copy (Result, R);
       return Result;
    end;
