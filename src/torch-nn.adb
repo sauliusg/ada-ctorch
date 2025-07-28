@@ -6,13 +6,13 @@ package body Torch.NN is
    begin
       -- We promise that the M'Access pointer will only be used by the
       --  C-side functions while the object on the Ada side
-      --  exists. This will be ensured by makein the Ada own the
-      --  allocated C++ object that holds the Ada object reference, to
-      --  never let that reference to outside, and to let the
-      --  Initilaize and Finalize handle the shared pointers. We will
-      --  also make the Ada Module type limited so that no bitwise
-      --  copy of the type can occur. Thus, we exepect the use of
-      --  'Unchecked_Access to be safe:
+      --  exists. This will be ensured by making Ada record to be the
+      --  ownner the allocated C++ object that holds the Ada object
+      --  reference, to never let that reference to outside, and to
+      --  let the Initilaize and Finalize handle the shared
+      --  pointers. We will also make the Ada Module type limited so
+      --  that no bitwise copy of the type can occur. Thus, we exepect
+      --  the use of 'Unchecked_Access to be safe:
       
       M.Shadow_Module := New_AdaShadowModule (M'Unchecked_Access);
       
