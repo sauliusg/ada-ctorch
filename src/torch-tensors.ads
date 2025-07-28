@@ -13,7 +13,7 @@ package Torch.Tensors is
    overriding
    procedure Finalize (M : in out Tensor);
    
-   type Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
+   type Shadow_Tensor_Type is abstract tagged null record; -- Declared in full and managed on the C++ side
    
    type Shadow_Tensor_Access is access Shadow_Tensor_Type;
    
