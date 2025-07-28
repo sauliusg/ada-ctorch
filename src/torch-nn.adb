@@ -33,8 +33,13 @@ package body Torch.NN is
       Result : Shadow_Tensor_Access
      ) return Shadow_Tensor_Access
    is
+      R, T : Tensor;
    begin
-      Copy (Result, X);
+      Copy (T, X);
+      -- Do something with the T.Shadow_Tensor here – add NN layers, etc.
+      -- R := M.Forward (T);
+      R := T;
+      Copy (Result, R);
       return Result;
    end;
    

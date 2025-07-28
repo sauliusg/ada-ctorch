@@ -38,20 +38,40 @@ package body Torch.Tensors is
    begin
       return Refcount (M.Shadow_Tensor);
    end;
-     
+   
+   procedure Ensure_Unaliased (T : in out Tensor) is
+   begin
+      if Refcount (T.Shadow_Tensor) > 1 then
+         declare
+            Dummy : Integer := Dec_Refcount (T.Shadow_Tensor);
+         begin
+            Allocate (T);
+         end;
+      end if;
+   end;
+   
    -- The Copy procedure uses the C++ side assignemt operator to copy
    --  the underlying tensors, but not the reference counts:
    procedure Copy (Dst, Src : in out Tensor) is
    begin
       -- Implement copy-on-write:
-      if Refcount (Dst.Shadow_Tensor) > 1 then
-         declare
-            Dummy : Integer := Dec_Refcount (Dst.Shadow_Tensor);
-         begin
-            Allocate (Dst);
-         end;
-      end if;
+      Ensure_Unaliased (Dst);
       Copy (Dst.Shadow_Tensor, Src.Shadow_Tensor);
+   end;
+   
+   procedure Copy (Dst : in out Tensor; Src : Shadow_Tensor_Access) is
+   begin
+      -- Implement copy-on-write:
+      Ensure_Unaliased (Dst);
+      Copy (Dst.Shadow_Tensor, Src);
+   end;
+   
+   procedure Copy (Dst : Shadow_Tensor_Access; Src : in Tensor) is
+   begin
+      -- Simply copy the tensor data to the C++ side, assuming that
+      --  the C++ torch::Tensor operator = will handle everything
+      --  correctly:
+      Copy (Dst, Src.Shadow_Tensor);
    end;
    
 end Torch.Tensors;

@@ -28,6 +28,10 @@ package Torch.Tensors is
    
    procedure Copy (Dst, Src : in out Tensor);
    
+   procedure Copy (Dst : in out Tensor; Src : Shadow_Tensor_Access);
+   
+   procedure Copy (Dst : Shadow_Tensor_Access; Src : in Tensor);
+   
 private
    
    type Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
