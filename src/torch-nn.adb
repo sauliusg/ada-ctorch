@@ -1,4 +1,3 @@
-with Ada.Text_IO; use Ada.Text_IO;
 with Torch.Tensors; use Torch.Tensors;
 
 package body Torch.NN is
@@ -24,7 +23,6 @@ package body Torch.NN is
 
    overriding procedure Finalize (M : in out Module) is
    begin
-      Put_Line (">>> Shadow_Tensor size is: " &  Shadow_Tensor_Type'Size'Image);
       Delete_AdaShadowModule (M.Shadow_Module);
    end;
    
