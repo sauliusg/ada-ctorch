@@ -31,11 +31,12 @@ package body Torch.NN is
    function Call_Ada_Forward_Method
      (
       M : Module_Access;
-      T : Shadow_Tensor_Access
+      X : Shadow_Tensor_Access;
+      Result : Shadow_Tensor_Access
      ) return Shadow_Tensor_Access
    is
    begin
-      return T;
+      return Result;
    end;
    
 end;

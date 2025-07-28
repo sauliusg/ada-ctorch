@@ -37,7 +37,8 @@ private
    function Call_Ada_Forward_Method
      (
       M : Module_Access;
-      T : Shadow_Tensor_Access
+      X : Shadow_Tensor_Access;
+      Result : Shadow_Tensor_Access
      ) return Shadow_Tensor_Access
      with
      Export => True,
