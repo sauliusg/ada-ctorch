@@ -13,6 +13,10 @@ package Torch.Tensors is
    overriding
    procedure Finalize (M : in out Tensor);
    
+   type Ada_Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Ada_Shadow_Tensor_Access is access Ada_Shadow_Tensor_Type;
+   
 private
    
    type Tensor is new Ada.Finalization.Controlled with record

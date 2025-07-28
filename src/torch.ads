@@ -66,10 +66,4 @@ package Torch is
      Convention => CPP,
      External_Name => "torch_manual_seed";
    
-private
-   
-   type Ada_Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
-   
-   type Ada_Shadow_Tensor_Access is access Ada_Shadow_Tensor_Type;
-   
 end Torch;

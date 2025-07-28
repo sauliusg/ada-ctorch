@@ -1,5 +1,7 @@
 with Ada.Finalization;
 
+with Torch.Tensors; use Torch.Tensors;
+
 package Torch.NN is
    
    type Module is new Ada.Finalization.Limited_Controlled with private;
