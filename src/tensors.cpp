@@ -53,11 +53,17 @@ extern "C" {
         return t->refcount;
     }
 
-    void tensor_copy (AdaShadowTensor* dst, AdaShadowTensor* src)
+    static inline
+    void torch_tensor_copy (torch::Tensor* dst, torch::Tensor* src)
     {
         assert (dst);
         assert (src);
         *dst = *src;
     }
     
+    void tensor_copy (AdaShadowTensor* dst, AdaShadowTensor* src)
+    {
+        torch_tensor_copy (dst, src);
+    }
+
 }; // extern "C"

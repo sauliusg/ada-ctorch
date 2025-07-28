@@ -17,12 +17,16 @@ package Torch.Tensors is
    
    type Shadow_Tensor_Access is access Shadow_Tensor_Type;
    
+   function Refcount (M : Tensor) return Integer;
+
    -- Copy the Src C++ tensor to the Dst tensor using the C++
    --  assignment operator on the C++ side:
    procedure Copy (Dst, Src : Shadow_Tensor_Access)
      with Import => True,
      Convention => CPP,
      External_Name => "tensor_copy";
+   
+   procedure Copy (Dst, Src : in out Tensor);
    
 private
    
@@ -56,5 +60,10 @@ private
      with Import => True,
      Convention => CPP,
      External_Name => "get_tensor_refcount";
+   
+   function Refcount (M : Shadow_Tensor_Access) return Integer
+     with Import => True,
+     Convention => CPP,
+     External_Name => "get_tensor_refcount";   
    
 end Torch.Tensors;
