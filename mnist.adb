@@ -16,7 +16,7 @@ procedure MNIST is
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
    begin
       Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
-      return Relu (X);
+      return Torch.Tensors.Relu (X);
    end;
    
    Net : Torch.NN.Module;
