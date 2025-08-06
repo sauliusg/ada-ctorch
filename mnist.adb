@@ -1,14 +1,27 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
 with Torch;
-with Torch.NN;
+with Torch.NN; use Torch.NN;
 with Torch.Tensors; use Torch.Tensors;
 
 procedure MNIST is
    
    Device : Torch.DeviceType := Torch.CPU;
    
-   Net, Net2 : Torch.NN.Module;
+   type Net_Type is new Torch.NN.Module with record
+      null;
+   end record;
+   
+   overriding
+   function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
+   begin
+      Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
+      return Relu (X);
+   end;
+   
+   Net : Torch.NN.Module;
+   
+   Net1, Net2 : Net_Type;
    
    T1, T2 : Torch.Tensors.Tensor;
    
@@ -22,6 +35,8 @@ begin
    
    Copy (X2, T2);
    Copy (T1, X1);
+   
+   T1 := Forward (Net1, T1);
    
    Put_Line ("T1 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T1)));
    Put_Line ("T2 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T2)));

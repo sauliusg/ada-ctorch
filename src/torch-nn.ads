@@ -12,7 +12,7 @@ package Torch.NN is
    overriding
    procedure Finalize (M : in out Module);
    
-   function Forward (Self : in out Module'Class; X : Tensor) return Tensor;
+   function Forward (Self : in out Module; X : Tensor) return Tensor;
    
 private
    

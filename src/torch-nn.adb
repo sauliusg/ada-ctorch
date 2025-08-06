@@ -26,7 +26,7 @@ package body Torch.NN is
       Delete_AdaShadowModule (M.Shadow_Module);
    end;
    
-   function Forward (Self : in out Module'Class; X : Tensor) return Tensor is
+   function Forward (Self : in out Module; X : Tensor) return Tensor is
    begin
       return X;
    end;
