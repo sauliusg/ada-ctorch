@@ -32,6 +32,10 @@ package Torch.Tensors is
    
    procedure Copy (Dst : Shadow_Tensor_Access; Src : in Tensor);
    
+   -- Tensor update functions impoerted from the C++ code:
+   
+   function Relu (X : Tensor) return Tensor;
+   
 private
    
    type Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
@@ -69,5 +73,14 @@ private
      with Import => True,
      Convention => CPP,
      External_Name => "get_tensor_refcount";   
+   
+   procedure Tensor_Relu
+     (
+      Retval : Shadow_Tensor_Access;
+      X : Shadow_Tensor_Access
+     )
+     with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_relu";
    
 end Torch.Tensors;

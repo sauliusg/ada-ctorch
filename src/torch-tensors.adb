@@ -74,4 +74,11 @@ package body Torch.Tensors is
       Copy (Dst, Src.Shadow_Tensor);
    end;
    
+   function Relu (X : Tensor) return Tensor is
+      Ret : Tensor;
+   begin
+      Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor);
+      return Ret;
+   end;
+   
 end Torch.Tensors;

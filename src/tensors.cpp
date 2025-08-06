@@ -66,4 +66,17 @@ extern "C" {
         torch_tensor_copy (dst, src);
     }
 
+    static inline
+    void torch_tensor_relu (torch::Tensor* retval, torch::Tensor* x)
+    {
+        *retval = torch::relu (*x);
+    }
+
+    void tensor_relu (AdaShadowTensor* retval, AdaShadowTensor* x)
+    {
+        assert (x);
+        assert (retval);
+        torch_tensor_relu (retval, x);
+    }
+    
 }; // extern "C"
