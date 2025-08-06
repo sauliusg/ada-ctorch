@@ -75,7 +75,8 @@ extern "C" {
         catch (c10::Error e) {
             // std::cout << e.what() << std::endl;
             std::cout << "!!! c10::Error was thrown." << std::endl;
-            std::flush(std::cout);
+            throw "... Terminating ...";
+            //std::flush(std::cout);
             // throw e;
         }
     }
