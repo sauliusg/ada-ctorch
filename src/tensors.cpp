@@ -69,7 +69,14 @@ extern "C" {
     static inline
     void torch_tensor_relu (torch::Tensor* retval, torch::Tensor* x)
     {
-        *retval = torch::relu (*x);
+        try {
+            *retval = torch::relu (*x);
+        }
+        catch (c10::Error e) {
+            std::cout << e.what() << std::endl;
+            std::flush(std::cout);
+            throw e;
+        }
     }
 
     void tensor_relu (AdaShadowTensor* retval, AdaShadowTensor* x)
