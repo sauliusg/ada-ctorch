@@ -5,8 +5,11 @@
   596  LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
 
   625  g++ -c -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include src/tensors.cpp -o .obj/tensors.o
+  239  gcc -c r_debug.c 
+  567  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c 'PATH=~/.alire/bin:$PATH gnatmake -Isrc/ mnist.adb -Llib -largs ./lib/r_debug.o .obj/manual_seed.o .obj/torch-nn.o .obj/tensors.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++'
+  604  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c "LD_LIBRARY_PATH=$(pwd)/bin:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib ./mnist" >> mnist.history 
+  679  ~/src/pytorch/build-d3d655ad14e/ubuntu_24.04.sif cp -av /lib/x86_64-linux-gnu/libc.so.6 lib/
+  683  ~/src/pytorch/build-d3d655ad14e/ubuntu_24.04.sif bash -c 'cp -av /lib/*/*libm.so* ./lib'
+
   626  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c 'PATH=~/.alire/bin:$PATH gnatmake -Isrc/ mnist.adb -Llib -largs .obj/manual_seed.o .obj/torch-nn.o .obj/tensors.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++'
   669  LD_LIBRARY_PATH=$(pwd)/lib:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
-  239  gcc -c r_debug.c 
-  567   ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c 'PATH=~/.alire/bin:$PATH gnatmake -Isrc/ mnist.adb -Llib -largs ./lib/r_debug.o .obj/manual_seed.o .obj/torch-nn.o .obj/tensors.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++'
-  604  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c "LD_LIBRARY_PATH=$(pwd)/bin:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib ./mnist" >> mnist.history 
