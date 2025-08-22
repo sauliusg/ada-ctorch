@@ -12,4 +12,4 @@
   683  ~/src/pytorch/build-d3d655ad14e/ubuntu_24.04.sif bash -c 'cp -av /lib/*/*libm.so* ./lib'
 
   626  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c 'PATH=~/.alire/bin:$PATH gnatmake -Isrc/ mnist.adb -Llib -largs .obj/manual_seed.o .obj/torch-nn.o .obj/tensors.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++'
-  669  LD_LIBRARY_PATH=$(pwd)/lib:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
+  799  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c "LD_LIBRARY_PATH=$(pwd)/bin:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib ./mnist"
