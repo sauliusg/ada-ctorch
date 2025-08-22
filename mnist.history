@@ -3,3 +3,7 @@
   708  g++ -c -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include src/torch-nn.cpp -o .obj/torch-nn.o
   709  gnatmake -Isrc/ mnist.adb -largs .obj/manual_seed.o .obj/torch-nn.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++ 
   596  LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
+
+  625  g++ -c -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include src/tensors.cpp -o .obj/tensors.o
+  626  ~/src/pytorch/build-e959dd017d7/python-ubuntu.sif bash -c 'PATH=~/.alire/bin:$PATH gnatmake -Isrc/ mnist.adb -Llib -largs .obj/manual_seed.o .obj/torch-nn.o .obj/tensors.o $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++'
+  669  LD_LIBRARY_PATH=$(pwd)/lib:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib:$HOME/.alire/lib64:$LD_LIBRARY_PATH ./mnist
