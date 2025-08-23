@@ -1,5 +1,7 @@
 with Torch.Tensors; use Torch.Tensors;
 
+with Ada_C_Error_Codes;
+
 package body Torch.NN is
 
    overriding procedure Initialize (M : in out Module) is
