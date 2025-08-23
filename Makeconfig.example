@@ -2,4 +2,15 @@
 
 CFLAGS = -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include
 
-PATH := ${HOME}/.alire/bin:${PATH}
+ALIRE_PATH = ${HOME}/.alire/bin
+
+PATH := ${ALIRE_PATH}:${PATH}
+
+APPTAINERENV_APPEND_PATH = ${ALIRE_PATH}
+export APPTAINERENV_APPEND_PATH
+
+GNATMAKE_OPTIONS =  -largs $$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so $$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so -lstdc++
+
+GNATMAKE_SRC_OPTIONS = -Isrc/ -Llib
+
+gnatmake = ${HOME}/src/pytorch/build-e959dd017d7/python-ubuntu.sif gnatmake
