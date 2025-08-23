@@ -9,10 +9,12 @@ compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${SRC_DIR}/%.cpp=${OBJ_DIR}
 
 .PHONY: all clean compile-cpp-clean
 
+CXX ?= g++
+
 all:
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.cpp
-	${GPP} $< -o $@
+	${CXX} $< -o $@
 
 compile-cpp-clean:
 	rm -f ${compile_cpp_CPP_OBJECTS}
