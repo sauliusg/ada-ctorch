@@ -1,0 +1,8 @@
+#--*- Makefile -*--
+
+## GNATMAKE_SRC_OPTIONS = \
+##    -Iexternals/ada-option-processor/src \
+##    -Isrc \
+## #
+
+## GNATMAKE_OPTIONS ?= -g -gnata -gnateE -bargs -Es

@@ -1,0 +1,77 @@
+#--*- Makefile -*--
+
+# Build Ada programs used for testing local Ada packages using
+# 'gnatmake'.
+
+CWD := $(shell pwd)
+
+GNATMAKE_TEST_DIR ?= tests
+
+GNATMAKE_TEST_PRG_DIR ?= ${GNATMAKE_TEST_DIR}/programs
+GNATMAKE_TEST_SRC_DIR ?= ${GNATMAKE_TEST_DIR}/src
+GNATMAKE_TEST_BIN_DIR ?= ${GNATMAKE_TEST_DIR}/bin
+GNATMAKE_TEST_OBJ_DIR ?= ${GNATMAKE_TEST_DIR}/.obj
+
+GNATMAKE_TEST_ADA_PROGRAMS ?= \
+   $(wildcard ${GNATMAKE_TEST_PRG_DIR}/*.adb)
+
+GNATMAKE_TEST_ADA_DEPEND ?= \
+   ${GNATMAKE_TEST_ADA_PROGRAMS:${GNATMAKE_TEST_PRG_DIR}/%.adb=\
+${GNATMAKE_TEST_PRG_DIR}/.%.d}
+
+GNATMAKE_TEST_ADA_EXE ?= \
+   ${GNATMAKE_TEST_ADA_PROGRAMS:${GNATMAKE_TEST_PRG_DIR}/%.adb=\
+${GNATMAKE_TEST_BIN_DIR}/%}
+
+GNATMAKE_TEST_OPTIONS ?= -gnata
+## GNATMAKE_TEST_OPTIONS ?=
+
+.PHONY: all run clean distclean mostlyclean cleanAll
+
+all: ${GNATMAKE_TEST_ADA_EXE}
+
+#------------------------------------------------------------------------------
+
+include ${GNATMAKE_TEST_ADA_DEPEND}
+
+${GNATMAKE_TEST_BIN_DIR}/%: ${GNATMAKE_TEST_PRG_DIR}/%.adb
+	gnatmake \
+		-I${GNATMAKE_SRC_DIR} \
+		-I${GNATMAKE_TEST_SRC_DIR} \
+		-D ${GNATMAKE_TEST_OBJ_DIR} \
+		-o $@ $< \
+		${GNATMAKE_TEST_OPTIONS}
+	${MAKE} --no-print-directory -W $< ${GNATMAKE_TEST_PRG_DIR}/.$*.d
+
+${GNATMAKE_TEST_PRG_DIR}/.%.d: ${GNATMAKE_TEST_PRG_DIR}/%.adb
+	gnatmake \
+		-I${GNATMAKE_SRC_DIR} \
+		-I${GNATMAKE_TEST_SRC_DIR} \
+		-D ${GNATMAKE_TEST_OBJ_DIR} \
+		-M $< \
+	| sed 's|^\(.*\.o\) :|${GNATMAKE_TEST_BIN_DIR}/$* :|' \
+	| sed 's|${CWD}/||' \
+	> $@
+
+#------------------------------------------------------------------------------
+
+.PHONY: gnatmake-test-clean gnatmake-test-distclean gnatmake-test-mostlyclean \
+	gnatmake-test-cleanAll
+
+gnatmake-test-clean gnatmake-test-mostlyclean:
+	rm -rf ${GNATMAKE_TEST_OBJ_DIR}/gnatprove
+	rm -f ${GNATMAKE_TEST_OBJ_DIR}/*
+
+gnatmake-test-distclean gnatmake-test-cleanAll: gnatmake-test-clean
+	rm -f ${GNATMAKE_TEST_ADA_DEPEND}
+	rm -f ${GNATMAKE_TEST_ADA_EXE}
+
+#------------------------------------------------------------------------------
+
+clean: gnatmake-test-clean
+
+distclean: gnatmake-test-distclean
+
+mostlyclean: gnatmake-test-mostlyclean
+
+cleanAll: gnatmake-test-cleanAll

@@ -1,0 +1,78 @@
+#--*- Makefile -*--
+
+# Build Ada programs using 'gnatmake'.
+
+CWD := $(shell pwd)
+
+GNATMAKE_PRG_DIR ?= programs
+GNATMAKE_SRC_DIR ?= src
+GNATMAKE_BIN_DIR ?= bin
+GNATMAKE_OBJ_DIR ?= .obj
+
+GNATMAKE_ADA_PROGRAMS ?= \
+   $(wildcard ${GNATMAKE_PRG_DIR}/*.adb)
+
+GNATMAKE_ADA_SRC ?= \
+   $(wildcard ${GNATMAKE_SRC_DIR}/*.adb)
+
+GNATMAKE_ADA_DEPEND ?= \
+   ${GNATMAKE_ADA_PROGRAMS:${GNATMAKE_PRG_DIR}/%.adb=${GNATMAKE_PRG_DIR}/.%.d}
+
+GNATMAKE_ADA_EXE ?= \
+   ${GNATMAKE_ADA_PROGRAMS:${GNATMAKE_PRG_DIR}/%.adb=${GNATMAKE_BIN_DIR}/%}
+
+GNATMAKE_SRC_OPTIONS ?= -I${GNATMAKE_SRC_DIR}
+GNATMAKE_OBJ_OPTIONS ?= -D ${GNATMAKE_OBJ_DIR}
+
+# GNATMAKE_OPTIONS ?= -gnata
+GNATMAKE_OPTIONS ?=
+
+.PHONY: all run clean distclean mostlyclean cleanAll
+
+all: ${GNATMAKE_ADA_EXE}
+
+#------------------------------------------------------------------------------
+
+include ${GNATMAKE_ADA_DEPEND}
+
+${GNATMAKE_BIN_DIR}/%: ${GNATMAKE_PRG_DIR}/%.adb
+	gnatmake \
+		${GNATMAKE_SRC_OPTIONS} \
+		${GNATMAKE_OBJ_OPTIONS} \
+		-o $@ $< \
+		${OPTFLAGS} \
+		${GNATMAKE_OPTIONS}
+	${MAKE} --no-print-directory -W $< ${GNATMAKE_PRG_DIR}/.$*.d
+
+${GNATMAKE_PRG_DIR}/.%.d: ${GNATMAKE_PRG_DIR}/%.adb
+	gnatmake -I${GNATMAKE_SRC_DIR} -D ${GNATMAKE_OBJ_DIR} -M $< \
+	| sed 's/^\(.*\.o\) :/${GNATMAKE_BIN_DIR}\/$* :/' \
+	| sed 's:${CWD}/::' \
+	> $@
+
+#------------------------------------------------------------------------------
+
+.PHONY: gnatmake-clean gnatmake-distclean gnatmake-mostlyclean gnatmake-cleanAll
+
+gnatmake-clean gnatmake-mostlyclean:
+	rm -rf ${GNATMAKE_OBJ_DIR}/gnatprove
+	rm -f ${GNATMAKE_OBJ_DIR}/*.ali
+	rm -f ${GNATMAKE_ADA_EXE:${GNATMAKE_BIN_DIR}/%=${GNATMAKE_OBJ_DIR}/%.obj}
+	rm -f ${GNATMAKE_ADA_EXE:${GNATMAKE_BIN_DIR}/%=${GNATMAKE_OBJ_DIR}/%.o}
+	rm -f ${GNATMAKE_ADA_SRC:${GNATMAKE_SRC_DIR}/%.adb=${GNATMAKE_OBJ_DIR}/%.o}
+	rm -f ${GNATMAKE_OBJ_DIR}/b-*
+
+gnatmake-distclean gnatmake-cleanAll: gnatmake-clean
+	gnatclean ${GNATMAKE_ADA_PROGRAMS}
+	rm -f ${GNATMAKE_ADA_DEPEND}
+	rm -f ${GNATMAKE_ADA_EXE}
+
+#------------------------------------------------------------------------------
+
+clean: gnatmake-clean
+
+distclean: gnatmake-distclean
+
+mostlyclean: gnatmake-mostlyclean
+
+cleanAll: gnatmake-cleanAll
