@@ -1,0 +1,20 @@
+#--*- Makefile -*--
+
+PRG_DIR ?= .
+SRC_DIR ?= src
+OBJ_DIR ?= obj
+
+compile_cpp_CPP_SOURCES ?= $(wildcard ${SRC_DIR}/*.cpp)
+compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${SRC_DIR}/%.cpp=${OBJ_DIR}/%.o}
+
+.PHONY: all clean compile-cpp-clean
+
+all:
+
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.cpp
+	${GPP} $< -o $@
+
+compile-cpp-clean:
+	rm -f ${compile_cpp_CPP_OBJECTS}
+
+clean: compile-cpp-clean
