@@ -2,7 +2,7 @@
 
 PRG_DIR ?= .
 SRC_DIR ?= src
-OBJ_DIR ?= obj
+OBJ_DIR ?= .obj
 
 compile_cpp_CPP_SOURCES ?= $(wildcard ${SRC_DIR}/*.cpp)
 compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${SRC_DIR}/%.cpp=${OBJ_DIR}/%.o}

@@ -1,0 +1,5 @@
+#--*- Makefile -*--
+
+bin/mnist: .obj/manual_seed.o
+bin/mnist: .obj/tensors.o
+bin/mnist: .obj/torch-nn.o

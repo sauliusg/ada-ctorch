@@ -27,6 +27,8 @@ GNATMAKE_OBJ_OPTIONS ?= -D ${GNATMAKE_OBJ_DIR}
 # GNATMAKE_OPTIONS ?= -gnata
 GNATMAKE_OPTIONS ?=
 
+gnatmake ?= gnatmake
+
 .PHONY: all run clean distclean mostlyclean cleanAll
 
 all: ${GNATMAKE_ADA_EXE}
@@ -36,7 +38,7 @@ all: ${GNATMAKE_ADA_EXE}
 include ${GNATMAKE_ADA_DEPEND}
 
 ${GNATMAKE_BIN_DIR}/%: ${GNATMAKE_PRG_DIR}/%.adb
-	gnatmake \
+	${gnatmake} \
 		${GNATMAKE_SRC_OPTIONS} \
 		${GNATMAKE_OBJ_OPTIONS} \
 		-o $@ $< \
