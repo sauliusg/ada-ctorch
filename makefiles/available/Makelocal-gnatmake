@@ -43,7 +43,8 @@ ${GNATMAKE_BIN_DIR}/%: ${GNATMAKE_PRG_DIR}/%.adb
 		${GNATMAKE_OBJ_OPTIONS} \
 		-o $@ $< \
 		${OPTFLAGS} \
-		${GNATMAKE_OPTIONS}
+		${GNATMAKE_OPTIONS} \
+		${compile_cpp_CPP_OBJECTS}
 	${MAKE} --no-print-directory -W $< ${GNATMAKE_PRG_DIR}/.$*.d
 
 ${GNATMAKE_PRG_DIR}/.%.d: ${GNATMAKE_PRG_DIR}/%.adb

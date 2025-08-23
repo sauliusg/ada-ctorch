@@ -1,5 +1,3 @@
 #--*- Makefile -*--
 
-bin/mnist: .obj/manual_seed.o
-bin/mnist: .obj/tensors.o
-bin/mnist: .obj/torch-glue.o
+bin/mnist: ${compile_cpp_CPP_OBJECTS}
