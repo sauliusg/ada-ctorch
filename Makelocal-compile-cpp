@@ -14,7 +14,7 @@ CXX ?= g++
 all:
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.cpp
-	${CXX} $< -o $@
+	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@
 
 compile-cpp-clean:
 	rm -f ${compile_cpp_CPP_OBJECTS}

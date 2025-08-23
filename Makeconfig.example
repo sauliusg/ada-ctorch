@@ -1,0 +1,5 @@
+#--*- Makefile -*--
+
+CFLAGS = -Isrc -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I/home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include
+
+PATH := ${HOME}/.alire/bin:${PATH}
