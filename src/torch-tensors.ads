@@ -1,5 +1,7 @@
 with Ada.Finalization;
 
+with Ada_C_Error_Codes; use Ada_C_Error_Codes;
+
 package Torch.Tensors is
    
    type Tensor is new Ada.Finalization.Controlled with private;
@@ -77,7 +79,8 @@ private
    procedure Tensor_Relu
      (
       Retval : Shadow_Tensor_Access;
-      X : Shadow_Tensor_Access
+      X : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
      )
      with Import => True, 
      Convention => CPP, 

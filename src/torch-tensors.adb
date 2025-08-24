@@ -1,3 +1,5 @@
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 package body Torch.Tensors is
    
    -- Tensors are shared during Ada variable assignments and implement
@@ -76,8 +78,13 @@ package body Torch.Tensors is
    
    function Relu (X : Tensor) return Tensor is
       Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
    begin
-      Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor);
+      Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor, Err'Unchecked_Access);
+      if Err.Has_Error then
+         raise PROGRAM_ERROR with "ERROR, function ""Relu"" raised exception: " &
+           To_String (Err.Error_Message) & "(code " & Err.Error_Code'Image & ")";
+      end if;
       return Ret;
    end;
    

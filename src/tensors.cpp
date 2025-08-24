@@ -1,5 +1,10 @@
+// Expoerts:
 #include <torch/torch.h>
+
+// Uses:
+#include <stdio.h>
 #include <assert.h>
+#include <ada_c_error_codes.h>
 
 struct AdaShadowTensor : torch::Tensor {
     
@@ -67,25 +72,28 @@ extern "C" {
     }
 
     static inline
-    void torch_tensor_relu (torch::Tensor* retval, torch::Tensor* x)
+    void torch_tensor_relu (torch::Tensor* retval, torch::Tensor* x,
+                            ada_c_error_type *err)
     {
         try {
             *retval = torch::relu (*x);
         }
         catch (c10::Error e) {
-            // std::cout << e.what() << std::endl;
-            std::cout << "!!! c10::Error was thrown." << std::endl;
-            // throw "... Terminating ...";
-            //std::flush(std::cout);
-            // throw e;
+            char message [200];
+            snprintf (message, sizeof(message), "%s \"%s\"",
+                      "Exception called from", __FUNCTION__);
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
         }
     }
 
-    void tensor_relu (AdaShadowTensor* retval, AdaShadowTensor* x)
+    void tensor_relu (AdaShadowTensor* retval, AdaShadowTensor* x,
+                            ada_c_error_type *err)
     {
         assert (x);
         assert (retval);
-        torch_tensor_relu (retval, x);
+        torch_tensor_relu (retval, x, err);
     }
     
 }; // extern "C"
