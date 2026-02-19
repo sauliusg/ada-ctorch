@@ -36,7 +36,7 @@ struct AdaShadowConv2d* new_AdaShadowConv2d (AdaConv2d *conv2d)
     return new (std::nothrow) AdaShadowConv2d (conv2d);
 }
 
-void delete_AdaShadowModule (struct AdaShadowConv2d* shadow_object)
+void delete_AdaShadowConv2d (struct AdaShadowConv2d* shadow_object)
 {
     using namespace std;
     cout << "Deleting the shadow object for Ada, object's address is " << shadow_object << endl;
