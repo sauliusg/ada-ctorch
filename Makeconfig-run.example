@@ -17,6 +17,6 @@ CWD := $(shell pwd)
 
 EXECUTABLES = bin/mnist ${CWD}/mnist_cpp 
 
-LD_LIBRARY_PATH := ${HOME}/.alire/lib64:${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib
-
-export LD_LIBRARY_PATH
+## LD_LIBRARY_PATH := ${HOME}/.alire/lib64:${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib
+## 
+## export LD_LIBRARY_PATH
