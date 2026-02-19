@@ -17,7 +17,7 @@ struct AdaShadowConv2d : torch::nn::Conv2d {
     // and does not need to be managed:
     struct AdaConv2d *ada_conv2d;
     
-    AdaShadowConv2d (struct AdaConv2d *conv2d) : ada_conv2d(conv2d) {}
+    AdaShadowConv2d (struct AdaConv2d *conv2d) : torch::nn::Conv2d(nullptr), ada_conv2d(conv2d) {}
 
 };
 
