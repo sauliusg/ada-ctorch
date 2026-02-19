@@ -1,0 +1,22 @@
+#--*- Makefile -*--
+
+# By default, the RUN_ARGUMENT is empty but can be set in the
+# Makeconfig* files:
+
+RUN_ARGUMENT = 
+
+# Additional argumens may be passed for specific programs:
+#
+# ARGUMENT_1_prog1 = 7 17 23 12 40 11
+# ARGUMENT_1_prog2 = --verbose --debug
+#
+# export ARGUMENT_1_prog1
+# export ARGUMENT_1_prog2
+
+CWD := $(shell pwd)
+
+EXECUTABLES = bin/mnist ${CWD}/mnist_cpp 
+
+LD_LIBRARY_PATH := ${HOME}/.alire/lib64:${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib
+
+export LD_LIBRARY_PATH

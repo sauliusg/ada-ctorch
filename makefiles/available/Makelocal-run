@@ -1,0 +1,29 @@
+#--*- Makefile -*--
+
+# Run all executables with dedicated arguments:
+
+# By default, the RUN_ARGUMENT is empty but can be set in the
+# Makeconfig* files:
+
+RUN_ARGUMENT ?= 
+
+# Additional argumens may be passed for specific programs:
+#
+# ARGUMENT_1_prog1 = 7 17 23 12 40 11
+# ARGUMENT_1_prog2 = --verbose --debug
+#
+# export ARGUMENT_1_prog1
+# export ARGUMENT_1_prog2
+
+run: ${EXECUTABLES}
+	echo $^
+	@for FILE in $^; do \
+		BASE="$$(basename $${FILE})"; \
+		eval ARG1=\$${ARGUMENT_1_$${BASE}}; \
+		if [ -z "$${ARG1}" ]; then \
+			( set -x; $${FILE} ${RUN_ARGUMENT} ) \
+		else \
+			( set -x; $${FILE} $${ARG1} ${RUN_ARGUMENT} ) \
+		fi \
+		| head -n 30; \
+	done
