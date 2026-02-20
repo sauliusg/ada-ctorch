@@ -4,6 +4,8 @@
 ## 
 ## CPPFLAGS = -Isrc -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include
 ##
+## LDFLAGS = ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so
+##
 ## ALIRE_PATH = ${HOME}/.alire/bin
 ## 
 ## PATH := ${ALIRE_PATH}:${PATH}
