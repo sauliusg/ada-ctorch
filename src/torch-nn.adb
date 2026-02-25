@@ -52,6 +52,23 @@ package body Torch.NN is
    
    -- ------------------------------------------------------------------------
    
+   overriding procedure Initialize (CO : in out Conv2d_Options) is
+   begin
+      CO.Shadow_Conv2d_Options := New_AdaShadowConv2dOptions (CO'Unchecked_Access);
+      
+      if CO.Shadow_Conv2d_Options = null then
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch Conv2d_Options object for Ada";
+      end if;
+   end;
+   
+   overriding procedure Finalize (CO : in out Conv2d_Options) is
+   begin
+      Delete_AdaShadowConv2dOptions (CO.Shadow_Conv2d_Options);
+   end;      
+
+   -- ------------------------------------------------------------------------
+   
    overriding procedure Initialize (C : in out Conv2d) is
    begin
       C.Shadow_Conv2d := New_AdaShadowConv2d (C'Unchecked_Access);

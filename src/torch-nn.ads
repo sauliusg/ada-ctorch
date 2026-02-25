@@ -16,6 +16,16 @@ package Torch.NN is
    
    -- ------------------------------------------------------------------------
    
+   type Conv2d_Options is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Initialize (CO : in out Conv2d_Options);
+   
+   overriding
+   procedure Finalize (CO : in out Conv2d_Options);
+   
+   -- ------------------------------------------------------------------------
+   
    type Conv2d is new Ada.Finalization.Limited_Controlled with private;
    
    overriding
@@ -59,6 +69,30 @@ private
      Convention => CPP,
      External_Name => "call_ada_forward_method";
 
+   -- ------------------------------------------------------------------------
+   
+   type Conv2d_Options_Access is access all Conv2d_Options;
+   
+   type Conv2d_Options_Class_Access is access all Conv2d_Options'Class;
+   
+   type Shadow_Conv2d_Options_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Shadow_Conv2d_Options_Access is access Shadow_Conv2d_Options_Type;
+   
+   type Conv2d_Options is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Conv2d_Options : Shadow_Conv2d_Options_Access;
+   end record;
+   
+   function New_AdaShadowConv2dOptions (CA : Conv2d_Options_Access) return Shadow_Conv2d_Options_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv2dOptions";
+   
+   procedure Delete_AdaShadowConv2dOptions (SC : Shadow_Conv2d_Options_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowConv2dOptions";
+   
    -- ------------------------------------------------------------------------
    
    type Conv2d_Access is access all Conv2d;
