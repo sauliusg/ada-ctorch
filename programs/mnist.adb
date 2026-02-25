@@ -14,6 +14,17 @@ procedure MNIST is
    end record;
    
    overriding
+   procedure Initialize (N : in out Net_Type);
+      
+   overriding
+   function Forward (Self : in out Net_Type; X : Tensor) return Tensor;
+   
+   overriding procedure Initialize (N : in out Net_Type) is
+   begin
+      Put_Line (">> Initialising Net_Type");
+   end;
+   
+   overriding
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
    begin
       Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
