@@ -9,7 +9,8 @@ procedure MNIST is
    Device : Torch.DeviceType := Torch.CPU;
    
    type Net_Type is new Torch.NN.Module with record
-      null;
+      Conv1 : Torch.NN.Conv2d;
+      Conv2 : Torch.NN.Conv2d;
    end record;
    
    overriding
