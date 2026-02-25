@@ -19,7 +19,8 @@ package body Torch.NN is
       M.Shadow_Module := New_AdaShadowModule (M'Unchecked_Access);
       
       if M.Shadow_Module = null then
-         raise STORAGE_ERROR with "C++ side could not allocate PyTorch module for Ada";
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch module for Ada";
       end if;
    end;
 
@@ -49,4 +50,21 @@ package body Torch.NN is
       return Result;
    end;
    
+   -- ------------------------------------------------------------------------
+   
+   overriding procedure Initialize (C : in out Conv2d) is
+   begin
+      C.Shadow_Conv2d := New_AdaShadowConv2d (C'Unchecked_Access);
+      
+      if C.Shadow_Conv2d = null then
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch Conv2d object for Ada";
+      end if;
+   end;
+   
+   overriding procedure Finalize (C : in out Conv2d) is
+   begin
+      Delete_AdaShadowConv2d (C.Shadow_Conv2d);
+   end;      
+
 end;

@@ -14,6 +14,16 @@ package Torch.NN is
    
    function Forward (Self : in out Module; X : Tensor) return Tensor;
    
+   -- ------------------------------------------------------------------------
+   
+   type Conv2d is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Initialize (C : in out Conv2d);
+   
+   overriding
+   procedure Finalize (C : in out Conv2d);
+   
 private
    
    type Module_Access is access all Module;
@@ -49,4 +59,28 @@ private
      Convention => CPP,
      External_Name => "call_ada_forward_method";
 
+   -- ------------------------------------------------------------------------
+   
+   type Conv2d_Access is access all Conv2d;
+   
+   type Conv2d_Class_Access is access all Conv2d'Class;
+   
+   type Shadow_Conv2d_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Shadow_Conv2d_Access is access Shadow_Conv2d_Type;
+   
+   type Conv2d is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Conv2d : Shadow_Conv2d_Access;
+   end record;
+   
+   function New_AdaShadowConv2d (CA : Conv2d_Access) return Shadow_Conv2d_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv2d";
+   
+   procedure Delete_AdaShadowConv2d (SC : Shadow_Conv2d_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowConv2d";
+   
 end Torch.NN;
