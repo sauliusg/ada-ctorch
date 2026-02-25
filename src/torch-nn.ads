@@ -16,13 +16,18 @@ package Torch.NN is
    
    -- ------------------------------------------------------------------------
    
+   subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
+   
    type Conv2d_Options is new Ada.Finalization.Limited_Controlled with private;
    
    overriding
-   procedure Initialize (CO : in out Conv2d_Options);
-   
-   overriding
    procedure Finalize (CO : in out Conv2d_Options);
+   
+   function Make_Conv2d_Options
+     (
+      X, Y : Int64_T;
+      Kernel_Size : Int64_T
+     ) return Conv2d_Options;
    
    -- ------------------------------------------------------------------------
    
@@ -33,6 +38,8 @@ package Torch.NN is
    
    overriding
    procedure Finalize (C : in out Conv2d);
+   
+   function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d;
    
 private
    
@@ -83,8 +90,10 @@ private
       Shadow_Conv2d_Options : Shadow_Conv2d_Options_Access;
    end record;
    
-   function New_AdaShadowConv2dOptions (CA : Conv2d_Options_Access) return Shadow_Conv2d_Options_Access
-     with Import => True,
+   function New_AdaShadowConv2dOptions (X, Y : Int64_T;
+                                        Kernel_Size : Int64_T
+                                       ) return Shadow_Conv2d_Options_Access
+   with Import => True,
      Convention => CPP,
      External_Name => "new_AdaShadowConv2dOptions";
    
@@ -111,6 +120,14 @@ private
      with Import => True,
      Convention => CPP,
      External_Name => "new_AdaShadowConv2d";
+   
+   function New_AdaShadowConv2d_For_Options (CA : Conv2d_Access;
+                                             CO : Shadow_Conv2d_Options_Access
+                                            )
+                                            return Shadow_Conv2d_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv2d_for_options";
    
    procedure Delete_AdaShadowConv2d (SC : Shadow_Conv2d_Access)
      with Import => True,

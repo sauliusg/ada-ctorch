@@ -1,3 +1,5 @@
+pragma Ada_2022;
+
 with Torch.Tensors; use Torch.Tensors;
 
 with Ada_C_Error_Codes;
@@ -26,7 +28,9 @@ package body Torch.NN is
 
    overriding procedure Finalize (M : in out Module) is
    begin
-      Delete_AdaShadowModule (M.Shadow_Module);
+      if M.Shadow_Module /= null then
+         Delete_AdaShadowModule (M.Shadow_Module);
+      end if;
    end;
    
    function Forward (Self : in out Module; X : Tensor) return Tensor is
@@ -52,21 +56,24 @@ package body Torch.NN is
    
    -- ------------------------------------------------------------------------
    
-   overriding procedure Initialize (CO : in out Conv2d_Options) is
-   begin
-      CO.Shadow_Conv2d_Options := New_AdaShadowConv2dOptions (CO'Unchecked_Access);
-      
-      if CO.Shadow_Conv2d_Options = null then
-         raise STORAGE_ERROR with
-           "C++ side could not allocate PyTorch Conv2d_Options object for Ada";
-      end if;
-   end;
-   
    overriding procedure Finalize (CO : in out Conv2d_Options) is
    begin
-      Delete_AdaShadowConv2dOptions (CO.Shadow_Conv2d_Options);
+      if CO.Shadow_Conv2d_Options /= null then
+         Delete_AdaShadowConv2dOptions (CO.Shadow_Conv2d_Options);
+      end if;
    end;      
 
+   function Make_Conv2d_Options (X, Y : Int64_T; Kernel_Size : Int64_T)
+                                return Conv2d_Options 
+   is
+   begin
+      return (
+              Ada.Finalization.Limited_Controlled with
+              Shadow_Conv2d_Options =>
+                New_AdaShadowConv2dOptions (X, Y, Kernel_Size)
+             );
+   end;
+   
    -- ------------------------------------------------------------------------
    
    overriding procedure Initialize (C : in out Conv2d) is
@@ -84,4 +91,27 @@ package body Torch.NN is
       Delete_AdaShadowConv2d (C.Shadow_Conv2d);
    end;      
 
+   -- function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
+   --    Retval : aliased Conv2d;
+   -- begin
+   --    Delete_AdaShadowConv2d (Retval.Shadow_Conv2d);
+   --    
+   --    Retval.Shadow_Conv2d :=
+   --      New_AdaShadowConv2d_For_Options (Retval'Unchecked_Access, 
+   --                                       Options.Shadow_Conv2d_Options);
+   --    
+   --    return Retval;
+   -- end;
+   
+   function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
+   begin
+      return
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Conv2d =>
+           New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
+                                            Options.Shadow_Conv2d_Options)
+        );
+   end;
+   
 end;
