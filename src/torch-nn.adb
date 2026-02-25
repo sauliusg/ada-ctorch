@@ -1,5 +1,3 @@
-pragma Ada_2022;
-
 with Torch.Tensors; use Torch.Tensors;
 
 with Ada_C_Error_Codes;
