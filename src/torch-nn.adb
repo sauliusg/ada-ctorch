@@ -95,18 +95,6 @@ package body Torch.NN is
       end if;
    end;      
 
-   -- function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
-   --    Retval : aliased Conv2d;
-   -- begin
-   --    Delete_AdaShadowConv2d (Retval.Shadow_Conv2d);
-   --    
-   --    Retval.Shadow_Conv2d :=
-   --      New_AdaShadowConv2d_For_Options (Retval'Unchecked_Access, 
-   --                                       Options.Shadow_Conv2d_Options);
-   --    
-   --    return Retval;
-   -- end;
-   
    function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
    begin
       return
