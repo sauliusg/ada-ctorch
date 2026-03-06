@@ -3,9 +3,10 @@
 PRG_DIR ?= .
 SRC_DIR ?= src
 OBJ_DIR ?= .obj
+CPP_DIR ?= ${SRC_DIR}/cpp
 
-compile_cpp_CPP_SOURCES ?= $(wildcard ${SRC_DIR}/*.cpp)
-compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${SRC_DIR}/%.cpp=${OBJ_DIR}/%.o}
+compile_cpp_CPP_SOURCES ?= $(wildcard ${CPP_DIR}/*.cpp)
+compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${CPP_DIR}/%.cpp=${OBJ_DIR}/%.o}
 
 .PHONY: all clean compile-cpp-clean
 
@@ -13,7 +14,7 @@ CXX ?= g++
 
 all:
 
-${OBJ_DIR}/%.o: ${SRC_DIR}/%.cpp
+${OBJ_DIR}/%.o: ${CPP_DIR}/%.cpp
 	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@
 
 compile-cpp-clean:
