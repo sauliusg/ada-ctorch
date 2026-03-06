@@ -22,8 +22,10 @@ procedure MNIST is
    overriding procedure Initialize (N : in out Net_Type) is
    begin
       Put_Line (">> Initialising Net_Type");
-      Put_Line (">> Registering a convolutional layer");
+      Initialize (Torch.NN.Module (N));
+      Put_Line (">> Registering a convolutional layers");
       Register_Module (N, "Conv1", N.Conv1);
+      Register_Module (N, "Conv2", N.Conv2);
    end;
    
    overriding

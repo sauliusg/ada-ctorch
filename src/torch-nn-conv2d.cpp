@@ -85,10 +85,16 @@ shadow_register_module_conv2d (struct AdaShadowModule *m,
     using namespace std;
     string name = c_name;
     cout << "Layer with the name \""
-         << name
+         << c_name
          << "\" is being registered"
          << endl;
-    m->register_module ("name", *layer);
+
+    m->register_module (name, *layer);
+
+    cout << "Layer with the name \""
+         << name
+         << "\" registered successfully"
+         << endl;
 }
     
 }; // extern "C"

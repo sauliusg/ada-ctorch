@@ -149,6 +149,14 @@ package body Torch.NN is
                               Layer : Conv2d'Class) is
       C_Name : aliased Char_Array := To_C (Name);
    begin
+      if Layer.Shadow_Conv2d = null then
+         raise PROGRAM_ERROR with
+           "Null shadown layer ""Register_Module""";
+      end if;
+      if M.Shadow_Module = null then
+         raise PROGRAM_ERROR with
+           "Null shadown Module object at ""Register_Module""";
+      end if;
       Shadow_Register_Module (M.Shadow_Module,
                               To_Chars_Ptr (C_Name'Unchecked_Access),
                               Layer.Shadow_Conv2d);
