@@ -21,9 +21,8 @@ struct AdaShadowConv2d : torch::nn::Conv2d {
     AdaShadowConv2d (struct AdaConv2d *conv2d) :
         torch::nn::Conv2d(nullptr), ada_conv2d(conv2d) {}
 
-    AdaShadowConv2d (struct AdaConv2d *conv2d,
-                     torch::nn::Conv2dOptions *options) :
-        torch::nn::Conv2d(*options), ada_conv2d(conv2d) {}
+    AdaShadowConv2d (torch::nn::Conv2dOptions *options) :
+        torch::nn::Conv2d(*options), ada_conv2d(NULL) {}
 };
 
 // Functions that Ada will call to create an AdaShadowConv2d object
@@ -44,15 +43,14 @@ new_AdaShadowConv2d (AdaConv2d *conv2d)
 }
 
 struct AdaShadowConv2d*
-new_AdaShadowConv2d_for_options (AdaConv2d *conv2d,
-                                 torch::nn::Conv2dOptions *options)
+new_AdaShadowConv2d_for_options (torch::nn::Conv2dOptions *options)
 {
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
-    cout << "Creating a new shadow Conv2d object from options for Ada variable at "
-         << conv2d << endl;
-    return new (std::nothrow) AdaShadowConv2d (conv2d, options);
+    cout << "Creating a new shadow Conv2d object from options at "
+         << options << endl;
+    return new (std::nothrow) AdaShadowConv2d (options);
 }
 
 void

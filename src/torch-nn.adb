@@ -109,8 +109,7 @@ package body Torch.NN is
         (
          Ada.Finalization.Limited_Controlled with
          Shadow_Conv2d =>
-           New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
-                                            Options.Shadow_Conv2d_Options),
+           New_AdaShadowConv2d_For_Options (Options.Shadow_Conv2d_Options),
          others => <>
         )
       do
@@ -126,8 +125,7 @@ package body Torch.NN is
         (
          Ada.Finalization.Limited_Controlled with
          Shadow_Conv2d =>
-           New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
-                                            Options.Shadow_Conv2d_Options),
+           New_AdaShadowConv2d_For_Options (Options.Shadow_Conv2d_Options),
          others => <>
         )
       do

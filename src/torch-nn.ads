@@ -84,7 +84,8 @@ private
    
    type Conv2d_Options_Class_Access is access all Conv2d_Options'Class;
    
-   type Shadow_Conv2d_Options_Type is null record; -- Declared in full and managed on the C++ side
+   -- Declared in full and managed on the C++ side:
+   type Shadow_Conv2d_Options_Type is null record;
    
    type Shadow_Conv2d_Options_Access is access Shadow_Conv2d_Options_Type;
    
@@ -128,9 +129,7 @@ private
      Convention => CPP,
      External_Name => "new_AdaShadowConv2d";
    
-   function New_AdaShadowConv2d_For_Options (CA : Conv2d_Access;
-                                             CO : Shadow_Conv2d_Options_Access
-                                            )
+   function New_AdaShadowConv2d_For_Options (CO : Shadow_Conv2d_Options_Access)
                                             return Shadow_Conv2d_Access
      with Import => True,
      Convention => CPP,

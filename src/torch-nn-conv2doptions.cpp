@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+// There is no dedicated AdaShadowConv2dOptions object; we simply use
+// torch::nn::Conv2dOptions for this and return pointers to these
+// objects to the Ada side.
+
 // Functions that Ada will call to create an AdaShadowConv2dOptions object
 // and to destroy them. Ada side will own all created objects and
 // manage their lifetime:
@@ -22,7 +26,8 @@ torch::nn::Conv2dOptions* new_AdaShadowConv2dOptions (int64_t x,
 void delete_AdaShadowConv2dOptions (torch::nn::Conv2dOptions* shadow_object)
 {
     using namespace std;
-    cout << "Deleting the shadow Conv2dOptions object for Ada, object's address is " << shadow_object << endl;
+    cout << "Deleting the shadow Conv2dOptions object for Ada, object's address is "
+         << shadow_object << endl;
     delete shadow_object;
 }
 
