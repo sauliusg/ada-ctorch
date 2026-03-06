@@ -9,11 +9,11 @@ procedure MNIST is
    Device : Torch.DeviceType := Torch.CPU;
    
    type Net_Type is new Torch.NN.Module with record
-      Conv1 : Torch.NN.Conv2d := Make_Conv2d (1,  10, Kernel_Size => 5);
-      Conv2 : Torch.NN.Conv2d := Make_Conv2d (10, 20, Kernel_Size => 5);
+      Conv1   : Torch.NN.Conv2d := Make_Conv2d (1,  10, Kernel_Size => 5);
+      Conv2   : Torch.NN.Conv2d := Make_Conv2d (10, 20, Kernel_Size => 5);
       Dropout : Torch.NN.Dropout2d;
-      Fc1 : Torch.NN.Linear := Make_Linear (320, 50);
-      Fc2 : Torch.NN.Linear := Make_Linear (50, 10);
+      Fc1     : Torch.NN.Linear := Make_Linear (320, 50);
+      Fc2     : Torch.NN.Linear := Make_Linear (50, 10);
    end record;
    
    overriding
