@@ -94,28 +94,49 @@ package body Torch.NN is
          Delete_AdaShadowConv2d (C.Shadow_Conv2d);
       end if;
    end;      
-
+   
+   procedure Ada_Shadow_Conv2d_Set_Self (C : Shadow_Conv2d_Access;
+                                         A : Conv2d_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "AdaShadowConv2d_set_self";
+   
    function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
    begin
-      return
+      return Retval : Conv2d :=
         (
          Ada.Finalization.Limited_Controlled with
          Shadow_Conv2d =>
            New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
-                                            Options.Shadow_Conv2d_Options)
-        );
+                                            Options.Shadow_Conv2d_Options),
+         others => <>
+        )
+      do
+         Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
+                                     A => Retval.Self);
+      end return;
    end;
    
    function Make_Conv2d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv2d is
       Options : Conv2d_Options := Make_Conv2d_Options (X, Y, Kernel_Size);
    begin
-      return
+      return Retval : Conv2d :=
         (
          Ada.Finalization.Limited_Controlled with
          Shadow_Conv2d =>
            New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
-                                            Options.Shadow_Conv2d_Options)
-        );
+                                            Options.Shadow_Conv2d_Options),
+         others => <>
+        )
+      do
+         Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
+                                     -- A => Retval.Self
+                                     A => Retval'Unchecked_Access
+                                    );
+         Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
+                                     A => Retval.Self
+                                    );
+      end return;
    end;
    
 end;

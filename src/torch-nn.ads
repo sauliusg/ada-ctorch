@@ -115,6 +115,11 @@ private
    type Shadow_Conv2d_Access is access Shadow_Conv2d_Type;
    
    type Conv2d is new Ada.Finalization.Limited_Controlled with record
+      -- The "Self" reference implementation is describe in Hoffmann,
+      -- G. A. & Duff, R. A. (2025) Advanced journey with Ada: a
+      -- flight in progress. AdaCore. p. 816. URL:
+      -- https://learn.adacore.com/pdf_books/courses/advanced-ada.pdf
+      Self : Conv2d_Access := Conv2d'Unchecked_Access;
       Shadow_Conv2d : Shadow_Conv2d_Access;
    end record;
    

@@ -1,4 +1,5 @@
 #include <torch/torch.h>
+#include <assert.h>
 
 #include <iostream>
 
@@ -63,4 +64,16 @@ delete_AdaShadowConv2d (struct AdaShadowConv2d* shadow_object)
     delete shadow_object;
 }
 
+void
+AdaShadowConv2d_set_self (struct AdaShadowConv2d* c_side, AdaConv2d *ada_side)
+{
+    assert (c_side);
+    using namespace std;
+    cout << "Setting self reference to the Ada side object address "
+         << ada_side
+         << " for the C++ shadow object "
+         << c_side << endl;
+    c_side->ada_conv2d = ada_side;
+}
+    
 }; // extern "C"
