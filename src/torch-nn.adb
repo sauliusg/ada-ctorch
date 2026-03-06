@@ -1,3 +1,4 @@
+with Ada.Text_Io; use Ada.Text_Io;
 with Torch.Tensors; use Torch.Tensors;
 
 with Ada_C_Error_Codes;
@@ -56,6 +57,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (CO : in out Conv2d_Options) is
    begin
+      Put_Line ("Running ""Finalize"" for ""Conv2d_Options""");
       if CO.Shadow_Conv2d_Options /= null then
          Delete_AdaShadowConv2dOptions (CO.Shadow_Conv2d_Options);
       end if;
@@ -76,6 +78,7 @@ package body Torch.NN is
    
    overriding procedure Initialize (C : in out Conv2d) is
    begin
+      Put_Line ("Running ""Initialize"" for ""Conv2d""");
       C.Shadow_Conv2d := New_AdaShadowConv2d (C'Unchecked_Access);
       
       if C.Shadow_Conv2d = null then
@@ -86,7 +89,10 @@ package body Torch.NN is
    
    overriding procedure Finalize (C : in out Conv2d) is
    begin
-      Delete_AdaShadowConv2d (C.Shadow_Conv2d);
+      Put_Line ("Running ""Finalize"" for ""Conv2d""");
+      if C.Shadow_Conv2d /= null then
+         Delete_AdaShadowConv2d (C.Shadow_Conv2d);
+      end if;
    end;      
 
    -- function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
@@ -102,6 +108,18 @@ package body Torch.NN is
    -- end;
    
    function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d is
+   begin
+      return
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Conv2d =>
+           New_AdaShadowConv2d_For_Options (null, -- Retval'Unchecked_Access,
+                                            Options.Shadow_Conv2d_Options)
+        );
+   end;
+   
+   function Make_Conv2d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv2d is
+      Options : Conv2d_Options := Make_Conv2d_Options (X, Y, Kernel_Size);
    begin
       return
         (

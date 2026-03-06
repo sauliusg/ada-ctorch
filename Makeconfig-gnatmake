@@ -5,4 +5,6 @@
 ##    -Isrc \
 ## #
 
-## GNATMAKE_OPTIONS ?= -g -gnata -gnateE -bargs -Es
+GNATMAKE_OPTIONS ?= -g -gnata -gnateE -bargs -Es
+
+OPTFLAGS = -g

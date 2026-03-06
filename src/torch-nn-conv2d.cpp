@@ -20,7 +20,8 @@ struct AdaShadowConv2d : torch::nn::Conv2d {
     AdaShadowConv2d (struct AdaConv2d *conv2d) :
         torch::nn::Conv2d(nullptr), ada_conv2d(conv2d) {}
 
-    AdaShadowConv2d (struct AdaConv2d *conv2d, torch::nn::Conv2d *options) :
+    AdaShadowConv2d (struct AdaConv2d *conv2d,
+                     torch::nn::Conv2dOptions *options) :
         torch::nn::Conv2d(*options), ada_conv2d(conv2d) {}
 };
 
@@ -43,7 +44,7 @@ new_AdaShadowConv2d (AdaConv2d *conv2d)
 
 struct AdaShadowConv2d*
 new_AdaShadowConv2d_for_options (AdaConv2d *conv2d,
-                                 AdaShadowConv2d *options)
+                                 torch::nn::Conv2dOptions *options)
 {
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
