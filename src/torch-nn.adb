@@ -132,4 +132,17 @@ package body Torch.NN is
       end return;
    end;
    
+   -- -------------------------------------------------------------------------
+   
+   procedure Shadow_Register_Module (SM : Shadow_Module_Access; CL : Shadow_Conv2d_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv2d_for_options";
+   
+   procedure Register_Module (M : Module'Class; Layer : Conv2d'Class) is
+   begin
+      Shadow_Register_Module (M.Shadow_Module, Layer.Shadow_Conv2d);
+   end;
+
+   
 end;

@@ -42,7 +42,15 @@ package Torch.NN is
    function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d;
    
    function Make_Conv2d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv2d;
-
+   
+   --    procedure Register_Module (M : Module'Class; Layer : Conv2d'Class);
+   
+   -- -------------------------------------------------------------------------
+   
+   -- Functions for registering different (sub)modules:
+   
+   procedure Register_Module (M : Module'Class; Layer : Conv2d'Class);
+   
 private
    
    type Module_Access is access all Module;

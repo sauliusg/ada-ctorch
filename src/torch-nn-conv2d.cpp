@@ -1,4 +1,6 @@
+// uses:
 #include <torch/torch.h>
+#include <torch-nn-module.h>
 #include <assert.h>
 
 #include <iostream>
@@ -72,6 +74,13 @@ AdaShadowConv2d_set_self (struct AdaShadowConv2d* c_side, AdaConv2d *ada_side)
          << " for the C++ shadow object "
          << c_side << endl;
     c_side->ada_conv2d = ada_side;
+}
+
+void
+shadow_register_module_conv2d (struct AdaShadowModule *m, struct AdaShadowConv2d* layer)
+
+{
+    m->register_module ("name", *layer);
 }
     
 }; // extern "C"
