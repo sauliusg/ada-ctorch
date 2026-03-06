@@ -43,7 +43,7 @@ procedure MNIST is
    
    Net : Torch.NN.Module;
    
-   Net1, Net2 : Net_Type;
+   Net1 : Net_Type;
    
    T1, T2 : Torch.Tensors.Tensor;
    
