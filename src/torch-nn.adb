@@ -113,7 +113,7 @@ package body Torch.NN is
         )
       do
          Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
-                                     A => Retval.Self);
+                                     A => Retval'Unchecked_Access);
       end return;
    end;
    
@@ -130,12 +130,7 @@ package body Torch.NN is
         )
       do
          Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
-                                     -- A => Retval.Self
-                                     A => Retval'Unchecked_Access
-                                    );
-         Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
-                                     A => Retval.Self
-                                    );
+                                     A => Retval'Unchecked_Access);
       end return;
    end;
    
