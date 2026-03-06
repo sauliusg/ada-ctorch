@@ -11,6 +11,9 @@ procedure MNIST is
    type Net_Type is new Torch.NN.Module with record
       Conv1 : Torch.NN.Conv2d := Make_Conv2d (1,  10, Kernel_Size => 5);
       Conv2 : Torch.NN.Conv2d := Make_Conv2d (10, 20, Kernel_Size => 5);
+      Dropout : Torch.NN.Dropout2d;
+      Fc1 : Torch.NN.Linear := Make_Linear (320, 50);
+      Fc2 : Torch.NN.Linear := Make_Linear (50, 10);
    end record;
    
    overriding
@@ -26,6 +29,9 @@ procedure MNIST is
       Put_Line (">> Registering a convolutional layers");
       Register_Module (N, "Conv1", N.Conv1);
       Register_Module (N, "Conv2", N.Conv2);
+      Register_Module (N, "Drop", N.Dropout);
+      Register_Module (N, "Fc1", N.Fc1);
+      Register_Module (N, "Fc2", N.Fc2);
    end;
    
    overriding
