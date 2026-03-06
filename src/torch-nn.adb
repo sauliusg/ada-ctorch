@@ -13,9 +13,11 @@ package body Torch.NN is
       --  ownner the allocated C++ object that holds the Ada object
       --  reference, to never let that reference to outside, and to
       --  let the Initilaize and Finalize handle the shared
-      --  pointers. We will also make the Ada Module type limited so
-      --  that no bitwise copy of the type can occur. Thus, we exepect
-      --  the use of 'Unchecked_Access to be safe:
+      --  pointers. The Ada object is of Linited_Controlled type,
+      --  making sure that it is never copied. We will also make the
+      --  Ada Module type limited so that no bitwise copy of the type
+      --  can occur. Thus, we exepect the use of 'Unchecked_Access to
+      --  be safe:
       
       M.Shadow_Module := New_AdaShadowModule (M'Unchecked_Access);
       
