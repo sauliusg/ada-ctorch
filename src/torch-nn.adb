@@ -135,6 +135,68 @@ package body Torch.NN is
       end return;
    end;
    
+   -- ------------------------------------------------------------------------
+   
+   overriding procedure Initialize (C : in out Linear) is
+   begin
+      Put_Line ("Running ""Initialize"" for ""Linear""");
+      C.Shadow_Linear := New_AdaShadowLinear (C'Unchecked_Access);
+      
+      if C.Shadow_Linear = null then
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch Linear object for Ada";
+      end if;
+   end;
+   
+   overriding procedure Finalize (C : in out Linear) is
+   begin
+      Put_Line ("Running ""Finalize"" for ""Linear""");
+      if C.Shadow_Linear /= null then
+         Delete_AdaShadowLinear (C.Shadow_Linear);
+      end if;
+   end;      
+   
+   procedure Ada_Shadow_Linear_Set_Self (C : Shadow_Linear_Access;
+                                         A : Linear_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "AdaShadowLinear_set_self";
+   
+   function Make_Linear (X, Y : Int64_T) return Linear is
+   begin
+      return Retval : Linear :=
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Linear =>
+           New_Adashadowlinear_XY (X, Y)
+        )
+      do
+         Ada_Shadow_Linear_Set_Self (C => Retval.Shadow_Linear,
+                                     A => Retval'Unchecked_Access);
+      end return;
+   end;
+   
+   -- ------------------------------------------------------------------------
+   
+   overriding procedure Initialize (C : in out Dropout2d) is
+   begin
+      Put_Line ("Running ""Initialize"" for ""Dropout2d""");
+      C.Shadow_Dropout2d := New_AdaShadowDropout2d (C'Unchecked_Access);
+      
+      if C.Shadow_Dropout2d = null then
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch Dropout2d object for Ada";
+      end if;
+   end;
+   
+   overriding procedure Finalize (C : in out Dropout2d) is
+   begin
+      Put_Line ("Running ""Finalize"" for ""Dropout2d""");
+      if C.Shadow_Dropout2d /= null then
+         Delete_AdaShadowDropout2d (C.Shadow_Dropout2d);
+      end if;
+   end;      
+   
    -- -------------------------------------------------------------------------
    
    procedure Shadow_Register_Module (SM    : Shadow_Module_Access;
@@ -160,6 +222,56 @@ package body Torch.NN is
       Shadow_Register_Module (M.Shadow_Module,
                               To_Chars_Ptr (C_Name'Unchecked_Access),
                               Layer.Shadow_Conv2d);
+   end;
+   
+   procedure Shadow_Register_Module (SM    : Shadow_Module_Access;
+                                     CName : Chars_Ptr;
+                                     CL    : Shadow_Linear_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "shadow_register_module_conv2d";
+   
+   procedure Register_Module (M     : Module'Class; 
+                              Name  : String;
+                              Layer : Linear'Class) is
+      C_Name : aliased Char_Array := To_C (Name);
+   begin
+      if Layer.Shadow_Linear = null then
+         raise PROGRAM_ERROR with
+           "Null shadown layer ""Register_Module""";
+      end if;
+      if M.Shadow_Module = null then
+         raise PROGRAM_ERROR with
+           "Null shadown Module object at ""Register_Module""";
+      end if;
+      Shadow_Register_Module (M.Shadow_Module,
+                              To_Chars_Ptr (C_Name'Unchecked_Access),
+                              Layer.Shadow_Linear);
+   end;
+   
+   procedure Shadow_Register_Module (SM    : Shadow_Module_Access;
+                                     CName : Chars_Ptr;
+                                     CL    : Shadow_Dropout2d_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "shadow_register_module_conv2d";
+   
+   procedure Register_Module (M     : Module'Class; 
+                              Name  : String;
+                              Layer : Dropout2d'Class) is
+      C_Name : aliased Char_Array := To_C (Name);
+   begin
+      if Layer.Shadow_Dropout2d = null then
+         raise PROGRAM_ERROR with
+           "Null shadown layer ""Register_Module""";
+      end if;
+      if M.Shadow_Module = null then
+         raise PROGRAM_ERROR with
+           "Null shadown Module object at ""Register_Module""";
+      end if;
+      Shadow_Register_Module (M.Shadow_Module,
+                              To_Chars_Ptr (C_Name'Unchecked_Access),
+                              Layer.Shadow_Dropout2d);
    end;
    
 end;

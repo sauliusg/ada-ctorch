@@ -43,7 +43,27 @@ package Torch.NN is
    
    function Make_Conv2d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv2d;
    
-   --    procedure Register_Module (M : Module'Class; Layer : Conv2d'Class);
+   -- ------------------------------------------------------------------------
+   
+   type Linear is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Initialize (C : in out Linear);
+   
+   overriding
+   procedure Finalize (C : in out Linear);
+   
+   function Make_Linear (X, Y : Int64_T) return Linear;
+   
+   -- ------------------------------------------------------------------------
+   
+   type Dropout2d is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Initialize (C : in out Dropout2d);
+   
+   overriding
+   procedure Finalize (C : in out Dropout2d);
    
    -- -------------------------------------------------------------------------
    
@@ -52,6 +72,14 @@ package Torch.NN is
    procedure Register_Module (M : Module'Class; 
                               Name : String;
                               Layer : Conv2d'Class);
+   
+   procedure Register_Module (M : Module'Class; 
+                              Name : String;
+                              Layer : Linear'Class);
+   
+   procedure Register_Module (M : Module'Class; 
+                              Name : String;
+                              Layer : Dropout2d'Class);
    
 private
    
@@ -144,5 +172,59 @@ private
      with Import => True,
      Convention => CPP,
      External_Name => "delete_AdaShadowConv2d";
+   
+   -- ------------------------------------------------------------------------
+   
+   type Linear_Access is access all Linear;
+   
+   type Linear_Class_Access is access all Linear'Class;
+   
+   type Shadow_Linear_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Shadow_Linear_Access is access Shadow_Linear_Type;
+   
+   type Linear is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Linear : Shadow_Linear_Access;
+   end record;
+   
+   function New_AdaShadowLinear (CA : Linear_Access) return Shadow_Linear_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowLinear";
+   
+   function New_AdaShadowLinear_XY (X, Y : Int64_T)
+                                   return Shadow_Linear_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowLinear_XY";
+   
+   procedure Delete_AdaShadowLinear (SC : Shadow_Linear_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowLinear";
+   
+   -- ------------------------------------------------------------------------
+   
+   type Dropout2d_Access is access all Dropout2d;
+   
+   type Dropout2d_Class_Access is access all Dropout2d'Class;
+   
+   type Shadow_Dropout2d_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Shadow_Dropout2d_Access is access Shadow_Dropout2d_Type;
+   
+   type Dropout2d is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Dropout2d : Shadow_Dropout2d_Access;
+   end record;
+   
+   function New_AdaShadowDropout2d (CA : Dropout2d_Access) return Shadow_Dropout2d_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowDropout2d";
+   
+   procedure Delete_AdaShadowDropout2d (SC : Shadow_Dropout2d_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowDropout2d";
    
 end Torch.NN;
