@@ -23,7 +23,7 @@ procedure MNIST is
    begin
       Put_Line (">> Initialising Net_Type");
       Put_Line (">> Registering a convolutional layer");
-      Register_Module (N, N.Conv1);
+      Register_Module (N, "Conv1", N.Conv1);
    end;
    
    overriding

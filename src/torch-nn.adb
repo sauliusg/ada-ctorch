@@ -1,4 +1,7 @@
 with Ada.Text_Io; use Ada.Text_Io;
+with Interfaces.C; use Interfaces.C;
+with Interfaces.C.Strings; use Interfaces.C.Strings;
+
 with Torch.Tensors; use Torch.Tensors;
 
 with Ada_C_Error_Codes;
@@ -134,15 +137,21 @@ package body Torch.NN is
    
    -- -------------------------------------------------------------------------
    
-   procedure Shadow_Register_Module (SM : Shadow_Module_Access; CL : Shadow_Conv2d_Access)
+   procedure Shadow_Register_Module (SM    : Shadow_Module_Access;
+                                     CName : Chars_Ptr;
+                                     CL    : Shadow_Conv2d_Access)
      with Import => True,
      Convention => CPP,
-     External_Name => "new_AdaShadowConv2d_for_options";
+     External_Name => "shadow_register_module_conv2d";
    
-   procedure Register_Module (M : Module'Class; Layer : Conv2d'Class) is
+   procedure Register_Module (M     : Module'Class; 
+                              Name  : String;
+                              Layer : Conv2d'Class) is
+      C_Name : aliased Char_Array := To_C (Name);
    begin
-      Shadow_Register_Module (M.Shadow_Module, Layer.Shadow_Conv2d);
+      Shadow_Register_Module (M.Shadow_Module,
+                              To_Chars_Ptr (C_Name'Unchecked_Access),
+                              Layer.Shadow_Conv2d);
    end;
-
    
 end;

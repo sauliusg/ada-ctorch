@@ -77,9 +77,17 @@ AdaShadowConv2d_set_self (struct AdaShadowConv2d* c_side, AdaConv2d *ada_side)
 }
 
 void
-shadow_register_module_conv2d (struct AdaShadowModule *m, struct AdaShadowConv2d* layer)
+shadow_register_module_conv2d (struct AdaShadowModule *m,
+                               char *c_name,
+                               struct AdaShadowConv2d* layer)
 
 {
+    using namespace std;
+    string name = c_name;
+    cout << "Layer with the name \""
+         << name
+         << "\" is being registered"
+         << endl;
     m->register_module ("name", *layer);
 }
     

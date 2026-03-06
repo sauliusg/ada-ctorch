@@ -49,7 +49,9 @@ package Torch.NN is
    
    -- Functions for registering different (sub)modules:
    
-   procedure Register_Module (M : Module'Class; Layer : Conv2d'Class);
+   procedure Register_Module (M : Module'Class; 
+                              Name : String;
+                              Layer : Conv2d'Class);
    
 private
    
