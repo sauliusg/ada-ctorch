@@ -89,7 +89,7 @@ extern "C" {
     }
 
     void tensor_relu (AdaShadowTensor* retval, AdaShadowTensor* x,
-                            ada_c_error_type *err)
+                      ada_c_error_type *err)
     {
         assert (x);
         assert (retval);
