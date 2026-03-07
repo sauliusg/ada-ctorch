@@ -60,6 +60,83 @@ package body Torch.NN is
    
    -- ------------------------------------------------------------------------
    
+   overriding procedure Finalize (CO : in out Conv1d_Options) is
+   begin
+      Put_Line ("Running ""Finalize"" for ""Conv1d_Options""");
+      if CO.Shadow_Conv1d_Options /= null then
+         Delete_AdaShadowConv1dOptions (CO.Shadow_Conv1d_Options);
+      end if;
+   end;      
+
+   function Make_Conv1d_Options (X, Y : Int64_T; Kernel_Size : Int64_T)
+                                return Conv1d_Options 
+   is
+   begin
+      return (
+              Ada.Finalization.Limited_Controlled with
+              Shadow_Conv1d_Options =>
+                New_AdaShadowConv1dOptions (X, Y, Kernel_Size)
+             );
+   end;
+   
+   -- ------------------------------------------------------------------------
+   
+   overriding procedure Initialize (C : in out Conv1d) is
+   begin
+      Put_Line ("Running ""Initialize"" for ""Conv1d""");
+      C.Shadow_Conv1d := New_AdaShadowConv1d (C'Unchecked_Access);
+      
+      if C.Shadow_Conv1d = null then
+         raise STORAGE_ERROR with
+           "C++ side could not allocate PyTorch Conv1d object for Ada";
+      end if;
+   end;
+   
+   overriding procedure Finalize (C : in out Conv1d) is
+   begin
+      Put_Line ("Running ""Finalize"" for ""Conv1d""");
+      if C.Shadow_Conv1d /= null then
+         Delete_AdaShadowConv1d (C.Shadow_Conv1d);
+      end if;
+   end;      
+   
+   procedure Ada_Shadow_Conv1d_Set_Self (C : Shadow_Conv1d_Access;
+                                         A : Conv1d_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "AdaShadowConv1d_set_self";
+   
+   function Make_Conv1d (Options : Conv1d_Options'Class) return Conv1d is
+   begin
+      return Retval : Conv1d :=
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Conv1d =>
+           New_AdaShadowConv1d_For_Options (Options.Shadow_Conv1d_Options)
+        )
+      do
+         Ada_Shadow_Conv1d_Set_Self (C => Retval.Shadow_Conv1d,
+                                     A => Retval'Unchecked_Access);
+      end return;
+   end;
+   
+   function Make_Conv1d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv1d is
+      Options : Conv1d_Options := Make_Conv1d_Options (X, Y, Kernel_Size);
+   begin
+      return Retval : Conv1d :=
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Conv1d =>
+           New_AdaShadowConv1d_For_Options (Options.Shadow_Conv1d_Options)
+        )
+      do
+         Ada_Shadow_Conv1d_Set_Self (C => Retval.Shadow_Conv1d,
+                                     A => Retval'Unchecked_Access);
+      end return;
+   end;
+   
+   -- ------------------------------------------------------------------------
+   
    overriding procedure Finalize (CO : in out Conv2d_Options) is
    begin
       Put_Line ("Running ""Finalize"" for ""Conv2d_Options""");

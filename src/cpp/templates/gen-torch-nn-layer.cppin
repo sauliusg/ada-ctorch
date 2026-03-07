@@ -46,6 +46,17 @@ new_AdaShadow@LAYER_NAME@ (Ada@LAYER_NAME@ *layer)
     return new (std::nothrow) AdaShadow@LAYER_NAME@ (layer);
 }
 
+struct AdaShadow@LAYER_NAME@*
+new_AdaShadow@LAYER_NAME@_for_options (torch::nn::@LAYER_NAME@Options *options)
+{
+    // We will handle allocation failure on the Ada side, no need to
+    // throw (raise) and exception here:
+    using namespace std;
+    cout << "Creating a new shadow @LAYER_NAME@ object from options at "
+         << options << endl;
+    return new (std::nothrow) AdaShadow@LAYER_NAME@ (options);
+}
+
 void
 delete_AdaShadow@LAYER_NAME@ (struct AdaShadow@LAYER_NAME@* shadow_object)
 {

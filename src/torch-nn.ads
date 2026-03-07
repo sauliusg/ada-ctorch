@@ -18,6 +18,33 @@ package Torch.NN is
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
+   type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Finalize (CO : in out Conv1d_Options);
+   
+   function Make_Conv1d_Options
+     (
+      X, Y : Int64_T;
+      Kernel_Size : Int64_T
+     ) return Conv1d_Options;
+   
+   -- ------------------------------------------------------------------------
+   
+   type Conv1d is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Initialize (C : in out Conv1d);
+   
+   overriding
+   procedure Finalize (C : in out Conv1d);
+   
+   function Make_Conv1d (Options : Conv1d_Options'Class) return Conv1d;
+   
+   function Make_Conv1d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv1d;
+   
+   -- ------------------------------------------------------------------------
+   
    type Conv2d_Options is new Ada.Finalization.Limited_Controlled with private;
    
    overriding
@@ -116,6 +143,63 @@ private
      Convention => CPP,
      External_Name => "call_ada_forward_method";
 
+   -- ------------------------------------------------------------------------
+   
+   type Conv1d_Options_Access is access all Conv1d_Options;
+   
+   type Conv1d_Options_Class_Access is access all Conv1d_Options'Class;
+   
+   -- Declared in full and managed on the C++ side:
+   type Shadow_Conv1d_Options_Type is null record;
+   
+   type Shadow_Conv1d_Options_Access is access Shadow_Conv1d_Options_Type;
+   
+   type Conv1d_Options is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Conv1d_Options : Shadow_Conv1d_Options_Access;
+   end record;
+   
+   function New_AdaShadowConv1dOptions (X, Y : Int64_T;
+                                        Kernel_Size : Int64_T
+                                       ) return Shadow_Conv1d_Options_Access
+   with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv1dOptions";
+   
+   procedure Delete_AdaShadowConv1dOptions (SC : Shadow_Conv1d_Options_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowConv1dOptions";
+   
+   -- ------------------------------------------------------------------------
+   
+   type Conv1d_Access is access all Conv1d;
+   
+   type Conv1d_Class_Access is access all Conv1d'Class;
+   
+   type Shadow_Conv1d_Type is null record; -- Declared in full and managed on the C++ side
+   
+   type Shadow_Conv1d_Access is access Shadow_Conv1d_Type;
+   
+   type Conv1d is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Conv1d : Shadow_Conv1d_Access;
+   end record;
+   
+   function New_AdaShadowConv1d (CA : Conv1d_Access) return Shadow_Conv1d_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv1d";
+   
+   function New_AdaShadowConv1d_For_Options (CO : Shadow_Conv1d_Options_Access)
+                                            return Shadow_Conv1d_Access
+     with Import => True,
+     Convention => CPP,
+     External_Name => "new_AdaShadowConv1d_for_options";
+   
+   procedure Delete_AdaShadowConv1d (SC : Shadow_Conv1d_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "delete_AdaShadowConv1d";
+   
    -- ------------------------------------------------------------------------
    
    type Conv2d_Options_Access is access all Conv2d_Options;
