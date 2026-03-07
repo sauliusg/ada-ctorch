@@ -24,6 +24,9 @@ struct AdaShadow@LAYER_NAME@ : torch::nn::@LAYER_NAME@ {
     
     AdaShadow@LAYER_NAME@ (struct Ada@LAYER_NAME@ *layer) :
         torch::nn::@LAYER_NAME@(nullptr), ada_@LAYER_NAME_LOWERCASE@(layer) {}
+
+    AdaShadow@LAYER_NAME@ (torch::nn::@LAYER_NAME@Options *options) :
+        torch::nn::@LAYER_NAME@(*options), ada_@LAYER_NAME_LOWERCASE@(NULL) {}
 };
 
 // Functions that Ada will call to create an AdaShadow@LAYER_NAME@ object
