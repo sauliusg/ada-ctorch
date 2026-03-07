@@ -19,6 +19,8 @@ generate_cpp_CPP_OBJECTS ?= \
 
 .PHONY: all clean compile-cpp-clean
 
+.SECONDARY: ${generate_cpp_CPP_SOURCES}
+
 CXX ?= g++
 SED ?= perl -p
 
