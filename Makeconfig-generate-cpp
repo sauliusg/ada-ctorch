@@ -1,9 +1,6 @@
 #--*- Makefile -*--
 
-PRG_DIR ?= .
-SRC_DIR ?= src
-OBJ_DIR ?= .obj
-CPP_DIR ?= ${SRC_DIR}/cpp
+include Makeconfig-directories
 
 GEN_DIR      ?= ${CPP_DIR}/generated
 TEMPLATE_DIR ?= ${CPP_DIR}/templates
