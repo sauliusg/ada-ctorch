@@ -59,6 +59,7 @@ begin
    Copy (T1, X1);
    
    -- T1 := Net1.Forward (T1); -- This raises exception in C++, forwarded to Ada.
+   T1 := Relu (T2);
    
    Put_Line ("T1 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T1)));
    Put_Line ("T2 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T2)));

@@ -1,3 +1,4 @@
+with Ada.Text_Io; use Ada.Text_Io;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 package body Torch.Tensors is
@@ -82,8 +83,15 @@ package body Torch.Tensors is
    begin
       Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor, Err'Unchecked_Access);
       if Err.Has_Error then
-         raise PROGRAM_ERROR with "ERROR, function ""Relu"" raised exception: " &
-           To_String (Err.Error_Message) & "(code " & Err.Error_Code'Image & ")";
+         Put_Line (Standard_Error, 
+                   "STDERR: function ""Relu"" raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function ""Relu"" raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";
       end if;
       return Ret;
    end;
