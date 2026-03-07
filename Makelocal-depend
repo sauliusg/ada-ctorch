@@ -3,3 +3,5 @@
 bin/mnist: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
 
 bin/try_conv2d: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+
+bin/try_layers: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
