@@ -1,0 +1,9 @@
+#--*- Makefile -*--
+
+PRG_DIR ?= .
+SRC_DIR ?= src
+OBJ_DIR ?= .obj
+CPP_DIR ?= ${SRC_DIR}/cpp
+
+compile_cpp_CPP_SOURCES ?= $(wildcard ${CPP_DIR}/*.cpp)
+compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${CPP_DIR}/%.cpp=${OBJ_DIR}/%.o}
