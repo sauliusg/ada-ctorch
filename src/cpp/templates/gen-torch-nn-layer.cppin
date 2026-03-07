@@ -1,0 +1,89 @@
+//--*- C++ -*--
+// uses:
+#include <torch/torch.h>
+#include <torch-nn-module.h>
+#include <assert.h>
+
+#include <iostream>
+
+struct Ada@LAYER_NAME@;
+
+// A shadow class to which all Ada side calls for methods inherited
+// from Module will be delegated:
+
+struct AdaShadow@LAYER_NAME@ : torch::nn::@LAYER_NAME@ {
+
+    // The 'ada_@LAYER_NAME_LOWERCASE@' does not belong to the C++ object. The
+    // 'ada_module' is managed on the Ada side, will contain the
+    // pointer to 'this' object of the AdaShadowModule type and will
+    // correctly deallocate that object when Ada variable will cease
+    // to exist. This, the 'ada_@LAYER_NAME_LOWERCASE@' member is for reference only
+    // and does not need to be managed (deallocated or otehrwise freed):
+
+    struct Ada@LAYER_NAME@ *ada_@LAYER_NAME_LOWERCASE@;
+    
+    AdaShadow@LAYER_NAME@ (struct Ada@LAYER_NAME@ *layer) :
+        torch::nn::@LAYER_NAME@(nullptr), ada_@LAYER_NAME_LOWERCASE@(layer) {}
+};
+
+// Functions that Ada will call to create an AdaShadow@LAYER_NAME@ object
+// and to destroy them. Ada side will own all created objects and
+// manage their lifetime:
+
+extern "C" {
+
+struct AdaShadow@LAYER_NAME@*
+new_AdaShadow@LAYER_NAME@ (Ada@LAYER_NAME@ *layer)
+{
+    // We will handle allocation failure on the Ada side, no need to
+    // throw (raise) and exception here:
+    using namespace std;
+    cout << "Creating a new shadow @LAYER_NAME@ object for Ada variable at "
+         << layer << endl;
+    return new (std::nothrow) AdaShadow@LAYER_NAME@ (layer);
+}
+
+void
+delete_AdaShadow@LAYER_NAME@ (struct AdaShadow@LAYER_NAME@* shadow_object)
+{
+    using namespace std;
+    cout << "Deleting the shadow @LAYER_NAME@ object for Ada, object's address is "
+         << shadow_object << endl;
+    delete shadow_object;
+}
+
+void
+AdaShadow@LAYER_NAME@_set_self (struct AdaShadow@LAYER_NAME@* c_side, Ada@LAYER_NAME@ *ada_side)
+{
+    assert (c_side);
+    using namespace std;
+    cout << "Setting self reference to the Ada side '@LAYER_NAME@' object "
+         << "at address "
+         << ada_side
+         << " for the C++ shadow object "
+         << c_side << endl;
+    c_side->ada_@LAYER_NAME_LOWERCASE@ = ada_side;
+}
+
+void
+shadow_register_module_@LAYER_NAME_LOWERCASE@ (struct AdaShadowModule *m,
+                               char *c_name,
+                               struct AdaShadow@LAYER_NAME@* layer)
+
+{
+    using namespace std;
+    string name = c_name;
+    cout << "@LAYER_NAME@ layer with the name \""
+         << c_name
+         << "\" is being registered"
+         << endl;
+
+    m->register_module (name, *layer);
+
+    cout << "@LAYER_NAME@ layer with the name \""
+         << name
+         << "\" registered successfully"
+         << endl;
+}
+    
+}; // extern "C"

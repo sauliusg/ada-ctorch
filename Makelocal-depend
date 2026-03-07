@@ -1,3 +1,3 @@
 #--*- Makefile -*--
 
-bin/mnist: ${compile_cpp_CPP_OBJECTS}
+bin/mnist: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}

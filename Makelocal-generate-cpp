@@ -1,0 +1,42 @@
+#--*- Makefile -*--
+
+PRG_DIR ?= .
+SRC_DIR ?= src
+OBJ_DIR ?= .obj
+CPP_DIR ?= ${SRC_DIR}/cpp
+
+GEN_DIR      ?= ${CPP_DIR}/generated
+TEMPLATE_DIR ?= ${CPP_DIR}/templates
+SCRIPT_DIR   ?= ${CPP_DIR}/scripts
+
+generate_cpp_CPP_SCRIPTS ?= $(wildcard ${SCRIPT_DIR}/*.sed)
+
+generate_cpp_CPP_SOURCES ?= \
+  ${generate_cpp_CPP_SCRIPTS:${SCRIPT_DIR}/%.sed=${GEN_DIR}/gen-torch-nn-%.cpp}
+
+generate_cpp_CPP_OBJECTS ?= \
+  ${generate_cpp_CPP_SOURCES:${GEN_DIR}/%.cpp=${OBJ_DIR}/%.o}
+
+.PHONY: all clean compile-cpp-clean
+
+CXX ?= g++
+SED ?= perl -p
+
+## SED ?= sed -f
+
+all:
+
+${GEN_DIR}/gen-torch-nn-%.cpp: \
+    ${SCRIPT_DIR}/%.sed \
+    ${TEMPLATE_DIR}/gen-torch-nn-layer.cppin \
+#
+	${SED} $^ > $@
+
+${OBJ_DIR}/%.o: ${GEN_DIR}/%.cpp
+	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@
+
+generate-cpp-clean:
+	rm -f ${generate_cpp_CPP_OBJECTS}
+	rm -f ${generate_cpp_CPP_SOURCES}
+
+clean: generate-cpp-clean
