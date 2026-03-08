@@ -115,5 +115,5 @@ package body Torch.Tensors is
       end if;
       return Ret;
    end;
-   
+
 end Torch.Tensors;

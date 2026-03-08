@@ -4,8 +4,6 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with Torch.Tensors; use Torch.Tensors;
 
-with Ada_C_Error_Codes;
-
 package body Torch.NN is
 
    overriding procedure Initialize (M : in out Module) is
@@ -210,6 +208,28 @@ package body Torch.NN is
          Ada_Shadow_Conv2d_Set_Self (C => Retval.Shadow_Conv2d,
                                      A => Retval'Unchecked_Access);
       end return;
+   end;
+   
+   -- -------------------------------------------------------------------------
+   
+   procedure Call_Conv2d_Forward_Method
+     (
+      Result : Shadow_Tensor_Access;
+      M : Shadow_Conv2d_Access;
+      X : Shadow_Tensor_Access
+     )
+     with
+     Import => True,
+     Convention => CPP,
+     External_Name => "call_conv2d_forward_method";
+
+   function Forward (Self : in out Conv2d'Class; X: Tensor) return Tensor is
+      Ret : Tensor;
+   begin
+      Call_Conv2d_Forward_Method (Get_Shadow (Ret), 
+                                  Self.Shadow_Conv2d,
+                                  Get_Shadow (X));
+      return Ret;
    end;
    
    -- ------------------------------------------------------------------------
