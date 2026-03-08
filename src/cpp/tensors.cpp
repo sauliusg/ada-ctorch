@@ -101,4 +101,34 @@ extern "C" {
         torch_tensor_relu (retval, x, err);
     }
     
+    static inline
+    void torch_tensor_max_pool2d (torch::Tensor* retval, torch::Tensor* x,
+                                  int64_t n, ada_c_error_type *err)
+    {
+        try {
+            *retval = torch::max_pool2d (*x, n);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+    }
+
+    void tensor_max_pool2d (AdaShadowTensor* retval, AdaShadowTensor* x,
+                            int64_t n, ada_c_error_type *err)
+    {
+        assert (x);
+        assert (retval);
+        torch_tensor_max_pool2d (retval, x, n, err);
+    }
+    
 }; // extern "C"

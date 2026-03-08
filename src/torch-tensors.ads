@@ -6,6 +6,8 @@ package Torch.Tensors is
    
    type Tensor is new Ada.Finalization.Controlled with private;
    
+   subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
+   
    overriding
    procedure Initialize (M : in out Tensor);
    
@@ -37,6 +39,8 @@ package Torch.Tensors is
    -- Tensor update functions impoerted from the C++ code:
    
    function Relu (X : Tensor) return Tensor;
+   
+   function Max_Pool2d (X : Tensor; N : Int64_T) return Tensor;
    
 private
    
@@ -85,5 +89,16 @@ private
      with Import => True, 
      Convention => CPP, 
      External_Name => "tensor_relu";
+   
+   procedure Tensor_Max_Pool2d
+     (
+      Retval : Shadow_Tensor_Access;
+      X : Shadow_Tensor_Access;
+      N : Int64_T;
+      E : Ada_C_Error_Access
+     )
+     with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_max_pool2d";
    
 end Torch.Tensors;
