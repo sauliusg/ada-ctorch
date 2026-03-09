@@ -167,4 +167,16 @@ private
      Convention => CPP, 
      External_Name => "tensor_max_pool2d";
    
+   procedure Tensor_Dropout
+     (
+      Retval : Shadow_Tensor_Access;
+      X : Shadow_Tensor_Access;
+      P : Long_Float;
+      T : Boolean;                   -- Is_Training ?
+      E : Ada_C_Error_Access
+     )
+     with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_dropout";
+   
 end Torch;

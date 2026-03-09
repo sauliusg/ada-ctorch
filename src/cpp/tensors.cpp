@@ -131,4 +131,36 @@ extern "C" {
         torch_tensor_max_pool2d (retval, x, n, err);
     }
     
+    static inline
+    void torch_tensor_dropout (torch::Tensor* retval, torch::Tensor* x,
+                               double p, bool is_training,
+                               ada_c_error_type *err)
+    {
+        try {
+            *retval = torch::dropout (*x, p, is_training);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+    }
+
+    void tensor_dropout (AdaShadowTensor* retval, AdaShadowTensor* x,
+                         double p, bool is_training,
+                         ada_c_error_type *err)
+    {
+        assert (x);
+        assert (retval);
+        torch_tensor_dropout (retval, x, p, is_training, err);
+    }
+    
 }; // extern "C"

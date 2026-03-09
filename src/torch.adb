@@ -116,4 +116,25 @@ package body Torch is
       return Ret;
    end;
    
+   function Dropout (X : Tensor; P : Long_Float;
+                       Is_Training : Boolean) return Tensor is
+      Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Tensor_Dropout (Ret.Shadow_Tensor, X.Shadow_Tensor, P, Is_Training,
+                      Err'Unchecked_Access);
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function ""Dropout"" raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function ""Dropout"" raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";
+      end if;
+      return Ret;
+   end;
+   
 end;
