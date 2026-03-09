@@ -5,7 +5,9 @@ with Ada_C_Error_Codes; use Ada_C_Error_Codes;
 package Torch is
    
    type UInt_64 is mod 2 ** 64;
+   
    type UInt_8 is mod 2 ** 8;
+   for UInt_8'Size use 8;
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
