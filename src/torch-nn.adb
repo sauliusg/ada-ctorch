@@ -219,7 +219,7 @@ package body Torch.NN is
      Convention => CPP,
      External_Name => "call_conv2d_forward_method";
 
-   function Forward (Self : in out Conv2d'Class; X: Tensor) return Tensor is
+   function Forward (Self : in out Conv2d; X: Tensor) return Tensor is
       Ret : Tensor;
    begin
       Call_Conv2d_Forward_Method (Ret.Shadow_Tensor, 
@@ -280,7 +280,7 @@ package body Torch.NN is
      Convention => CPP,
      External_Name => "call_linear_forward_method";
 
-   function Forward (Self : in out Linear'Class; X: Tensor) return Tensor is
+   function Forward (Self : in out Linear; X: Tensor) return Tensor is
       Ret : Tensor;
    begin
       Call_Linear_Forward_Method (Ret.Shadow_Tensor, 
@@ -321,7 +321,7 @@ package body Torch.NN is
      Convention => CPP,
      External_Name => "call_dropout2d_forward_method";
 
-   function Forward (Self : in out Dropout2d'Class; X: Tensor) return Tensor is
+   function Forward (Self : in out Dropout2d; X: Tensor) return Tensor is
       Ret : Tensor;
    begin
       Call_Dropout2d_Forward_Method (Ret.Shadow_Tensor, 
