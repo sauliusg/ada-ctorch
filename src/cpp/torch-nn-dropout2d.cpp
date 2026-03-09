@@ -50,4 +50,12 @@ delete_AdaShadowDropout2d (struct AdaShadowDropout2d* shadow_object)
     delete shadow_object;
 }
     
+void
+call_dropout2d_forward_method (torch::Tensor ret,
+                               struct AdaShadowDropout2d *layer,
+                               torch::Tensor x)
+{
+    ret = (*layer)->forward (x);
+}
+
 }; // extern "C"

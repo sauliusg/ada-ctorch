@@ -208,8 +208,6 @@ package body Torch.NN is
       end return;
    end;
    
-   -- -------------------------------------------------------------------------
-   
    procedure Call_Conv2d_Forward_Method
      (
       Result : Shadow_Tensor_Access;
@@ -271,6 +269,26 @@ package body Torch.NN is
       end return;
    end;
    
+   procedure Call_Linear_Forward_Method
+     (
+      Result : Shadow_Tensor_Access;
+      M : Shadow_Linear_Access;
+      X : Shadow_Tensor_Access
+     )
+     with
+     Import => True,
+     Convention => CPP,
+     External_Name => "call_linear_forward_method";
+
+   function Forward (Self : in out Linear'Class; X: Tensor) return Tensor is
+      Ret : Tensor;
+   begin
+      Call_Linear_Forward_Method (Ret.Shadow_Tensor, 
+                                  Self.Shadow_Linear,
+                                  X.Shadow_Tensor);
+      return Ret;
+   end;
+   
    -- ------------------------------------------------------------------------
    
    overriding procedure Initialize (C : in out Dropout2d) is
@@ -291,6 +309,26 @@ package body Torch.NN is
          Delete_AdaShadowDropout2d (C.Shadow_Dropout2d);
       end if;
    end;      
+   
+   procedure Call_Dropout2d_Forward_Method
+     (
+      Result : Shadow_Tensor_Access;
+      M : Shadow_Dropout2d_Access;
+      X : Shadow_Tensor_Access
+     )
+     with
+     Import => True,
+     Convention => CPP,
+     External_Name => "call_dropout2d_forward_method";
+
+   function Forward (Self : in out Dropout2d'Class; X: Tensor) return Tensor is
+      Ret : Tensor;
+   begin
+      Call_Dropout2d_Forward_Method (Ret.Shadow_Tensor, 
+                                  Self.Shadow_Dropout2d,
+                                  X.Shadow_Tensor);
+      return Ret;
+   end;
    
    -- -------------------------------------------------------------------------
    

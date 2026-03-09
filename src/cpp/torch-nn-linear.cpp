@@ -96,5 +96,12 @@ shadow_register_module_linear (struct AdaShadowModule *m,
          << "\" registered successfully"
          << endl;
 }
-    
+
+void
+call_linear_forward_method (torch::Tensor ret, struct AdaShadowLinear *layer,
+                            torch::Tensor x)
+{
+    ret = (*layer)->forward (x);
+}
+
 }; // extern "C"
