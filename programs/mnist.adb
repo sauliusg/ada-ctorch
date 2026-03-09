@@ -43,9 +43,9 @@ procedure MNIST is
                                      (Self.Conv2.Forward (Y)), 2));
       -- Y := Y.View ([-1, 320])
       Y := Torch.Relu (Self.Fc1.Forward (Y));
-      Y := Torch.Dropout (Y, 0.5, Is_Training => True);
+      Y := Torch.Dropout (Y, 0.5, Is_Training => True); -- Call "is_training()"
       Y := Self.Fc2.Forward (Y);
-      return Torch.Relu (Y);
+      return Torch.Log_Softmax (Y, 1);
    end;
    
    Net : Torch.NN.Module;

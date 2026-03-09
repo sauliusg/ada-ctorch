@@ -102,6 +102,36 @@ extern "C" {
     }
     
     static inline
+    void torch_tensor_log_softmax (torch::Tensor* retval, torch::Tensor* x,
+                                   int64_t dim, ada_c_error_type *err)
+    {
+        try {
+            *retval = torch::log_softmax (*x, dim);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+    }
+
+    void tensor_log_softmax (AdaShadowTensor* retval, AdaShadowTensor* x,
+                             int64_t dim, ada_c_error_type *err)
+    {
+        assert (x);
+        assert (retval);
+        torch_tensor_log_softmax (retval, x, dim, err);
+    }
+    
+    static inline
     void torch_tensor_max_pool2d (torch::Tensor* retval, torch::Tensor* x,
                                   int64_t n, ada_c_error_type *err)
     {

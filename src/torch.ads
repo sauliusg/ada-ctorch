@@ -50,6 +50,8 @@ package Torch is
    function Dropout (X : Tensor; P : Long_Float;
                      Is_Training : Boolean) return Tensor;
       
+   function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor;
+   
    -- from /home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/c10/core/DeviceType.h:
    type DeviceType is
      (
@@ -184,5 +186,16 @@ private
      with Import => True, 
      Convention => CPP, 
      External_Name => "tensor_dropout";
+   
+   procedure Tensor_Log_Softmax
+     (
+      Retval : Shadow_Tensor_Access;
+      X : Shadow_Tensor_Access;
+      D : Int64_T;
+      E : Ada_C_Error_Access
+     )
+   with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_log_softmax";
    
 end Torch;

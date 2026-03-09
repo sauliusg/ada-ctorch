@@ -138,4 +138,24 @@ package body Torch is
       return Ret;
    end;
    
+   function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor is
+      Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Tensor_Log_Softmax (Ret.Shadow_Tensor, X.Shadow_Tensor, Dim,
+                          Err'Unchecked_Access);
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function ""Log_Softmax"" raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function ""Log_Softmax"" raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";
+      end if;
+      return Ret;
+   end;
+   
 end;
