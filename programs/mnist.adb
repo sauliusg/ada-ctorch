@@ -45,7 +45,7 @@ procedure MNIST is
       Y := Torch.Relu (Self.Fc1.Forward (Y));
       Y := Torch.Dropout (Y, 0.5, Is_Training => True); -- Call "is_training()"
       Y := Self.Fc2.Forward (Y);
-      return Torch.Log_Softmax (Y, 1);
+      return Torch.Log_Softmax (Y, Dim => 1);
    end;
    
    Net : Torch.NN.Module;
