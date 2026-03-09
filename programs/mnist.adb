@@ -38,7 +38,7 @@ procedure MNIST is
       Y : Tensor;
    begin
       Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
-      Y := Torch.Relu (Max_Pool2d (Forward (Self.Conv1, X), 2));
+      Y := Torch.Relu (Max_Pool2d (Self.Conv1.Forward (X), 2));
       return Torch.Relu (X);
    end;
    
