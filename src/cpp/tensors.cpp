@@ -133,7 +133,7 @@ extern "C" {
     
     static inline
     void torch_tensor_dropout (torch::Tensor* retval, torch::Tensor* x,
-                               double p, bool is_training,
+                               double p, int8_t is_training,
                                ada_c_error_type *err)
     {
         try {
@@ -155,7 +155,7 @@ extern "C" {
     }
 
     void tensor_dropout (AdaShadowTensor* retval, AdaShadowTensor* x,
-                         double p, bool is_training,
+                         double p, int8_t is_training,
                          ada_c_error_type *err)
     {
         assert (x);

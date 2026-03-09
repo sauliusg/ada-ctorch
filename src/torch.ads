@@ -5,6 +5,7 @@ with Ada_C_Error_Codes; use Ada_C_Error_Codes;
 package Torch is
    
    type UInt_64 is mod 2 ** 64;
+   type UInt_8 is mod 2 ** 8;
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
@@ -43,6 +44,9 @@ package Torch is
    function Relu (X : Tensor) return Tensor;
    
    function Max_Pool2d (X : Tensor; N : Int64_T) return Tensor;
+   
+   function Dropout (X : Tensor; P : Long_Float;
+                     Is_Training : Boolean) return Tensor;
       
    -- from /home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/c10/core/DeviceType.h:
    type DeviceType is
@@ -172,7 +176,7 @@ private
       Retval : Shadow_Tensor_Access;
       X : Shadow_Tensor_Access;
       P : Long_Float;
-      T : Boolean;                   -- Is_Training ?
+      T : UInt_8;                     -- Is_Training ?
       E : Ada_C_Error_Access
      )
      with Import => True, 

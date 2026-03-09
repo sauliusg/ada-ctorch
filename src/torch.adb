@@ -121,7 +121,8 @@ package body Torch is
       Ret : Tensor;
       Err : aliased Ada_C_Error_Type;
    begin
-      Tensor_Dropout (Ret.Shadow_Tensor, X.Shadow_Tensor, P, Is_Training,
+      Tensor_Dropout (Ret.Shadow_Tensor, X.Shadow_Tensor, P, 
+                      (if Is_Training then 1 else 0),
                       Err'Unchecked_Access);
       if Err.Has_Error then
          Put_Line (Standard_Error, 
