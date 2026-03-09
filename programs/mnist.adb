@@ -1,8 +1,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
-with Torch;
+with Torch; use Torch;
 with Torch.NN; use Torch.NN;
-with Torch.Tensors; use Torch.Tensors;
 
 procedure MNIST is
    
@@ -38,33 +37,33 @@ procedure MNIST is
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
    begin
       Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
-      return Torch.Tensors.Relu (X);
+      return Torch.Relu (X);
    end;
    
    Net : Torch.NN.Module;
    
    Net1 : Net_Type;
    
-   T1, T2 : Torch.Tensors.Tensor;
+   T1, T2 : Torch.Tensor;
    
-   X1, X2, X3 : Torch.Tensors.Tensor;
+   X1, X2, X3 : Torch.Tensor;
    
 begin
    T1 := T2;
    
-   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T1)));
-   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T2)));
+   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Refcount (T1)));
+   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Refcount (T2)));
    
    Copy (X2, T2);
    Copy (T1, X1);
    
    -- T1 := Net1.Forward (T1); -- This raises exception in C++, forwarded to Ada.
    
-   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T1)));
-   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Tensors.Refcount (T2)));
+   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Refcount (T1)));
+   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Refcount (T2)));
    
-   Put_Line ("X1 Refcount: " & Integer'Image (Torch.Tensors.Refcount (X1)));
-   Put_Line ("X2 Refcount: " & Integer'Image (Torch.Tensors.Refcount (X2)));
+   Put_Line ("X1 Refcount: " & Integer'Image (Torch.Refcount (X1)));
+   Put_Line ("X2 Refcount: " & Integer'Image (Torch.Refcount (X2)));
    
    Put_Line (Device'Size'Image);
    Torch.Manual_Seed (1);

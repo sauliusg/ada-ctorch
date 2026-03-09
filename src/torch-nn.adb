@@ -2,8 +2,6 @@ with Ada.Text_Io; use Ada.Text_Io;
 with Interfaces.C; use Interfaces.C;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
-with Torch.Tensors; use Torch.Tensors;
-
 package body Torch.NN is
 
    overriding procedure Initialize (M : in out Module) is
@@ -226,9 +224,9 @@ package body Torch.NN is
    function Forward (Self : in out Conv2d'Class; X: Tensor) return Tensor is
       Ret : Tensor;
    begin
-      Call_Conv2d_Forward_Method (Get_Shadow (Ret), 
+      Call_Conv2d_Forward_Method (Ret.Shadow_Tensor, 
                                   Self.Shadow_Conv2d,
-                                  Get_Shadow (X));
+                                  X.Shadow_Tensor);
       return Ret;
    end;
    

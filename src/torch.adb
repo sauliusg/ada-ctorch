@@ -1,7 +1,7 @@
 with Ada.Text_Io; use Ada.Text_Io;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
-package body Torch.Tensors is
+package body Torch is
    
    -- Tensors are shared during Ada variable assignments and implement
    --  copy-on-write – the C++ side shadow tensor should be cloned if
@@ -115,5 +115,5 @@ package body Torch.Tensors is
       end if;
       return Ret;
    end;
-
-end Torch.Tensors;
+   
+end;
