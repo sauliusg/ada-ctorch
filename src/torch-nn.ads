@@ -14,10 +14,6 @@ package Torch.NN is
    
    -- ------------------------------------------------------------------------
    
-   subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
-   
-   -- ------------------------------------------------------------------------
-   
    type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;
    
    overriding
