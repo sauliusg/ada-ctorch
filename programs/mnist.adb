@@ -26,11 +26,11 @@ procedure MNIST is
       Put_Line (">> Initialising Net_Type");
       Initialize (Torch.NN.Module (N));
       Put_Line (">> Registering a convolutional layers");
-      Register_Module (N, "Conv1", N.Conv1);
-      Register_Module (N, "Conv2", N.Conv2);
-      Register_Module (N, "Drop", N.Dropout);
-      Register_Module (N, "Fc1", N.Fc1);
-      Register_Module (N, "Fc2", N.Fc2);
+      N.Register_Module ("Conv1", N.Conv1);
+      N.Register_Module ("Conv2", N.Conv2);
+      N.Register_Module ("Drop", N.Dropout);
+      N.Register_Module ("Fc1", N.Fc1);
+      N.Register_Module ("Fc2", N.Fc2);
    end;
    
    overriding
