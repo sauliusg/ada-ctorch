@@ -35,8 +35,10 @@ procedure MNIST is
    
    overriding
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
+      Y : Tensor;
    begin
       Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
+      Y := Torch.Relu (Max_Pool2d (Forward (Self.Conv1, X), 2));
       return Torch.Relu (X);
    end;
    

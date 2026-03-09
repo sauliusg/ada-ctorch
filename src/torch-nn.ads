@@ -66,6 +66,8 @@ package Torch.NN is
    overriding
    procedure Finalize (C : in out Conv2d);
    
+   function Forward (Self : in out Conv2d'Class; X: Tensor) return Tensor;
+   
    function Make_Conv2d (Options : Conv2d_Options'Class) return Conv2d;
    
    function Make_Conv2d (X, Y : Int64_T; Kernel_Size : Int64_T) return Conv2d;
@@ -80,6 +82,8 @@ package Torch.NN is
    overriding
    procedure Finalize (C : in out Linear);
    
+   function Forward (Self : in out Linear'Class; X: Tensor) return Tensor;
+   
    function Make_Linear (X, Y : Int64_T) return Linear;
    
    -- ------------------------------------------------------------------------
@@ -91,6 +95,8 @@ package Torch.NN is
    
    overriding
    procedure Finalize (C : in out Dropout2d);
+   
+   function Forward (Self : in out Dropout2d'Class; X: Tensor) return Tensor;
    
    -- -------------------------------------------------------------------------
    
