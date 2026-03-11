@@ -147,7 +147,7 @@ private
      Convention => CPP,
      External_Name => "call_ada_forward_method";
 
-   function Module_Is_Training (M : Shadow_Module_Access) return UInt_8
+   function Module_Is_Training (M : Shadow_Module_Access) return UInt8_T
    with Import => True, 
      Convention => CPP, 
      External_Name => "module_is_training";

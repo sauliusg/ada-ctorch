@@ -4,10 +4,10 @@ with Ada_C_Error_Codes; use Ada_C_Error_Codes;
 
 package Torch is
    
-   type UInt_64 is mod 2 ** 64;
+   type UInt64_T is mod 2 ** 64;   
    
-   type UInt_8 is mod 2 ** 8;
-   for UInt_8'Size use 8;
+   type UInt8_T is mod 2 ** 8;
+   for UInt8_T'Size use 8;
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
@@ -116,7 +116,7 @@ package Torch is
    
    for DeviceType'Size use 8;
    
-   procedure Manual_Seed (Seed : UInt_64)
+   procedure Manual_Seed (Seed : UInt64_T)
      with Import => True,
      Convention => CPP,
      External_Name => "torch_manual_seed";
@@ -197,7 +197,7 @@ private
       Retval : Shadow_Tensor_Access;
       X : Shadow_Tensor_Access;
       P : Long_Float;
-      T : UInt_8;                     -- Is_Training ?
+      T : UInt8_T;                     -- Is_Training ?
       E : Ada_C_Error_Access
      )
      with Import => True, 
