@@ -96,6 +96,27 @@ package body Torch is
       return Ret;
    end;
    
+   function View (Self : Tensor; Params : Int64_Array) return Tensor is
+      Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Tensor_View (Ret.Shadow_Tensor, Self.Shadow_Tensor,
+                   Params, Params'Length,
+                   Err'Unchecked_Access);
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function ""View"" raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function ""View"" raised exception " &
+             To_String (Err.Error_Message) &
+             " (code " & Err.Error_Code'Image & ")";
+      end if;
+      return Ret;      
+   end;
+   
    function Max_Pool2d (X : Tensor; N : Int64_T) return Tensor is
       Ret : Tensor;
       Err : aliased Ada_C_Error_Type;

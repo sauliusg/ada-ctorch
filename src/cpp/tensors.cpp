@@ -1,5 +1,6 @@
 // Expoerts:
 #include <torch/torch.h>
+#include <c10/util/ArrayRef.h>
 
 // Uses:
 #include <stdio.h>
@@ -192,5 +193,37 @@ extern "C" {
         assert (retval);
         torch_tensor_dropout (retval, x, p, is_training, err);
     }
+
+    static inline
+    void torch_tensor_view (torch::Tensor *ret, torch::Tensor *self,
+                            int64_t *params, int64_t nparam,
+                            ada_c_error_type *err)
+    {
+        try {
+            c10::ArrayRef<int64_t> param_array(params, nparam);
+            *ret = self->view (param_array);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+    }
+
+    void tensor_view (AdaShadowTensor* retval, AdaShadowTensor* x,
+                      int64_t *params, int64_t nparam,
+                      ada_c_error_type *err)
+    {
+        torch_tensor_view (retval, x, params, nparam, err);
+    }
+
     
 }; // extern "C"

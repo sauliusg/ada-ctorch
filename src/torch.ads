@@ -11,6 +11,9 @@ package Torch is
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
+   type Integer_Array is array (Int64_T range <>) of Integer;
+   type Int64_Array is array (Int64_T range <>) of Int64_T;
+   
    type Tensor is new Ada.Finalization.Controlled with private;
    
    overriding
@@ -44,6 +47,8 @@ package Torch is
    -- Tensor update functions impoerted from the C++ code:
    
    function Relu (X : Tensor) return Tensor;
+   
+   function View (Self : Tensor; Params : Int64_Array) return Tensor;
    
    function Max_Pool2d (X : Tensor; N : Int64_T) return Tensor;
    
@@ -163,6 +168,18 @@ private
      with Import => True, 
      Convention => CPP, 
      External_Name => "tensor_relu";
+   
+   procedure Tensor_View
+     (
+      Retval : Shadow_Tensor_Access;
+      X      : Shadow_Tensor_Access;
+      Params : Int64_Array;
+      NParam : Int64_T;
+      E      : Ada_C_Error_Access      
+     )
+     with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_view";
    
    procedure Tensor_Max_Pool2d
      (
