@@ -19,7 +19,7 @@ struct AdaShadowModule : torch::nn::Module {
     
     AdaShadowModule (struct AdaModule *module) : ada_module(module) {}
 
-    virtual torch::Tensor forward(torch::Tensor x);    
+    virtual torch::Tensor forward(torch::Tensor x);
 };
 
 #endif

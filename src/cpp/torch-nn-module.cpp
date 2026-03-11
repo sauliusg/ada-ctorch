@@ -45,4 +45,9 @@ void delete_AdaShadowModule (struct AdaShadowModule* shadow_module)
     delete shadow_module;
 }
 
+uint8_t module_is_training (struct AdaShadowModule* shadow_module)
+{
+    return shadow_module->is_training();
+}
+    
 }; // extern "C"

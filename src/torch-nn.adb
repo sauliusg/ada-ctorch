@@ -54,6 +54,11 @@ package body Torch.NN is
       return Result;
    end;
    
+   function Is_Training (Self : in Module) return Boolean is
+   begin
+      return Module_Is_Training (Self.Shadow_Module) /= 0;
+   end;
+   
    -- ------------------------------------------------------------------------
    
    overriding procedure Finalize (CO : in out Conv1d_Options) is

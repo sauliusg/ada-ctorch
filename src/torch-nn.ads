@@ -12,6 +12,8 @@ package Torch.NN is
    
    function Forward (Self : in out Module; X : Tensor) return Tensor;
    
+   function Is_Training (Self : in Module) return Boolean;
+   
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;
@@ -145,6 +147,11 @@ private
      Convention => CPP,
      External_Name => "call_ada_forward_method";
 
+   function Module_Is_Training (M : Shadow_Module_Access) return UInt_8
+   with Import => True, 
+     Convention => CPP, 
+     External_Name => "module_is_training";
+   
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options_Access is access all Conv1d_Options;
