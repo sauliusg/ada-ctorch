@@ -3,6 +3,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 
+with Torch.Data.Datasets;
+
 procedure MNIST is
    
    Device : Torch.DeviceType := Torch.CPU;
