@@ -41,7 +41,7 @@ procedure MNIST is
       Y := Torch.Relu (Max_Pool2d (Self.Conv1.Forward (Y), 2));
       Y := Torch.Relu (Max_Pool2d (Self.Dropout.Forward 
                                      (Self.Conv2.Forward (Y)), 2));
-      -- Y := Y.View ([-1, 320])
+      Y := Y.View ((-1, 320));
       Y := Torch.Relu (Self.Fc1.Forward (Y));
       Y := Torch.Dropout (Y, 0.5, Is_Training => True); -- Call "is_training()"
       Y := Self.Fc2.Forward (Y);
