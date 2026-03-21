@@ -1,5 +1,6 @@
 #include <torch/torch.h>
 #include <torch/data/transforms/tensor.h>
+#include <torch/data/transforms/tensor.h>
 
 extern "C" {
 
@@ -15,16 +16,24 @@ extern "C" {
         delete dset;
     }
 
-    // auto
-    torch::data::datasets::MapDataset<torch::data::datasets::MNIST, torch::data::transforms::Normalize<>>
-    map(torch::data::datasets::MNIST *ds,
-        // torch::data::transforms::TensorTransform<> *transform
-        torch::data::transforms::Normalize<> *transform
-        )
+    torch::data::datasets::MapDataset<
+        torch::data::datasets::MNIST,
+        torch::data::transforms::Normalize<>
+    >
+    mnist_normalise(torch::data::datasets::MNIST *ds,
+                    torch::data::transforms::Normalize<> *transform)
     {
         return ds->map(*transform);
-        // return ds->map(torch::data::transforms::Stack<>());
-        // return ds->map(torch::data::transforms::Normalize<>(0.1307, 0.3081));
+    }
+    
+    torch::data::datasets::MapDataset<
+        torch::data::datasets::MNIST,
+        torch::data::transforms::Stack<>
+    >
+    mnist_to_tensor(torch::data::datasets::MNIST *ds,
+                    torch::data::transforms::Stack<> *transform)
+    {
+        return ds->map(*transform);
     }
     
 }
