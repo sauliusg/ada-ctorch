@@ -15,7 +15,8 @@ extern "C" {
         delete dset;
     }
 
-    auto
+    // auto
+    torch::data::datasets::MapDataset<torch::data::datasets::MNIST, torch::data::transforms::Normalize<>>
     map(torch::data::datasets::MNIST *ds,
         // torch::data::transforms::TensorTransform<> *transform
         torch::data::transforms::Normalize<> *transform
