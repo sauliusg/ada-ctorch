@@ -43,16 +43,25 @@ extern "C" {
     }
     
     torch::data::datasets::MapDataset<
-        torch::data::datasets::MNIST,
+        torch::data::datasets::MapDataset<
+            torch::data::datasets::MNIST,
+            torch::data::transforms::Normalize<>
+        >,
         torch::data::transforms::Stack<>
     > *
-    new_mnist_stack(torch::data::datasets::MNIST *ds,
+    new_mnist_stack(torch::data::datasets::MapDataset<
+                    torch::data::datasets::MNIST,
+                    torch::data::transforms::Normalize<>
+                    > *ds,
                     torch::data::transforms::Stack<> *transform)
     {
         auto ret =
             new
             torch::data::datasets::MapDataset<
-                torch::data::datasets::MNIST,
+                torch::data::datasets::MapDataset<
+                    torch::data::datasets::MNIST,
+                    torch::data::transforms::Normalize<>
+                >,
                 torch::data::transforms::Stack<>
             >            
             (*ds, *transform);
@@ -61,8 +70,11 @@ extern "C" {
 
     void
     delete_mnist_stack(torch::data::datasets::MapDataset<
-                       torch::data::datasets::MNIST,
-                       torch::data::transforms::Stack<>
+                           torch::data::datasets::MapDataset<
+                               torch::data::datasets::MNIST,
+                                torch::data::transforms::Normalize<>
+                            >,
+                            torch::data::transforms::Stack<>
                        > *ds)
     {
         delete ds;
