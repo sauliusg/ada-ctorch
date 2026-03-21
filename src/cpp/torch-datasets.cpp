@@ -19,9 +19,19 @@ extern "C" {
     torch::data::datasets::MapDataset<
         torch::data::datasets::MNIST,
         torch::data::transforms::Normalize<>
-    > *
+    >
     mnist_normalise(torch::data::datasets::MNIST *ds,
                     torch::data::transforms::Normalize<> *transform)
+    {
+        return ds->map(*transform);
+    }
+    
+    torch::data::datasets::MapDataset<
+        torch::data::datasets::MNIST,
+        torch::data::transforms::Normalize<>
+    > *
+    new_mnist_normalises(torch::data::datasets::MNIST *ds,
+                         torch::data::transforms::Normalize<> *transform)
     {
         auto ret =
             new
