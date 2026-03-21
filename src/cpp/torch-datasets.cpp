@@ -21,14 +21,15 @@ extern "C" {
         torch::data::transforms::Normalize<>
     > *
     new_mnist_normaliser(torch::data::datasets::MNIST *ds,
-                         torch::data::transforms::Normalize<> *transform)
+                         double x, double y)
     {
+        torch::data::transforms::Normalize<> normalise(x, y);
         auto ret =
             new
             torch::data::datasets::MapDataset<
                 torch::data::datasets::MNIST,
                 torch::data::transforms::Normalize<>
-            > (*ds, *transform);
+            > (*ds, normalise);
         return ret;
     }
 

@@ -14,6 +14,8 @@ package Torch.Data.Datasets is
    
 private
    
+   -- MNIST:
+   
    -- declared in full and managed on the C++ side:
    type Shadow_MNIST_Type is null record;
    
@@ -32,5 +34,23 @@ private
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_dataset";
+   
+   -- Normalised MNIST:
+   
+   -- declared in full and managed on the C++ side:
+   type Shadow_Normalised_MNIST_Type is null record;
+   
+   type Shadow_Normalised_MNIST_Access is access Shadow_Normalised_MNIST_Type;
+   
+   function New_Mnist_Normaliser (X, Y : Interfaces.C.double) 
+                                 return Shadow_Normalised_MNIST_Access
+   with Import => True,
+     Convention => CPP,
+     External_Name => "new_mnist_normaliser";
+   
+   procedure Delete_Mnist_Normaliser (SC : Shadow_Normalised_MNIST_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "delete_mnist_normaliser";
    
 end;
