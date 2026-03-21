@@ -52,4 +52,21 @@ extern "C" {
         return ds->map(*transform);
     }
     
+    torch::data::datasets::MapDataset<
+        torch::data::datasets::MNIST,
+        torch::data::transforms::Stack<>
+    > *
+    new_mnist_to_tensor(torch::data::datasets::MNIST *ds,
+                        torch::data::transforms::Stack<> *transform)
+    {
+        auto ret =
+            new
+            torch::data::datasets::MapDataset<
+                torch::data::datasets::MNIST,
+                torch::data::transforms::Stack<>
+            >            
+            (*ds, *transform);
+        return ret;
+    }
+    
 }
