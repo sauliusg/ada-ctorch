@@ -20,7 +20,7 @@ extern "C" {
         torch::data::datasets::MNIST,
         torch::data::transforms::Normalize<>
     > *
-    new_mnist_normalises(torch::data::datasets::MNIST *ds,
+    new_mnist_normaliser(torch::data::datasets::MNIST *ds,
                          torch::data::transforms::Normalize<> *transform)
     {
         auto ret =
@@ -31,13 +31,22 @@ extern "C" {
             > (*ds, *transform);
         return ret;
     }
+
+    void
+    delete_mnist_normaliser(torch::data::datasets::MapDataset<
+                            torch::data::datasets::MNIST,
+                            torch::data::transforms::Normalize<>
+                            > *ds)
+    {
+        delete ds;
+    }
     
     torch::data::datasets::MapDataset<
         torch::data::datasets::MNIST,
         torch::data::transforms::Stack<>
     > *
-    new_mnist_to_tensor(torch::data::datasets::MNIST *ds,
-                        torch::data::transforms::Stack<> *transform)
+    new_mnist_stack(torch::data::datasets::MNIST *ds,
+                    torch::data::transforms::Stack<> *transform)
     {
         auto ret =
             new
@@ -47,6 +56,15 @@ extern "C" {
             >            
             (*ds, *transform);
         return ret;
+    }
+
+    void
+    delete_mnist_stack(torch::data::datasets::MapDataset<
+                       torch::data::datasets::MNIST,
+                       torch::data::transforms::Stack<>
+                       > *ds)
+    {
+        delete ds;
     }
     
 }
