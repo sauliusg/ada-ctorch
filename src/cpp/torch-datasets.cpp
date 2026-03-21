@@ -23,6 +23,7 @@ extern "C" {
         )
     {
         return ds->map(*transform);
+        // return ds->map(torch::data::transforms::Stack<>());
         // return ds->map(torch::data::transforms::Normalize<>(0.1307, 0.3081));
     }
     
