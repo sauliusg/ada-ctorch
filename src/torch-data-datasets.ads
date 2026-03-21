@@ -14,6 +14,7 @@ package Torch.Data.Datasets is
    
 private
    
+   -- =========================================================================
    -- MNIST:
    
    -- declared in full and managed on the C++ side:
@@ -35,6 +36,7 @@ private
      Convention => CPP,
      External_Name => "delete_mnist_dataset";
    
+   -- =========================================================================
    -- Normalised MNIST:
    
    -- declared in full and managed on the C++ side:
@@ -42,13 +44,33 @@ private
    
    type Shadow_Normalised_MNIST_Access is access Shadow_Normalised_MNIST_Type;
    
-   function New_Mnist_Normaliser (X, Y : Interfaces.C.double) 
+   function New_Mnist_Normaliser (Dataset : Shadow_MNIST_Access;
+                                  X, Y : Interfaces.C.double) 
                                  return Shadow_Normalised_MNIST_Access
    with Import => True,
      Convention => CPP,
      External_Name => "new_mnist_normaliser";
    
    procedure Delete_Mnist_Normaliser (SC : Shadow_Normalised_MNIST_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "delete_mnist_normaliser";
+   
+   -- =========================================================================
+   -- Stacked MNIST:
+   
+   -- declared in full and managed on the C++ side:
+   type Shadow_Stacked_MNIST_Type is null record;
+   
+   type Shadow_Stacked_MNIST_Access is access Shadow_Stacked_MNIST_Type;
+   
+   function New_Mnist_Stack (Dataset : Shadow_Normalised_MNIST_Access)
+                            return Shadow_Stacked_MNIST_Access
+   with Import => True,
+     Convention => CPP,
+     External_Name => "new_mnist_stacked";
+   
+   procedure Delete_Mnist_Stack (SC : Shadow_Stacked_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_normaliser";
