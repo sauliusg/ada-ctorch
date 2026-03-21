@@ -27,7 +27,7 @@ extern "C" {
             new
             torch::data::datasets::MapDataset<
                 torch::data::datasets::MNIST,
-            torch::data::transforms::Normalize<>
+                torch::data::transforms::Normalize<>
             > (*ds, *transform);
         return ret;
     }
