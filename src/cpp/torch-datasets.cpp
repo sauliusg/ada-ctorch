@@ -36,11 +36,12 @@ extern "C" {
     }
     
     mnist_stacked_dataset_t *
-    new_mnist_stack(mnist_normalised_dataset_t *ds,
-                    torch::data::transforms::Stack<> *transform)
+    new_mnist_stack(mnist_normalised_dataset_t *ds)
     {
+        
         auto ret =
-            new mnist_stacked_dataset_t (*ds, *transform);
+            new mnist_stacked_dataset_t
+                (*ds, torch::data::transforms::Stack<>());
         return ret;
     }
 
