@@ -14,6 +14,7 @@ package body Torch.Data.Datasets is
       return
         (
          Ada.Finalization.Limited_Controlled with
+         Kind => Plain,
          Shadow_Mnist =>
            New_Mnist_Dataset (To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access))
         );
