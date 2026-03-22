@@ -5,7 +5,10 @@ with Ada.Finalization;
 
 package Torch.Data.Datasets is
    
-   type MNIST is new Ada.Finalization.Limited_Controlled with private;
+   type MNIST_Dataset_Kind is (Plain, Normalised, Stacked);
+   
+   type Mnist (Kind : MNIST_Dataset_Kind := Plain) is new 
+     Ada.Finalization.Limited_Controlled with private;
 
    overriding
    procedure Finalize (C : in out MNIST);
@@ -21,10 +24,6 @@ private
    type Shadow_MNIST_Type is null record;
    
    type Shadow_MNIST_Access is access Shadow_MNIST_Type;
-   
-   type MNIST is new Ada.Finalization.Limited_Controlled with record
-      Shadow_MNIST : Shadow_MNIST_Access;
-   end record;
    
    function New_Mnist_Dataset (Dir_Name : Chars_Ptr) return Shadow_MNIST_Access
    with Import => True,
@@ -75,4 +74,21 @@ private
      Convention => CPP,
      External_Name => "delete_mnist_normaliser";
    
+   -- =========================================================================
+   -- MNIST (Ada side):
+   
+   type Mnist (Kind : MNIST_Dataset_Kind := Plain) is new
+     Ada.Finalization.Limited_Controlled with
+      record
+         case Kind is
+            when Plain =>
+               Shadow_MNIST : Shadow_Mnist_Access;
+            when Normalised =>
+               Shadow_Normalised_MNIST : Shadow_Normalised_Mnist_Access;
+            when Stacked =>
+               Shadow_Stacked_MNIST : Shadow_Stacked_Mnist_Access;
+         end case;
+            
+      end record;
+
 end;
