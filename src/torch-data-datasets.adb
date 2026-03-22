@@ -3,9 +3,20 @@ package body Torch.Data.Datasets is
    overriding
    procedure Finalize (C : in out MNIST) is
    begin
-      if C.Shadow_MNIST /= null then
-         Delete_Mnist_Dataset (C.Shadow_MNIST);
-      end if;
+      case C.Kind is
+         when Plain =>
+            if C.Shadow_MNIST /= null then
+               Delete_Mnist_Dataset (C.Shadow_MNIST);
+            end if;
+         when Normalised =>
+            if C.Shadow_Normalised_MNIST /= null then
+               Delete_Mnist_Normaliser (C.Shadow_Normalised_MNIST);
+            end if;
+         when Stacked =>
+            if C.Shadow_Stacked_MNIST /= null then
+               Delete_Mnist_Stack (C.Shadow_Stacked_MNIST);
+            end if;
+      end case;
    end;
    
    function Make_MNIST (Dir_Name : String) return MNIST is
