@@ -31,4 +31,17 @@ package body Torch.Data.Datasets is
         );
    end;
    
+   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) 
+                                  return MNIST is
+      subtype Double is Interfaces.C.double;
+   begin
+      return
+        (
+         Ada.Finalization.Limited_Controlled with
+         Kind => Normalised,
+         Shadow_Normalised_Mnist =>
+           New_Mnist_Normaliser (M.Shadow_MNIST, Double (X), Double (Y))
+        );
+   end;
+   
 end;

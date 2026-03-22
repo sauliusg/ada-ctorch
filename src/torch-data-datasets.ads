@@ -15,6 +15,9 @@ package Torch.Data.Datasets is
    
    function Make_MNIST (Dir_Name : String) return MNIST;
    
+   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) 
+                                  return Mnist;
+   
 private
    
    -- =========================================================================
@@ -88,7 +91,7 @@ private
             when Stacked =>
                Shadow_Stacked_MNIST : Shadow_Stacked_Mnist_Access;
          end case;
-            
+         
       end record;
 
 end;
