@@ -22,6 +22,9 @@ package Torch.Data.Datasets is
    function Make_Stacked_Normalised_MNIST (M : Mnist; X, Y : Long_Float)
                                           return Mnist;
    
+   function Make_Stacked_Normalised_MNIST (Dir : String; X, Y : Long_Float)
+                                          return Mnist;
+   
 private
    
    -- =========================================================================
