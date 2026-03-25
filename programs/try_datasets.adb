@@ -1,8 +1,11 @@
+with Ada.Text_Io; use Ada.Text_Io;
+
+with Torch; use Torch; -- for UInt64_T
 with Torch.NN; -- need to satisfy C++ linker, provides Ada callback for C++
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 with Ada.Command_Line; use Ada.Command_Line;
 
-procedure Try_Layers is
+procedure Try_Datasets is
    
    Root_Dir : String :=
      (if Argument_Count > 0 then Argument (1) else "data/");
@@ -12,6 +15,8 @@ procedure Try_Layers is
    MNIST_Dataset : MNIST :=
      Make_Stacked_Normalised_MNIST (Root_Dir, 0.1307, 0.3081);
    
+   Plain_DS_Size : UInt64_T := Size (Plain_MNIST_Dataset);
+   
 begin
-   null;
+   Put_Line ("Plain_MNIST_Dataset size = " & Plain_DS_Size'Image);
 end;

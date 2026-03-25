@@ -84,4 +84,13 @@ package body Torch.Data.Datasets is
       return Make_Stacked_Normalised_MNIST (Make_MNIST (Dir), X, Y);
    end;
    
+   function Size (M : MNIST) return Uint64_T is
+   begin
+      case M.Kind is
+         when Plain => return Mnist_Dataset_Size (M.Shadow_MNIST);
+         when others =>
+            raise Program_Error with "Unimplemented";
+      end case;
+   end;
+
 end;

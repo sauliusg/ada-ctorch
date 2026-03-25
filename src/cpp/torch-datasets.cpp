@@ -36,6 +36,16 @@ extern "C" {
         delete dset;
     }
 
+    uint64_t
+    mnist_dataset_size (torch::data::datasets::MNIST *ds)
+    {
+        if (ds) {
+            return ds->size().value();
+        } else {
+            return 0;
+        }
+    }
+    
     mnist_normalised_dataset_t *
     new_mnist_normaliser(torch::data::datasets::MNIST *ds,
                          double x, double y)

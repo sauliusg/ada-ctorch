@@ -25,6 +25,8 @@ package Torch.Data.Datasets is
    function Make_Stacked_Normalised_MNIST (Dir : String; X, Y : Long_Float)
                                           return Mnist;
    
+   function Size (M : MNIST) return UInt64_T;
+   
 private
    
    -- =========================================================================
@@ -46,6 +48,11 @@ private
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_dataset";
+   
+   function MNIST_Dataset_Size (M : Shadow_MNIST_Access) return UInt64_T
+   with Import => True,
+     Convention => CPP,
+     External_Name => "mnist_dataset_size";
    
    -- =========================================================================
    -- Normalised MNIST:
