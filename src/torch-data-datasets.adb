@@ -55,7 +55,8 @@ package body Torch.Data.Datasets is
         );      
    end;
    
-   function Make_Stacked_MNIST (M : Mnist; X, Y : Long_Float) return Mnist is
+   function Make_Stacked_Normalised_MNIST (M : Mnist; X, Y : Long_Float) 
+                                          return Mnist is
    begin
       return Make_Stacked_Mnist (Make_Normalised_Mnist (M, X, Y));
    end;
