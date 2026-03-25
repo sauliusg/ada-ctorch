@@ -12,11 +12,20 @@ procedure Try_Datasets is
    
    Plain_MNIST_Dataset : MNIST := Make_MNIST (Root_Dir);
    
-   MNIST_Dataset : MNIST :=
+   Normalised_MNIST_Dataset : MNIST :=
+     Make_Normalised_MNIST (Plain_MNIST_Dataset, 0.1307, 0.3081);
+   
+   Stacked_MNIST_Dataset : MNIST :=
      Make_Stacked_Normalised_MNIST (Root_Dir, 0.1307, 0.3081);
    
    Plain_DS_Size : UInt64_T := Size (Plain_MNIST_Dataset);
    
+   Normalised_DS_Size : UInt64_T := Size (Normalised_MNIST_Dataset);
+   
+   Stacked_DS_Size : UInt64_T := Size (Stacked_MNIST_Dataset);
+   
 begin
-   Put_Line ("Plain_MNIST_Dataset size = " & Plain_DS_Size'Image);
+   Put_Line ("Plain_MNIST_Dataset size      = " & Plain_DS_Size'Image);
+   Put_Line ("Normalised_MNIST_Dataset size = " & Normalised_DS_Size'Image);
+   Put_Line ("Stacked_MNIST_Dataset size    = " & Stacked_DS_Size'Image);
 end;

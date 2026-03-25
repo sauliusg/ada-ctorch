@@ -74,6 +74,12 @@ private
      Convention => CPP,
      External_Name => "delete_mnist_normaliser";
    
+   function MNIST_Dataset_Size (M : Shadow_Normalised_MNIST_Access) 
+                               return UInt64_T
+   with Import => True,
+     Convention => CPP,
+     External_Name => "mnist_dataset_size";
+   
    -- =========================================================================
    -- Stacked MNIST:
    
@@ -92,6 +98,12 @@ private
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_stack";
+   
+   function MNIST_Dataset_Size (M : Shadow_Stacked_MNIST_Access) 
+                               return UInt64_T
+   with Import => True,
+     Convention => CPP,
+     External_Name => "mnist_dataset_size";
    
    -- =========================================================================
    -- MNIST (Ada side):
