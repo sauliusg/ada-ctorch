@@ -1,3 +1,6 @@
+with Ada.Text_Io; use Ada.Text_Io;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 package body Torch.Data.Datasets is
    
    overriding
@@ -21,14 +24,28 @@ package body Torch.Data.Datasets is
    
    function Make_MNIST (Dir_Name : String) return MNIST is
       Dir_Name_Chars : aliased Char_Array := To_C (Dir_Name);
+      Err : aliased Ada_C_Error_Type;
    begin
-      return
+      return Ret : Mnist :=
         (
          Ada.Finalization.Limited_Controlled with
          Kind => Plain,
          Shadow_Mnist =>
-           New_Mnist_Dataset (To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access))
-        );
+           New_Mnist_Dataset (To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),
+                              Err'Unchecked_Access)
+        ) do
+         if Err.Has_Error then
+            Put_Line (Standard_Error, 
+                      "STDERR: function ""Make_MNIST"" raised exception " &
+                        To_String (Err.Error_Message) &
+                        " (code " & Err.Error_Code'Image & ")");
+            Ada.Text_Io.Flush;
+            raise PROGRAM_ERROR 
+              with "ERROR, function ""Make_MNIST"" raised exception " &
+              To_String (Err.Error_Message) &
+              " (code " & Err.Error_Code'Image & ")";
+         end if;
+      end return;
    end;
    
    function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) 

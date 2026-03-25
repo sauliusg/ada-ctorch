@@ -35,7 +35,9 @@ private
    
    type Shadow_MNIST_Access is access Shadow_MNIST_Type;
    
-   function New_Mnist_Dataset (Dir_Name : Chars_Ptr) return Shadow_MNIST_Access
+   function New_Mnist_Dataset (Dir_Name : Chars_Ptr;
+                               E : Ada_C_Error_Access)
+                              return Shadow_MNIST_Access
    with Import => True,
      Convention => CPP,
      External_Name => "new_mnist_dataset";

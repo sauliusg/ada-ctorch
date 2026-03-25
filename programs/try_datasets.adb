@@ -3,8 +3,10 @@ with Torch.Data.Datasets; use Torch.Data.Datasets;
 
 procedure Try_Layers is
    
-   MNIST_Dataset : MNIST :=
-     Make_Stacked_Normalised_MNIST ("data/", 0.1307, 0.3081);
+   Plain_MNIST_Dataset : MNIST := Make_MNIST ("data/");
+   
+   -- MNIST_Dataset : MNIST :=
+   --   Make_Stacked_Normalised_MNIST ("data/", 0.1307, 0.3081);
    
 begin
    null;
