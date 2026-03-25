@@ -15,10 +15,11 @@ package Torch.Data.Datasets is
    
    function Make_MNIST (Dir_Name : String) return MNIST;
    
-   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) 
-                                  return Mnist;
+   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) return Mnist;
    
    function Make_Stacked_MNIST (M : MNIST) return Mnist;
+   
+   function Make_Stacked_MNIST (M : Mnist; X, Y : Long_Float) return Mnist;
    
 private
    
