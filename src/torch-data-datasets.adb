@@ -44,4 +44,15 @@ package body Torch.Data.Datasets is
         );
    end;
    
+   function Make_Stacked_MNIST (M : MNIST) return Mnist is
+   begin
+      return
+        (
+         Ada.Finalization.Limited_Controlled with
+         Kind => Stacked,
+         Shadow_Stacked_Mnist =>
+           New_Mnist_Stack (M.Shadow_Normalised_MNIST)
+        );      
+   end;
+   
 end;

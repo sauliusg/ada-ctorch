@@ -18,6 +18,8 @@ package Torch.Data.Datasets is
    function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) 
                                   return Mnist;
    
+   function Make_Stacked_MNIST (M : MNIST) return Mnist;
+   
 private
    
    -- =========================================================================
@@ -70,12 +72,12 @@ private
                             return Shadow_Stacked_MNIST_Access
    with Import => True,
      Convention => CPP,
-     External_Name => "new_mnist_stacked";
+     External_Name => "new_mnist_stack";
    
    procedure Delete_Mnist_Stack (SC : Shadow_Stacked_MNIST_Access)
    with Import => True,
      Convention => CPP,
-     External_Name => "delete_mnist_normaliser";
+     External_Name => "delete_mnist_stack";
    
    -- =========================================================================
    -- MNIST (Ada side):
