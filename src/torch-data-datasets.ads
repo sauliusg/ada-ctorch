@@ -5,7 +5,10 @@ with Ada.Finalization;
 
 package Torch.Data.Datasets is
    
-   type MNIST_Dataset_Mode is (Test, Training);
+   type MNIST_Dataset_Mode is (Train, Test);
+   
+   for MNIST_Dataset_Mode use (Train => 0, Test => 1);
+   for MNIST_Dataset_Mode'Size use 8;
    
    type MNIST_Dataset_Kind is (Plain, Normalised, Stacked);
    
@@ -15,7 +18,8 @@ package Torch.Data.Datasets is
    overriding
    procedure Finalize (C : in out MNIST);
    
-   function Make_MNIST (Dir_Name : String) return MNIST;
+   function Make_MNIST (Dir_Name : String;
+                        Mode : Mnist_Dataset_Mode := Train) return MNIST;
    
    function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) return MNIST;
    
@@ -40,6 +44,7 @@ private
    type Shadow_MNIST_Access is access Shadow_MNIST_Type;
    
    function New_MNIST_Dataset (Dir_Name : Chars_Ptr;
+                               Mode : UInt8_T;
                                E : Ada_C_Error_Access)
                               return Shadow_MNIST_Access
    with Import => True,

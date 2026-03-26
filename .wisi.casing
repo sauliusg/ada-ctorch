@@ -4,5 +4,6 @@ CR
 LF
 Text_IO
 UInt64_T
+UInt8_T
 double
 *MNIST

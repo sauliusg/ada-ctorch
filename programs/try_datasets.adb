@@ -24,8 +24,13 @@ procedure Try_Datasets is
    
    Stacked_DS_Size : UInt64_T := Size (Stacked_MNIST_Dataset);
    
+   Test_MNIST_Dataset : MNIST := Make_MNIST (Root_Dir, Mode => Test);
+   
 begin
    Put_Line ("Plain_MNIST_Dataset size      = " & Plain_DS_Size'Image);
    Put_Line ("Normalised_MNIST_Dataset size = " & Normalised_DS_Size'Image);
    Put_Line ("Stacked_MNIST_Dataset size    = " & Stacked_DS_Size'Image);
+   New_Line;
+   Put_Line ("Test MNIST dataset size       = " &
+               Size (Test_MNIST_Dataset)'Image);
 end;

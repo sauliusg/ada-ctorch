@@ -23,7 +23,8 @@ package body Torch.Data.Datasets is
       end case;
    end;
    
-   function Make_MNIST (Dir_Name : String) return MNIST is
+   function Make_MNIST (Dir_Name : String;
+                        Mode : Mnist_Dataset_Mode := Train) return Mnist is
       Dir_Name_Chars : aliased Char_Array := To_C (Dir_Name);
       Err : aliased Ada_C_Error_Type;
    begin
@@ -32,7 +33,8 @@ package body Torch.Data.Datasets is
          Ada.Finalization.Limited_Controlled with
          Kind => Plain,
          Shadow_Mnist =>
-           New_Mnist_Dataset (To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),
+           New_MNIST_Dataset (To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),
+                              MNIST_Dataset_Mode'Pos (Mode),
                               Err'Unchecked_Access)
         ) do
          if Err.Has_Error then

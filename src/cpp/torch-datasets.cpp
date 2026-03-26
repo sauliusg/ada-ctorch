@@ -9,10 +9,16 @@
 extern "C" {
 
     torch::data::datasets::MNIST*
-    new_mnist_dataset (char *root, ada_c_error_type *err)
+    new_mnist_dataset (char *root, uint8_t mode,
+                       ada_c_error_type *err)
     {
         try {
-            return new torch::data::datasets::MNIST(root);
+            if (mode == 0) { /* mode: train */
+                return new torch::data::datasets::MNIST(root);
+            } else { /* mode: test */
+                return new torch::data::datasets::MNIST
+                    (root, torch::data::datasets::MNIST::Mode::kTest);
+            }
         }
         catch (c10::Error e) {
             char message [4096];
