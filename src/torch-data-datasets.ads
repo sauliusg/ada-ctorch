@@ -96,7 +96,7 @@ private
      Convention => CPP,
      External_Name => "new_mnist_stack";
    
-   procedure Delete_MNIST_Stack (Sc : Shadow_Stacked_MNIST_Access)
+   procedure Delete_MNIST_Stack (SC : Shadow_Stacked_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_stack";
@@ -115,11 +115,11 @@ private
       record
          case Kind is
             when Plain =>
-               Shadow_MNIST : Shadow_Mnist_Access;
+               Shadow_MNIST : Shadow_MNIST_Access;
             when Normalised =>
-               Shadow_Normalised_MNIST : Shadow_Normalised_Mnist_Access;
+               Shadow_Normalised_MNIST : Shadow_Normalised_MNIST_Access;
             when Stacked =>
-               Shadow_Stacked_MNIST : Shadow_Stacked_Mnist_Access;
+               Shadow_Stacked_MNIST : Shadow_Stacked_MNIST_Access;
          end case;
          
       end record;
