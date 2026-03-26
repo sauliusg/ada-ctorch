@@ -45,7 +45,7 @@ package body Torch.Data.Datasets is
             raise PROGRAM_ERROR 
               with "ERROR, function """ & Enclosing_Entity &
               """ raised exception " &
-              To_String (Err.Error_Message) &
+              Trim_Torch_Error_Message (To_String (Err.Error_Message)) &
               " (code " & Err.Error_Code'Image & ")";
          end if;
       end return;

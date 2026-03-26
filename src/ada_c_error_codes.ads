@@ -25,4 +25,6 @@ package Ada_C_Error_Codes is
      Convention => CPP,
      External_Name => "ada_set_error_message";
    
+   function Trim_Torch_Error_Message (M : String) return String;
+   
 end;

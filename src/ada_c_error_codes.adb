@@ -15,5 +15,22 @@ package body Ada_C_Error_Codes is
          E.Error_Message := To_Unbounded_String (Value (Message));
       end if;
    end;
+   
+   function Trim_Torch_Error_Message (M : String) return String is
+      I, J : Integer;
+   begin
+      I := M'First;
+      
+      J := I;
+      while J < M'Last and then M (J) /= ASCII.LF loop
+         J := J + 1;
+      end loop;
+      
+      if J <= M'Last and then M (J) = ASCII.LF then
+         J := J - 1;
+      end if;
+      
+      return M (I .. J) & '"';
+   end;
 
 end;
