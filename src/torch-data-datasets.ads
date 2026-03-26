@@ -5,9 +5,11 @@ with Ada.Finalization;
 
 package Torch.Data.Datasets is
    
+   type MNIST_Dataset_Mode is (Test, Training);
+   
    type MNIST_Dataset_Kind is (Plain, Normalised, Stacked);
    
-   type Mnist (Kind : MNIST_Dataset_Kind := Plain) is new 
+   type MNIST (Kind : MNIST_Dataset_Kind := Plain) is new 
      Ada.Finalization.Limited_Controlled with private;
 
    overriding
@@ -15,7 +17,7 @@ package Torch.Data.Datasets is
    
    function Make_MNIST (Dir_Name : String) return MNIST;
    
-   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) return Mnist;
+   function Make_Normalised_MNIST (M : MNIST; X, Y : Long_Float) return MNIST;
    
    function Make_Stacked_MNIST (M : MNIST) return Mnist;
    
@@ -37,14 +39,14 @@ private
    
    type Shadow_MNIST_Access is access Shadow_MNIST_Type;
    
-   function New_Mnist_Dataset (Dir_Name : Chars_Ptr;
+   function New_MNIST_Dataset (Dir_Name : Chars_Ptr;
                                E : Ada_C_Error_Access)
                               return Shadow_MNIST_Access
    with Import => True,
      Convention => CPP,
      External_Name => "new_mnist_dataset";
    
-   procedure Delete_Mnist_Dataset (SC : Shadow_MNIST_Access)
+   procedure Delete_MNIST_Dataset (SC : Shadow_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_dataset";
@@ -62,14 +64,14 @@ private
    
    type Shadow_Normalised_MNIST_Access is access Shadow_Normalised_MNIST_Type;
    
-   function New_Mnist_Normaliser (Dataset : Shadow_MNIST_Access;
+   function New_MNIST_Normaliser (Dataset : Shadow_MNIST_Access;
                                   X, Y : Interfaces.C.double) 
                                  return Shadow_Normalised_MNIST_Access
    with Import => True,
      Convention => CPP,
      External_Name => "new_mnist_normaliser";
    
-   procedure Delete_Mnist_Normaliser (SC : Shadow_Normalised_MNIST_Access)
+   procedure Delete_MNIST_Normaliser (SC : Shadow_Normalised_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_normaliser";
@@ -88,13 +90,13 @@ private
    
    type Shadow_Stacked_MNIST_Access is access Shadow_Stacked_MNIST_Type;
    
-   function New_Mnist_Stack (Dataset : Shadow_Normalised_MNIST_Access)
+   function New_MNIST_Stack (Dataset : Shadow_Normalised_MNIST_Access)
                             return Shadow_Stacked_MNIST_Access
    with Import => True,
      Convention => CPP,
      External_Name => "new_mnist_stack";
    
-   procedure Delete_Mnist_Stack (SC : Shadow_Stacked_MNIST_Access)
+   procedure Delete_MNIST_Stack (Sc : Shadow_Stacked_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_stack";
@@ -108,7 +110,7 @@ private
    -- =========================================================================
    -- MNIST (Ada side):
    
-   type Mnist (Kind : MNIST_Dataset_Kind := Plain) is new
+   type MNIST (Kind : MNIST_Dataset_Kind := Plain) is new
      Ada.Finalization.Limited_Controlled with
       record
          case Kind is
