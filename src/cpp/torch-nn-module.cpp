@@ -32,16 +32,20 @@ struct AdaShadowModule* new_AdaShadowModule (AdaModule *module)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow Module object for Ada variable at "
          << module << endl;
+#endif
     return new (std::nothrow) AdaShadowModule (module);
 }
 
 void delete_AdaShadowModule (struct AdaShadowModule* shadow_module)
 {
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Deleting the shadow Module object for Ada, object's address is "
          << shadow_module << endl;
+#endif
     delete shadow_module;
 }
 

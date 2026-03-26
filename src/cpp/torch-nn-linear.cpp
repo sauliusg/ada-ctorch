@@ -39,8 +39,10 @@ new_AdaShadowLinear (AdaLinear *conv2d)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow Linear object for Ada variable at "
          << conv2d << endl;
+#endif
     return new (std::nothrow) AdaShadowLinear (conv2d);
 }
 
@@ -50,8 +52,10 @@ new_AdaShadowLinear_XY (int64_t x, int64_t y)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow Linear object with x, y = "
          << x << " " << y << endl;
+#endif
     return new (std::nothrow) AdaShadowLinear (x, y);
 }
 
@@ -69,10 +73,12 @@ AdaShadowLinear_set_self (struct AdaShadowLinear* c_side, AdaLinear *ada_side)
 {
     assert (c_side);
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Setting self reference to the Ada side object address "
          << ada_side
          << " for the C++ shadow object "
          << c_side << endl;
+#endif
     c_side->ada_linear = ada_side;
 }
 
@@ -84,17 +90,21 @@ shadow_register_module_linear (struct AdaShadowModule *m,
 {
     using namespace std;
     string name = c_name;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Linear layer with the name \""
          << c_name
          << "\" is being registered"
          << endl;
-
+#endif
+    
     m->register_module (name, *layer);
 
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Linear layer with the name \""
          << name
          << "\" registered successfully"
          << endl;
+#endif
 }
 
 void

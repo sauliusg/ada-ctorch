@@ -19,15 +19,19 @@ torch::nn::Conv2dOptions* new_AdaShadowConv2dOptions (int64_t x,
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow Conv2dOptions object for Ada variable" << endl;
+#endif
     return new (std::nothrow) torch::nn::Conv2dOptions (x, y, ks);
 }
 
 void delete_AdaShadowConv2dOptions (torch::nn::Conv2dOptions* shadow_object)
 {
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Deleting the shadow Conv2dOptions object for Ada, object's address is "
          << shadow_object << endl;
+#endif
     delete shadow_object;
 }
 

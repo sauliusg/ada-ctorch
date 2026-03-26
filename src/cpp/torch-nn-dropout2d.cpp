@@ -36,8 +36,10 @@ new_AdaShadowDropout2d (AdaDropout2d *dropout2d)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow Dropout2d object for Ada variable at "
          << dropout2d << endl;
+#endif
     return new (std::nothrow) AdaShadowDropout2d (dropout2d);
 }
 
@@ -45,8 +47,10 @@ void
 delete_AdaShadowDropout2d (struct AdaShadowDropout2d* shadow_object)
 {
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Deleting the shadow Dropout2d object for Ada, object's address is "
          << shadow_object << endl;
+#endif
     delete shadow_object;
 }
     
