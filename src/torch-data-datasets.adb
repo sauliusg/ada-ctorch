@@ -1,5 +1,6 @@
 with Ada.Text_Io; use Ada.Text_Io;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with GNAT.Source_Info; use GNAT.Source_Info;
 
 package body Torch.Data.Datasets is
    
@@ -36,12 +37,14 @@ package body Torch.Data.Datasets is
         ) do
          if Err.Has_Error then
             Put_Line (Standard_Error, 
-                      "STDERR: function ""Make_MNIST"" raised exception " &
+                      "STDERR: function """ & Enclosing_Entity & 
+                        """ raised exception " &
                         To_String (Err.Error_Message) &
                         " (code " & Err.Error_Code'Image & ")");
             Ada.Text_Io.Flush;
             raise PROGRAM_ERROR 
-              with "ERROR, function ""Make_MNIST"" raised exception " &
+              with "ERROR, function """ & Enclosing_Entity &
+              """ raised exception " &
               To_String (Err.Error_Message) &
               " (code " & Err.Error_Code'Image & ")";
          end if;
