@@ -26,11 +26,19 @@ procedure Try_Datasets is
    
    Test_MNIST_Dataset : MNIST := Make_MNIST (Root_Dir, Mode => Test);
    
+   Test_MNIST_Normalised_DS :
+     MNIST := Make_Stacked_Normalised_MNIST (
+                                           Make_MNIST (Root_Dir, Mode => Test),
+                                           0.1307, 0.3081
+                                          );
+   
 begin
-   Put_Line ("Plain_MNIST_Dataset size      = " & Plain_DS_Size'Image);
-   Put_Line ("Normalised_MNIST_Dataset size = " & Normalised_DS_Size'Image);
-   Put_Line ("Stacked_MNIST_Dataset size    = " & Stacked_DS_Size'Image);
+   Put_Line ("Plain_MNIST_Dataset size       = " & Plain_DS_Size'Image);
+   Put_Line ("Normalised_MNIST_Dataset size  = " & Normalised_DS_Size'Image);
+   Put_Line ("Stacked_MNIST_Dataset size     = " & Stacked_DS_Size'Image);
    New_Line;
-   Put_Line ("Test MNIST dataset size       = " &
+   Put_Line ("Test MNIST dataset size        = " &
                Size (Test_MNIST_Dataset)'Image);
+   Put_Line ("Test MNIST dataset size (norm) = " &
+               Size (Test_MNIST_Normalised_DS)'Image);
 end;
