@@ -46,7 +46,7 @@ private
      Convention => CPP,
      External_Name => "new_mnist_dataset";
    
-   procedure Delete_MNIST_Dataset (SC : Shadow_MNIST_Access)
+   procedure Delete_MNIST_Dataset (S : Shadow_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_dataset";
@@ -71,7 +71,7 @@ private
      Convention => CPP,
      External_Name => "new_mnist_normaliser";
    
-   procedure Delete_MNIST_Normaliser (SC : Shadow_Normalised_MNIST_Access)
+   procedure Delete_MNIST_Normaliser (S : Shadow_Normalised_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_normaliser";
@@ -96,7 +96,7 @@ private
      Convention => CPP,
      External_Name => "new_mnist_stack";
    
-   procedure Delete_MNIST_Stack (SC : Shadow_Stacked_MNIST_Access)
+   procedure Delete_MNIST_Stack (S : Shadow_Stacked_MNIST_Access)
    with Import => True,
      Convention => CPP,
      External_Name => "delete_mnist_stack";
