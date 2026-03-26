@@ -63,8 +63,10 @@ void
 delete_AdaShadowLinear (struct AdaShadowLinear* shadow_object)
 {
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Deleting the shadow Linear object for Ada, object's address is "
          << shadow_object << endl;
+#endif
     delete shadow_object;
 }
 
