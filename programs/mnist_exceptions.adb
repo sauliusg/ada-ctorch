@@ -24,9 +24,9 @@ procedure MNIST_Exceptions is
    
    overriding procedure Initialize (N : in out Net_Type) is
    begin
-      Put_Line (">> Initialising Net_Type");
+      pragma Debug (Put_Line (">> Initialising Net_Type"));
       Initialize (Torch.NN.Module (N));
-      Put_Line (">> Registering a convolutional layers");
+      pragma Debug (Put_Line (">> Registering a convolutional layers"));
       N.Register_Module ("Conv1", N.Conv1);
       N.Register_Module ("Conv2", N.Conv2);
       N.Register_Module ("Drop", N.Dropout);
