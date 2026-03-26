@@ -1,6 +1,8 @@
 with Ada.Text_Io; use Ada.Text_Io;
 with Interfaces.C; use Interfaces.C;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with GNAT.Source_Info; use GNAT.Source_Info;
 
 package body Torch.NN is
 
@@ -217,7 +219,8 @@ package body Torch.NN is
      (
       Result : Shadow_Tensor_Access;
       M : Shadow_Conv2d_Access;
-      X : Shadow_Tensor_Access
+      X : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
      )
      with
      Import => True,
@@ -226,10 +229,25 @@ package body Torch.NN is
 
    function Forward (Self : in out Conv2d; X: Tensor) return Tensor is
       Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
    begin
       Call_Conv2d_Forward_Method (Ret.Shadow_Tensor, 
                                   Self.Shadow_Conv2d,
-                                  X.Shadow_Tensor);
+                                  X.Shadow_Tensor,
+                                  Err'Unchecked_Access);
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function """ & Enclosing_Entity &
+                     """ raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function """ & Enclosing_Entity &
+           """ raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";
+      end if;
       return Ret;
    end;
    
