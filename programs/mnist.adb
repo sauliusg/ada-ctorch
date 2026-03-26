@@ -39,7 +39,8 @@ procedure MNIST is
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
       Y : Tensor;
    begin
-      Put_Line (">>> Calling 'Forward' from Net_Type of 'mnist'.");
+      pragma Debug (Put_Line (">>> Calling 'Forward' from Net_Type of " &
+                                "'mnist'."));
       Y := Torch.Relu (Max_Pool2d (Self.Conv1.Forward (Y), 2));
       Y := Torch.Relu (Max_Pool2d (Self.Dropout.Forward 
                                      (Self.Conv2.Forward (Y)), 2));
