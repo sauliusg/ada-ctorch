@@ -7,3 +7,5 @@ bin/try_conv2d: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
 bin/try_layers: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
 
 bin/try_datasets: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+
+bin/mnist_exceptions: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
