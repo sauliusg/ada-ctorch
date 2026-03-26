@@ -65,7 +65,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (CO : in out Conv1d_Options) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Conv1d_Options""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Conv1d_Options"""));
       if CO.Shadow_Conv1d_Options /= null then
          Delete_AdaShadowConv1dOptions (CO.Shadow_Conv1d_Options);
       end if;
@@ -86,7 +86,7 @@ package body Torch.NN is
    
    overriding procedure Initialize (C : in out Conv1d) is
    begin
-      Put_Line ("Running ""Initialize"" for ""Conv1d""");
+      pragma Debug (Put_Line ("Running ""Initialize"" for ""Conv1d"""));
       C.Shadow_Conv1d := New_AdaShadowConv1d (C'Unchecked_Access);
       
       if C.Shadow_Conv1d = null then
@@ -97,7 +97,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (C : in out Conv1d) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Conv1d""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Conv1d"""));
       if C.Shadow_Conv1d /= null then
          Delete_AdaShadowConv1d (C.Shadow_Conv1d);
       end if;
@@ -142,7 +142,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (CO : in out Conv2d_Options) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Conv2d_Options""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Conv2d_Options"""));
       if CO.Shadow_Conv2d_Options /= null then
          Delete_AdaShadowConv2dOptions (CO.Shadow_Conv2d_Options);
       end if;
@@ -163,7 +163,7 @@ package body Torch.NN is
    
    overriding procedure Initialize (C : in out Conv2d) is
    begin
-      Put_Line ("Running ""Initialize"" for ""Conv2d""");
+      pragma Debug (Put_Line ("Running ""Initialize"" for ""Conv2d"""));
       C.Shadow_Conv2d := New_AdaShadowConv2d (C'Unchecked_Access);
       
       if C.Shadow_Conv2d = null then
@@ -174,7 +174,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (C : in out Conv2d) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Conv2d""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Conv2d"""));
       if C.Shadow_Conv2d /= null then
          Delete_AdaShadowConv2d (C.Shadow_Conv2d);
       end if;
@@ -255,7 +255,7 @@ package body Torch.NN is
    
    overriding procedure Initialize (C : in out Linear) is
    begin
-      Put_Line ("Running ""Initialize"" for ""Linear""");
+      pragma Debug (Put_Line ("Running ""Initialize"" for ""Linear"""));
       C.Shadow_Linear := New_AdaShadowLinear (C'Unchecked_Access);
       
       if C.Shadow_Linear = null then
@@ -266,7 +266,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (C : in out Linear) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Linear""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Linear"""));
       if C.Shadow_Linear /= null then
          Delete_AdaShadowLinear (C.Shadow_Linear);
       end if;
@@ -316,7 +316,7 @@ package body Torch.NN is
    
    overriding procedure Initialize (C : in out Dropout2d) is
    begin
-      Put_Line ("Running ""Initialize"" for ""Dropout2d""");
+      pragma Debug (Put_Line ("Running ""Initialize"" for ""Dropout2d"""));
       C.Shadow_Dropout2d := New_AdaShadowDropout2d (C'Unchecked_Access);
       
       if C.Shadow_Dropout2d = null then
@@ -327,7 +327,7 @@ package body Torch.NN is
    
    overriding procedure Finalize (C : in out Dropout2d) is
    begin
-      Put_Line ("Running ""Finalize"" for ""Dropout2d""");
+      pragma Debug (Put_Line ("Running ""Finalize"" for ""Dropout2d"""));
       if C.Shadow_Dropout2d /= null then
          Delete_AdaShadowDropout2d (C.Shadow_Dropout2d);
       end if;

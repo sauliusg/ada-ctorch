@@ -41,8 +41,10 @@ new_AdaShadow@LAYER_NAME@ (Ada@LAYER_NAME@ *layer)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow @LAYER_NAME@ object for Ada variable at "
          << layer << endl;
+#endif
     return new (std::nothrow) AdaShadow@LAYER_NAME@ (layer);
 }
 
@@ -52,8 +54,10 @@ new_AdaShadow@LAYER_NAME@_for_options (torch::nn::@LAYER_NAME@Options *options)
     // We will handle allocation failure on the Ada side, no need to
     // throw (raise) and exception here:
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Creating a new shadow @LAYER_NAME@ object from options at "
          << options << endl;
+#endif
     return new (std::nothrow) AdaShadow@LAYER_NAME@ (options);
 }
 
@@ -61,8 +65,10 @@ void
 delete_AdaShadow@LAYER_NAME@ (struct AdaShadow@LAYER_NAME@* shadow_object)
 {
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Deleting the shadow @LAYER_NAME@ object for Ada, object's address is "
          << shadow_object << endl;
+#endif
     delete shadow_object;
 }
 
@@ -71,11 +77,13 @@ AdaShadow@LAYER_NAME@_set_self (struct AdaShadow@LAYER_NAME@* c_side, Ada@LAYER_
 {
     assert (c_side);
     using namespace std;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "Setting self reference to the Ada side '@LAYER_NAME@' object "
          << "at address "
          << ada_side
          << " for the C++ shadow object "
          << c_side << endl;
+#endif
     c_side->ada_@LAYER_NAME_LOWERCASE@ = ada_side;
 }
 
@@ -87,17 +95,21 @@ shadow_register_module_@LAYER_NAME_LOWERCASE@ (struct AdaShadowModule *m,
 {
     using namespace std;
     string name = c_name;
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "@LAYER_NAME@ layer with the name \""
          << c_name
          << "\" is being registered"
          << endl;
-
+#endif
+    
     m->register_module (name, *layer);
 
+#ifdef ADA_CTORCH_DEBUG_PRINT
     cout << "@LAYER_NAME@ layer with the name \""
          << name
          << "\" registered successfully"
          << endl;
+#endif
 }
     
 }; // extern "C"
