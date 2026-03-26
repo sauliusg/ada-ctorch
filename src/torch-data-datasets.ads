@@ -65,7 +65,7 @@ private
    type Shadow_Normalised_MNIST_Access is access Shadow_Normalised_MNIST_Type;
    
    function New_MNIST_Normaliser (Dataset : Shadow_MNIST_Access;
-                                  X, Y : Interfaces.C.double) 
+                                  X, Y : Interfaces.C.double)
                                  return Shadow_Normalised_MNIST_Access
    with Import => True,
      Convention => CPP,
