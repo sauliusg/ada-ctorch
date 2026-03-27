@@ -131,11 +131,16 @@ auto main() -> int {
   auto train_dataset = torch::data::datasets::MNIST(kDataRoot)
                            .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
                            .map(torch::data::transforms::Stack<>());
+
+  std::cout << "train_dataset size = " << train_dataset.size().value() << std::endl;
+
   const size_t train_dataset_size = train_dataset.size().value();
   auto train_loader =
       torch::data::make_data_loader<torch::data::samplers::SequentialSampler>(
           std::move(train_dataset), kTrainBatchSize);
 
+  std::cout << "train_dataset size = " << train_dataset.size().value() << std::endl;
+  
   auto test_dataset = torch::data::datasets::MNIST(
                           kDataRoot, torch::data::datasets::MNIST::Mode::kTest)
                           .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
