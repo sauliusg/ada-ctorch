@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include <typeinfo>
+
 // Where to find the MNIST dataset.
 const char* kDataRoot = "./data";
 
@@ -149,6 +151,8 @@ auto main() -> int {
   auto test_loader =
       torch::data::make_data_loader(std::move(test_dataset), kTestBatchSize);
 
+  std::cout << typeid(test_loader).name() << std::endl;
+  
   torch::optim::SGD optimizer(
       model.parameters(), torch::optim::SGDOptions(0.01).momentum(0.5));
 
