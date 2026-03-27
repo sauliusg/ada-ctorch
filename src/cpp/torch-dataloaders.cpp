@@ -8,11 +8,11 @@
 
 extern "C" {
 
-    struct AdaShadowDataLoaderSequentialSampler {
-        data_loader_sequential_sampler_t dl;
+    struct AdaShadowMNISTDataLoaderSequentialSampler {
+        mnist_data_loader_sequential_sampler_t dl;
 
-        AdaShadowDataLoaderSequentialSampler (mnist_stacked_dataset_t* ds,
-                                              int64_t batch_size)
+        AdaShadowMNISTDataLoaderSequentialSampler(mnist_stacked_dataset_t* ds,
+                                                  int64_t batch_size)
         {
             dl = torch::data::make_data_loader
                 <torch::data::samplers::SequentialSampler>
@@ -21,13 +21,14 @@ extern "C" {
            
     };
     
-    AdaShadowDataLoaderSequentialSampler*
-    new_data_loader_sequential_sampler (mnist_stacked_dataset_t* ds,
-                                        int64_t batch_size,
-                                        ada_c_error_type *err)
+    AdaShadowMNISTDataLoaderSequentialSampler*
+    new_mnist_data_loader_sequential_sampler (mnist_stacked_dataset_t* ds,
+                                              int64_t batch_size,
+                                              ada_c_error_type *err)
     {
         try {
-            return new AdaShadowDataLoaderSequentialSampler (ds, batch_size);
+            return new AdaShadowMNISTDataLoaderSequentialSampler
+                (ds, batch_size);
         }
         catch (c10::Error e) {
             char message [4096];
@@ -46,7 +47,8 @@ extern "C" {
     }
 
     void
-    delete_data_loader_sequential_sampler (AdaShadowDataLoaderSequentialSampler* shadow)
+    delete_mnisTdata_loader_sequential_sampler
+        (AdaShadowMNISTDataLoaderSequentialSampler* shadow)
     {
         delete shadow;
     }

@@ -27,6 +27,6 @@ typedef std::unique_ptr<
                 >
             >
         >
-    data_loader_sequential_sampler_t;
+    mnist_data_loader_sequential_sampler_t;
 
 #endif
