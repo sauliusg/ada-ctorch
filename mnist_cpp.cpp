@@ -143,6 +143,8 @@ auto main() -> int {
 
   std::cout << "train_dataset size = " << train_dataset.size().value() << std::endl;
   
+  std::cout << typeid(train_loader).name() << std::endl;
+
   auto test_dataset = torch::data::datasets::MNIST(
                           kDataRoot, torch::data::datasets::MNIST::Mode::kTest)
                           .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
