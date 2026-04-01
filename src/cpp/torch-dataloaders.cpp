@@ -47,7 +47,7 @@ extern "C" {
     }
 
     void
-    delete_mnisTdata_loader_sequential_sampler
+    delete_mnist_data_loader_sequential_sampler
         (AdaShadowMNISTDataLoaderSequentialSampler* shadow)
     {
         delete shadow;
