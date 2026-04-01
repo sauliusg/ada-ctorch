@@ -8,6 +8,8 @@ package Torch.Data.Dataloaders is
    overriding
    procedure Finalize (L : in out Data_Loader_Type);
    
+   -- function Make_MNIST_Data_Loader 
+   
 private
    
    -- declared and managed on the C++ side:
