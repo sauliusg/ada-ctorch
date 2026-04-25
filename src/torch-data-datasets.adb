@@ -10,15 +10,15 @@ package body Torch.Data.Datasets is
       case C.Kind is
          when Plain =>
             if C.Shadow_MNIST /= null then
-               Delete_Mnist_Dataset (C.Shadow_MNIST);
+               Delete_MNIST_Dataset (C.Shadow_MNIST);
             end if;
          when Normalised =>
             if C.Shadow_Normalised_MNIST /= null then
-               Delete_Mnist_Normaliser (C.Shadow_Normalised_MNIST);
+               Delete_MNIST_Normaliser (C.Shadow_Normalised_MNIST);
             end if;
          when Stacked =>
             if C.Shadow_Stacked_MNIST /= null then
-               Delete_Mnist_Stack (C.Shadow_Stacked_MNIST);
+               Delete_MNIST_Stack (C.Shadow_Stacked_MNIST);
             end if;
       end case;
    end;
