@@ -8,3 +8,4 @@ UInt8_T
 double
 *MNIST
 NN
+*SGD

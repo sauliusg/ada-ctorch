@@ -6,6 +6,8 @@ with Torch.NN; use Torch.NN;
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 with Torch.Data.Datasets.Loaders; use Torch.Data.Datasets.Loaders;
 
+with Torch.Optim;
+
 with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
