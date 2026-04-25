@@ -1,5 +1,4 @@
 ASCII
-CPP
 CR
 LF
 Text_IO
@@ -9,3 +8,4 @@ double
 *MNIST
 NN
 *SGD
+*CPP
