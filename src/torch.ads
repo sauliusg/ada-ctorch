@@ -116,6 +116,8 @@ package Torch is
    
    for DeviceType'Size use 8;
    
+   type Device is new Ada.Finalization.Controlled with private;
+   
    procedure Manual_Seed (Seed : UInt64_T)
      with Import => True,
      Convention => CPP,
@@ -214,5 +216,7 @@ private
    with Import => True, 
      Convention => CPP, 
      External_Name => "tensor_log_softmax";
+   
+   type Device is new Ada.Finalization.Controlled with null record;
    
 end Torch;
