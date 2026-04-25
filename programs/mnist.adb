@@ -81,7 +81,12 @@ procedure MNIST is
    Test_Batch_Size  : constant Int64_T := 1000;
    
    Train_Loader : Data_Loader_Type :=
-     Make_MNIST_Data_Loader (Train_MNIST_Dataset, Train_Batch_Size);
+     Make_Mnist_Data_Loader
+       (
+        Train_MNIST_Dataset,
+        Train_Batch_Size,
+        Mode => Sequential
+       );
    
 begin
    T1 := T2;
