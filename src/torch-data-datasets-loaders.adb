@@ -25,11 +25,10 @@ package body Torch.Data.Datasets.Loaders is
       end case;
    end;
    
-   function Make_Mnist_Data_Loader
+   function Make_MNIST_Random_Data_Loader
      (
       Dataset : MNIST; 
-      Batch_Size : Int64_T;
-      Mode : Data_Loader_Mode
+      Batch_Size : Int64_T
      )
      return Data_Loader_Type is
       
@@ -37,33 +36,18 @@ package body Torch.Data.Datasets.Loaders is
       
    begin
       return Ret : Data_Loader_Type := 
-        (case Mode is
-            when Sequential =>
-              (
-               Ada.Finalization.Limited_Controlled with 
-               Mode => Sequential,
-               Shadow_Sequential_Data_Loader => 
-                 New_MNIST_Data_Loader_Sequential_Sampler
-                   (
-                    Dataset.Shadow_Stacked_MNIST,
-                    Batch_Size,
-                    Err'Unchecked_Access
-                   )
-              ),
-            when Random =>
-              (
-               Ada.Finalization.Limited_Controlled with 
-               Mode => Random,
-               Shadow_Random_Data_Loader => 
-                 -- Note the default sampler used, it is "random" as
-                 -- of the moment of writing (S.G.):
-                 New_MNIST_Data_Loader_Default_Sampler
-                   (
-                    Dataset.Shadow_Stacked_MNIST,
-                    Batch_Size,
-                    Err'Unchecked_Access
-                   )
-              )
+        (
+         Ada.Finalization.Limited_Controlled with 
+         Mode => Random,
+         Shadow_Random_Data_Loader => 
+           -- Note the default sampler used, it is "random" as
+           -- of the moment of writing (S.G.):
+           New_MNIST_Data_Loader_Default_Sampler
+             (
+              Dataset.Shadow_Stacked_MNIST,
+              Batch_Size,
+              Err'Unchecked_Access
+             )
         )
       do
          if Err.Has_Error then
@@ -80,6 +64,64 @@ package body Torch.Data.Datasets.Loaders is
                 " (code " & Err.Error_Code'Image & ")";
          end if;
       end return;
+   end Make_MNIST_Random_Data_Loader;
+   
+   function Make_MNIST_Sequential_Data_Loader
+     (
+      Dataset : MNIST; 
+      Batch_Size : Int64_T
+     )
+     return Data_Loader_Type is
+      
+      Err : aliased Ada_C_Error_Type;
+      
+   begin
+      return Ret : Data_Loader_Type := 
+        (
+         Ada.Finalization.Limited_Controlled with 
+         Mode => Sequential,
+         Shadow_Sequential_Data_Loader => 
+           New_MNIST_Data_Loader_Sequential_Sampler
+             (
+              Dataset.Shadow_Stacked_MNIST,
+              Batch_Size,
+              Err'Unchecked_Access
+             )
+        )
+      do
+         if Err.Has_Error then
+            Put_Line (Standard_Error, 
+                      "STDERR: function """ & Enclosing_Entity & 
+                        """ raised exception " &
+                        To_String (Err.Error_Message) &
+                        " (code " & Err.Error_Code'Image & ")");
+            Ada.Text_Io.Flush;
+            raise PROGRAM_ERROR 
+              with "ERROR, function """ & Enclosing_Entity &
+                """ raised exception " &
+                Trim_Torch_Error_Message (To_String (Err.Error_Message)) &
+                " (code " & Err.Error_Code'Image & ")";
+         end if;
+      end return;
+   end Make_MNIST_Sequential_Data_Loader;
+   
+   function Make_Mnist_Data_Loader
+     (
+      Dataset : MNIST; 
+      Batch_Size : Int64_T;
+      Mode : Data_Loader_Mode
+     )
+     return Data_Loader_Type is
+      
+      Err : aliased Ada_C_Error_Type;
+      
+   begin
+      case Mode is
+         when Sequential =>
+            return Make_MNIST_Sequential_Data_Loader (Dataset, Batch_Size);
+         when Random =>
+            return Make_MNIST_Random_Data_Loader (Dataset, Batch_Size);
+      end case;
    end;
    
 end;
