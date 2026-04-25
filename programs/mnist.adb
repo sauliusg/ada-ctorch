@@ -3,7 +3,8 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 
-with Torch.Data.Datasets;
+with Torch.Data.Datasets; use Torch.Data.Datasets;
+with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
    
@@ -58,6 +59,21 @@ procedure MNIST is
    T1, T2 : Torch.Tensor;
    
    X1, X2, X3 : Torch.Tensor;
+   
+   Root_Dir : constant String :=
+     (if Argument_Count > 0 then Argument (1) else "data/");
+   
+   Train_Mnist_Dataset :  Torch.Data.Datasets.Mnist :=
+     Make_Stacked_Normalised_MNIST (
+                                    Make_MNIST (Root_Dir, Mode => Train),
+                                    0.1307, 0.3081
+                                   );
+   
+   Test_MNIST_Dataset : Torch.Data.Datasets.MNIST := 
+     Make_Stacked_Normalised_MNIST (
+                                    Make_MNIST (Root_Dir, Mode => Test),
+                                    0.1307, 0.3081
+                                   );
    
 begin
    T1 := T2;
