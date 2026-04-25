@@ -88,6 +88,14 @@ procedure MNIST is
         Mode => Sequential
        );
    
+   Test_Loader : Data_Loader_Type :=
+     Make_Mnist_Data_Loader
+       (
+        Test_MNIST_Dataset,
+        Test_Batch_Size,
+        Mode => Random
+       );
+   
 begin
    T1 := T2;
    
