@@ -29,4 +29,30 @@ typedef std::unique_ptr<
         >
     mnist_data_loader_sequential_sampler_t;
 
+typedef std::unique_ptr<
+            torch::data::StatelessDataLoader<
+                torch::data::datasets::MapDataset<
+                    torch::data::datasets::MapDataset<
+                        torch::data::datasets::MNIST,
+                        torch::data::transforms::Normalize<>
+                    >,
+                    torch::data::transforms::Stack<torch::data::Example<>>
+                >,
+                torch::data::samplers::RandomSampler
+            >,
+            std::default_delete<
+                torch::data::StatelessDataLoader<
+                    torch::data::datasets::MapDataset<
+                        torch::data::datasets::MapDataset<
+                            torch::data::datasets::MNIST,
+                            torch::data::transforms::Normalize<>
+                        >,
+                        torch::data::transforms::Stack<torch::data::Example<>>
+                    >,
+                    torch::data::samplers::RandomSampler
+                >
+            >
+        >
+    mnist_data_loader_default_sampler_t;
+
 #endif

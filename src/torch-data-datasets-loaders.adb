@@ -7,9 +7,22 @@ package body Torch.Data.Datasets.Loaders is
    overriding
    procedure Finalize (L : in out Data_Loader_Type) is
    begin
-      if L.Shadow_Data_Loader /= null then
-         Delete_MNIST_Data_Loader_Sequential_Sampler (L.Shadow_Data_Loader);
-      end if;
+      case L.Mode is
+         when Sequential => 
+            if L.Shadow_Sequential_Data_Loader /= null then
+               Delete_MNIST_Data_Loader_Sequential_Sampler
+                 (
+                  L.Shadow_Sequential_Data_Loader
+                 );
+            end if;
+         when Random => 
+            if L.Shadow_Random_Data_Loader /= null then
+               Delete_MNIST_Data_Loader_Default_Sampler
+                 (
+                  L.Shadow_Random_Data_Loader
+                 );
+            end if;
+      end case;
    end;
    
    function Make_Mnist_Data_Loader
@@ -24,17 +37,35 @@ package body Torch.Data.Datasets.Loaders is
       
    begin
       return Ret : Data_Loader_Type := 
-        (
-         Ada.Finalization.Limited_Controlled with 
-         Mode => Mode,
-         Shadow_Data_Loader => 
-           New_MNIST_Data_Loader_Sequential_Sampler
-             (
-              Dataset.Shadow_Stacked_MNIST,
-              Batch_Size,
-              Err'Unchecked_Access
-             )
-        ) do
+        (case Mode is
+            when Sequential =>
+              (
+               Ada.Finalization.Limited_Controlled with 
+               Mode => Sequential,
+               Shadow_Sequential_Data_Loader => 
+                 New_MNIST_Data_Loader_Sequential_Sampler
+                   (
+                    Dataset.Shadow_Stacked_MNIST,
+                    Batch_Size,
+                    Err'Unchecked_Access
+                   )
+              ),
+            when Random =>
+              (
+               Ada.Finalization.Limited_Controlled with 
+               Mode => Random,
+               Shadow_Random_Data_Loader => 
+                 -- Note the default sampler used, it is "random" as
+                 -- of the moment of writing (S.G.):
+                 New_MNIST_Data_Loader_Default_Sampler
+                   (
+                    Dataset.Shadow_Stacked_MNIST,
+                    Batch_Size,
+                    Err'Unchecked_Access
+                   )
+              )
+        )
+      do
          if Err.Has_Error then
             Put_Line (Standard_Error, 
                       "STDERR: function """ & Enclosing_Entity & 
