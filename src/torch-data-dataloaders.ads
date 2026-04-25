@@ -1,4 +1,5 @@
 with Ada.Finalization;
+with Torch.Data.Datasets; use Torch.Data.Datasets;
 
 package Torch.Data.Dataloaders is
    
@@ -8,7 +9,8 @@ package Torch.Data.Dataloaders is
    overriding
    procedure Finalize (L : in out Data_Loader_Type);
    
-   -- function Make_MNIST_Data_Loader 
+   function Make_MNIST_Data_Loader (Dataset : MNIST; Batch_Size : Int64_T)
+                                   return Data_Loader_Type;
    
 private
    
@@ -17,7 +19,7 @@ private
    
    type Shadow_Data_Loader_Access is access all Shadow_Data_Loader_Type;
    
-   type Data_Loader is new Ada.Finalization.Limited_Controlled with record
+   type Data_Loader_Type is new Ada.Finalization.Limited_Controlled with record
       Shadow_Data_Loader : Shadow_Data_Loader_Access;
    end record;
    

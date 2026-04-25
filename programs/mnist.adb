@@ -4,6 +4,8 @@ with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 
 with Torch.Data.Datasets; use Torch.Data.Datasets;
+with Torch.Data.Dataloaders; use Torch.Data.Dataloaders;
+
 with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
@@ -74,6 +76,12 @@ procedure MNIST is
                                     Make_MNIST (Root_Dir, Mode => Test),
                                     0.1307, 0.3081
                                    );
+   
+   Train_Batch_Size : constant Int64_T := 64;
+   Test_Batch_Size  : constant Int64_T := 1000;
+   
+   Train_Loader : Data_Loader_Type :=
+     Make_MNIST_Data_Loader (Train_MNIST_Dataset, Train_Batch_Size);
    
 begin
    T1 := T2;
