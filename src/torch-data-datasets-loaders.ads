@@ -1,7 +1,7 @@
 with Ada.Finalization;
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 
-package Torch.Data.Dataloaders is
+package Torch.Data.Datasets.Loaders is
    
    type Data_Loader_Type is new Ada.Finalization.Limited_Controlled 
      with private;
@@ -25,7 +25,7 @@ private
    
    function New_MNIST_Data_Loader_Sequential_Sampler
      (
-      D : MNIST;
+      D : Shadow_Stacked_MNIST_Access;
       Batch_Size : Int64_T;
       E : Ada_C_Error_Access
      ) return Shadow_Data_Loader_Access

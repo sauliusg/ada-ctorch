@@ -2,7 +2,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNAT.Source_Info; use GNAT.Source_Info;
 
-package body Torch.Data.Dataloaders is
+package body Torch.Data.Datasets.Loaders is
    
    overriding
    procedure Finalize (L : in out Data_Loader_Type) is
@@ -22,7 +22,8 @@ package body Torch.Data.Dataloaders is
          Shadow_Data_Loader => 
            New_MNIST_Data_Loader_Sequential_Sampler
              (
-              Dataset, Batch_Size,
+              Dataset.Shadow_Stacked_MNIST,
+              Batch_Size,
               Err'Unchecked_Access
              )
         ) do
