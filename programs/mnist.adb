@@ -12,7 +12,7 @@ with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
    
-   Device : Torch.Device_Kind_Type := Torch.CPU;
+   Device_Kind : Torch.Device_Kind_Type := Torch.CPU;
    
    type Net_Type is new Torch.NN.Module with record
       Conv1   : Torch.NN.Conv2d := Make_Conv2d (1,  10, Kernel_Size => 5);
@@ -98,6 +98,8 @@ procedure MNIST is
         Mode => Random
        );
    
+   Device : Device_Type := Make_Device (Device_Kind);
+   
 begin
    T1 := T2;
    
@@ -115,7 +117,9 @@ begin
    Put_Line ("X1 Refcount: " & Integer'Image (Torch.Refcount (X1)));
    Put_Line ("X2 Refcount: " & Integer'Image (Torch.Refcount (X2)));
    
+   Put_Line (Device_Kind'Size'Image);
    Put_Line (Device'Size'Image);
+   
    Torch.Manual_Seed (1);
    Put_Line ("Random number generator initialised from Ada");
 end MNIST;

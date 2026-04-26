@@ -126,6 +126,9 @@ package Torch is
    overriding
    procedure Finalize (D : in out Device_Type);
    
+   function Make_Device (Kind : Device_Kind_Type; Idx : Int8_T := -1) 
+                        return Device_Type;
+   
    -- -------------------------------------------------------------------------
    
    procedure Manual_Seed (Seed : UInt64_T)

@@ -201,4 +201,20 @@ package body Torch is
       end if;
    end;   
 
+   function Make_Device (Kind : Device_Kind_Type; Idx : Int8_T := -1)
+                        return Device_Type is
+   begin
+      return Ret : Device_Type := 
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_Device => New_Torch_Shadow_Device (Kind, Idx)
+        )
+      do
+         if Ret.Shadow_Device = null then
+            raise Storage_Error with "Could not create new torch::Device " &
+              "on the C++ side in """ & Enclosing_Entity & """";
+         end if;
+      end return;
+   end;
+   
 end;
