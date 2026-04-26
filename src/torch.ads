@@ -11,6 +11,9 @@ package Torch is
    
    subtype Int64_T is Long_Integer range -2**31 .. 2**31-1;
    
+   type Int8_T is new Short_Integer range -128 .. 127;
+   for Int8_T'Size use 8;
+   
    type Integer_Array is array (Int64_T range <>) of Integer;
    type Int64_Array is array (Int64_T range <>) of Int64_T;
    
@@ -58,7 +61,7 @@ package Torch is
    function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor;
    
    -- from /home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/c10/core/DeviceType.h:
-   type DeviceType is
+   type Device_Kind_Type is
      (
       CPU,
       CUDA,
@@ -84,7 +87,7 @@ package Torch is
       COMPILE_TIME_MAX_DEVICE_TYPES
      );
    
-   for DeviceType use
+   for Device_Kind_Type use
      (
       CPU    => 0,
       CUDA   => 1,  -- CUDA.
@@ -114,9 +117,16 @@ package Torch is
       COMPILE_TIME_MAX_DEVICE_TYPES => 21
      );
    
-   for DeviceType'Size use 8;
+   for Device_Kind_Type'Size use 8;
    
-   type Device is new Ada.Finalization.Controlled with private;
+   -- -------------------------------------------------------------------------
+   
+   type Device_Type is new Ada.Finalization.Limited_Controlled with private;
+   
+   overriding
+   procedure Finalize (D : in out Device_Type);
+   
+   -- -------------------------------------------------------------------------
    
    procedure Manual_Seed (Seed : UInt64_T)
      with Import => True,
@@ -217,6 +227,26 @@ private
      Convention => CPP, 
      External_Name => "tensor_log_softmax";
    
-   type Device is new Ada.Finalization.Controlled with null record;
+   -- -------------------------------------------------------------------------
+   
+   -- Declared anad managed on the C++ side:
+   type Shadow_Torch_Device_Type is null record;
+   
+   type Shadow_Torch_Device_Access is access Shadow_Torch_Device_Type;
+   
+   type Device_Type is new Ada.Finalization.Limited_Controlled with record
+      Shadow_Device : Shadow_Torch_Device_Access;
+   end record;
+   
+   function New_Torch_Shadow_Device (K : Device_Kind_Type; Idx : Int8_T := -1)
+                                    return Shadow_Torch_Device_Access
+   with Import => True,
+     Convention => CPP,
+     External_Name => "new_torch_device";
+   
+   procedure Delete_Torch_Shadow_Device (D : Shadow_Torch_Device_Access)
+   with Import => True,
+     Convention => CPP,
+     External_Name => "new_torch_device";
    
 end Torch;

@@ -12,7 +12,7 @@ with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
    
-   Device : Torch.DeviceType := Torch.CPU;
+   Device : Torch.Device_Kind_Type := Torch.CPU;
    
    type Net_Type is new Torch.NN.Module with record
       Conv1   : Torch.NN.Conv2d := Make_Conv2d (1,  10, Kernel_Size => 5);

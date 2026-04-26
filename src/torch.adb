@@ -190,4 +190,15 @@ package body Torch is
       return Ret;
    end;
    
+   -- -------------------------------------------------------------------------
+   -- Device_Type:
+   
+   overriding
+   procedure Finalize (D : in out Device_Type) is
+   begin
+      if D.Shadow_Device = null then
+         Delete_Torch_Shadow_Device (D.Shadow_Device);
+      end if;
+   end;   
+
 end;
