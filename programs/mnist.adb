@@ -32,7 +32,7 @@ procedure MNIST is
    begin
       pragma Debug (Put_Line (">> Initialising Net_Type"));
       Initialize (Torch.NN.Module (N));
-      pragma Debug (Put_Line (">> Registering a convolutional layers"));
+      pragma Debug (Put_Line (">> Registering convolutional layers"));
       N.Register_Module ("Conv1", N.Conv1);
       N.Register_Module ("Conv2", N.Conv2);
       N.Register_Module ("Drop", N.Dropout);
