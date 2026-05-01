@@ -1,5 +1,6 @@
 // uses:
 #include <torch/torch.h>
+#include <assert.h>
 
 extern "C" {
 
@@ -15,4 +16,11 @@ extern "C" {
         delete opt;
     }    
 
+    void
+    set_momentum(torch::optim::SGDOptions* opt, double m)
+    {
+        assert(opt);
+        opt->momentum(m);
+    }
+    
 }; // extern "C"

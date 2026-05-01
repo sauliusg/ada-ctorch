@@ -10,14 +10,19 @@ package Torch.Optim is
    overriding
    procedure Finalize (SGD : in out SGD_Type);
    
+   -- -------------------------------------------------------------------------
+   
    type SGD_Options_Type is new Ada.Finalization.Limited_Controlled with 
      private;
    
    overriding
    procedure Finalize (SGD : in out SGD_Options_Type);
    
-   function Make_SDG_Options (Learning_Rate : Long_Float)
+   function Make_SGD_Options (Learning_Rate : Long_Float)
                              return SGD_Options_Type;
+   
+   procedure Set_Momentum (SGD : in out SGD_Options_Type;
+                           Momentum : Long_Float);
    
 private
    
@@ -55,7 +60,13 @@ private
    procedure Delete_Shadow_SGD_Options (O : Shadow_SGD_Options_Access)
    with
      Import => True, 
-     Convention => CPP, 
+     Convention => CPP,
      External_Name => "delete_sgd_options";
+   
+   procedure Set_Momentum (O : Shadow_SGD_Options_Access; Momentum : Double)
+   with
+     Import => True, 
+     Convention => CPP,
+     External_Name => "set_momentum";
    
 end;
