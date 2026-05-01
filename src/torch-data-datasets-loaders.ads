@@ -9,8 +9,40 @@ package Torch.Data.Datasets.Loaders is
    
    type Data_Loader_Mode is (Sequential, Random);
    
+   type Batch_Type is private;
+   
+   type Batch_Cursor_Type is private;   
+   
+   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean;
+   
+   package Data_Loader_Iterator_Interface is
+     new Ada.Iterator_Interfaces (Batch_Cursor_Type, Has_Element);   
+      
    type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
-     tagged limited private;
+     tagged limited private
+   with
+     Default_Iterator => Iterate,
+     Iterator_Element => Batch_Type,
+     Variable_Indexing => Batch_Reference;
+   
+   function Iterate (D : Data_Loader_Type)
+                    return Data_Loader_Iterator_Interface
+                      .Forward_Iterator'Class;
+   
+   type Batch_Reference_Type (Batch : not null access Batch_Type) is null record
+   with
+     Implicit_Dereference => Batch;
+   
+   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
+                                 return Batch_Reference_Type;
+   
+   function Batch_Reference
+     (
+      Loader   : aliased in out Data_Loader_Type;
+      Position : in Batch_Cursor_Type
+     ) return Batch_Reference_Type;
+   
+   -- -------------------------------------------------------------------------
    
    function Make_Mnist_Data_Loader
      (
@@ -19,8 +51,6 @@ package Torch.Data.Datasets.Loaders is
       Mode : Data_Loader_Mode
      )
      return Data_Loader_Type;
-   
-   type Batch_Cursor_Type is private;   
    
 private
    
@@ -56,11 +86,6 @@ private
             
          end case;
       end record;
-   -- with
-   --   Default_Iterator => Iterate,
-   --   Iterator_Element => Batch_Type,
-   --   Indexing => Batch_Value,
-   --   Constant_Indexing => Batch_Constant_Value;
 
    overriding
    procedure Finalize (L : in out Data_Loader_Type);
@@ -69,22 +94,6 @@ private
    -- Iterator infrastructure:
    
    type Batch_Cursor_Record is null record;
-   
-   type Batch_Reference_Type (Batch : not null access Batch_Type) is null record
-   with
-     Implicit_Dereference => Batch;
-   
-   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
-                                 return Batch_Reference_Type;
-   
-   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean;
-   
-   package Data_Loader_Iterator_Interface is
-     new Ada.Iterator_Interfaces (Batch_Cursor_Type, Has_Element);   
-      
-   function Iterate (D : Data_Loader_Type)
-                    return Data_Loader_Iterator_Interface
-                      .Forward_Iterator'Class;
    
    -- Changing the location of the Batch_Cursor_Type declaration leads
    -- to obscure compilation errors:

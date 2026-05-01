@@ -162,6 +162,18 @@ package body Torch.Data.Datasets.Loaders is
       return Data_Loader_Iterator_Interface.Cursor (Position);
    end;
    
+   -- Just for testing:
+   Batch : aliased Batch_Type;
+   
+   function Batch_Reference
+     (
+      Loader   : aliased in out Data_Loader_Type;
+      Position : in Batch_Cursor_Type
+     ) return Batch_Reference_Type is
+   begin
+      return (Batch => Batch'Access);
+   end;
+   
    -- -------------------------------------------------------------------------
    
    function Iterate (D : Data_Loader_Type)
