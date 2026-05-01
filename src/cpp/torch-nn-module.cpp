@@ -53,5 +53,17 @@ uint8_t module_is_training (struct AdaShadowModule* shadow_module)
 {
     return shadow_module->is_training();
 }
+
+    std::vector<torch::Tensor>*
+    new_parameters(struct AdaShadowModule* shadow_module)
+    {
+        return new std::vector<torch::Tensor> (shadow_module->parameters());
+    }
+
+    void
+    delete_parameters(std::vector<torch::Tensor>* parameters)
+    {
+        delete parameters;
+    }
     
 }; // extern "C"
