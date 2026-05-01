@@ -11,9 +11,9 @@ extern "C" {
     }
 
     void
-    delete_vector_of_tensor(std::vector<torch::Tensor>* parameters)
+    delete_vector_of_tensor(std::vector<torch::Tensor>* vector)
     {
-        delete parameters;
+        delete vector;
     }
     
 }; // extern "C"
