@@ -20,9 +20,9 @@ extern "C" {
     // ------------------------------------------------------------------------
     
     torch::optim::SGDOptions*
-    new_sgd_options(double x)
+    new_sgd_options(double lr)
     {
-        return new (std::nothrow) torch::optim::SGDOptions(x);
+        return new (std::nothrow) torch::optim::SGDOptions(lr);
     }
 
     void
