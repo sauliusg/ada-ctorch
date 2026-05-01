@@ -21,11 +21,18 @@ package body Torch.Optim is
    function Make_SGD_Options (Learning_Rate : Long_Float)
                              return SGD_Options_Type is
    begin
-      return
+      return Ret : SGD_Options_Type :=
         (
          Ada.Finalization.Limited_Controlled with
          Shadow_SGD_Options => New_Shadow_SGD_Options (Double (Learning_Rate))
-        );
+        )
+      do 
+         if Ret.Shadow_SGD_Options = null then
+            raise Storage_Error with "Could not create new " &
+              "torch::optim::SGDOptions " &
+              "on the C++ side in """ & Enclosing_Entity & """";
+         end if;
+      end return;
    end;
    
    procedure Set_Momentum (SGD : in out SGD_Options_Type; Momentum : Long_Float) is
