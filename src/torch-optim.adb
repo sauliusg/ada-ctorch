@@ -19,7 +19,7 @@ package body Torch.Optim is
    begin
       return
         (
-         Ada.Finalization.Controlled with
+         Ada.Finalization.Limited_Controlled with
          Shadow_SGD_Options => New_Shadow_SGD_Options (Double (X))
         );
    end;

@@ -4,12 +4,14 @@ with Interfaces.C;
 
 package Torch.Optim is
    
-   type SGD_Type is new Ada.Finalization.Controlled with private;
+   type SGD_Type is new Ada.Finalization.Limited_Controlled with
+     private;
    
    overriding
    procedure Finalize (SGD : in out SGD_Type);
    
-   type SGD_Options_Type is new Ada.Finalization.Controlled with private;
+   type SGD_Options_Type is new Ada.Finalization.Limited_Controlled with 
+     private;
    
    overriding
    procedure Finalize (SGD : in out SGD_Options_Type);
@@ -23,7 +25,7 @@ private
 
    type Shadow_SGD_Access is access Shadow_SGD_Type;
    
-   type SGD_Type is new Ada.Finalization.Controlled with 
+   type SGD_Type is new Ada.Finalization.Limited_Controlled with
       record
          Shadow_SGD : Shadow_SGD_Access;
       end record;
@@ -35,7 +37,7 @@ private
    
    type Shadow_SGD_Options_Access is access Shadow_SGD_Options_Type;
    
-   type SGD_Options_Type is new Ada.Finalization.Controlled with
+   type SGD_Options_Type is new Ada.Finalization.Limited_Controlled with
       record
          Shadow_SGD_Options : Shadow_SGD_Options_Access;
       end record;
