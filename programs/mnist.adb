@@ -100,6 +100,8 @@ procedure MNIST is
    
    Device : Device_Type := Make_Device (Device_Kind);
    
+   Optimiser : Torch.Optim.SGD_Type;
+   
 begin
    T1 := T2;
    

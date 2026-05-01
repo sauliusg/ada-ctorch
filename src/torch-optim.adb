@@ -8,6 +8,28 @@ package body Torch.Optim is
       null;
    end;
    
+   function Make_SGD_Optimiser (Parameters : Vector_Of_Tensor_Type;
+                                Options : SGD_Options_Type)
+                               return SGD_Type is
+   begin
+      return Ret : SGD_Type :=
+        (
+         Ada.Finalization.Limited_Controlled with
+         Shadow_SGD => New_SGD
+           (
+            Parameters => Parameters.Shadow_Vector,
+            Options    => Options.Shadow_SGD_Options
+           )
+        )
+      do
+         if Ret.Shadow_SGD = null then
+            raise Storage_Error with
+              "Cold not allocate new shadow SGD optimiser on the C++ side " &
+              "in """ & Enclosing_Entity & """";
+         end if;
+      end return;
+   end;
+   
    -- -------------------------------------------------------------------------
    
    overriding

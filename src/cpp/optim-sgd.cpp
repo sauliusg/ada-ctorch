@@ -12,7 +12,7 @@ extern "C" {
     }
 
     void
-    delete_sgd(torch::optim::SGDOptions* sgd)
+    delete_sgd(torch::optim::SGD* sgd)
     {
         delete sgd;
     }
