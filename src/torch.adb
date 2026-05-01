@@ -217,4 +217,27 @@ package body Torch is
       end return;
    end;
    
+   -- -------------------------------------------------------------------------
+   -- Vector_Of_Tensor_Type
+   
+   overriding
+   procedure Finalize (V : in out Vector_Of_Tensor_Type) is
+   begin
+      if V.Shadow_Vector /= null then
+         Delete_Vector_Of_Tensor (V.Shadow_Vector);
+      end if;
+   end;
+   
+   overriding
+   procedure Adjust (V : in out Vector_Of_Tensor_Type) is
+   begin
+      if V.Shadow_Vector /= null then
+         V.Shadow_Vector := New_Vector_Of_Tensor (V.Shadow_Vector);
+         if V.Shadow_Vector = null then
+            raise Storage_Error with "Could not clone std::vector<torch::Tensor> " &
+              "on the C++ side in """ & Enclosing_Entity & """";
+         end if;
+      end if;
+   end;
+   
 end;

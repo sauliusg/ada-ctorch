@@ -60,6 +60,12 @@ package Torch is
       
    function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor;
    
+   -- -------------------------------------------------------------------------
+   
+   type Vector_Of_Tensor_Type is private;
+   
+   -- -------------------------------------------------------------------------
+   
    -- from /home/saulius/install/pytorch/pytorch-main-commit-d3d655ad14e/include/c10/core/DeviceType.h:
    type Device_Kind_Type is
      (
@@ -251,5 +257,36 @@ private
    with Import => True,
      Convention => CPP,
      External_Name => "new_torch_device";
+   
+   -- -------------------------------------------------------------------------
+   
+   -- Declared and controlled on the C++ side:
+   type Shadow_Vector_Of_Tensor_Type is null record;
+   
+   type Shadow_Vector_Of_Tensor_Access is access Shadow_Vector_Of_Tensor_Type;
+   
+   function New_Vector_Of_Tensor (V : Shadow_Vector_Of_Tensor_Access)
+                                 return Shadow_Vector_Of_Tensor_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_vector_of_tensor";
+   
+   procedure Delete_Vector_Of_Tensor (V : Shadow_Vector_Of_Tensor_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "delete_vector_of_tensor";
+   
+   type Vector_Of_Tensor_Type is new Ada.Finalization.Controlled with
+      record
+         Shadow_Vector : Shadow_Vector_Of_Tensor_Access;
+      end record;
+   
+   overriding
+   procedure Finalize (V : in out Vector_Of_Tensor_Type);
+   
+   overriding
+   procedure Adjust (V : in out Vector_Of_Tensor_Type);
    
 end Torch;

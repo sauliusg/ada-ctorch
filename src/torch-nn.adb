@@ -430,4 +430,27 @@ package body Torch.NN is
                               Layer.Shadow_Dropout2d);
    end;
    
+   function New_Parameters (S : Shadow_Module_Access) 
+                           return Shadow_Vector_Of_Tensor_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_parameters";
+   
+   function Parameters (M : Module) return Vector_Of_Tensor_Type is
+   begin
+      return Ret : Vector_Of_Tensor_Type :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Vector => New_Parameters (M.Shadow_Module)
+        )
+      do
+         if Ret. Shadow_Vector = null then
+            raise Storage_Error with
+              "Cold not allocate new module parameters on the C++ side " &
+              "in """ & Enclosing_Entity & """";
+         end if;
+      end return;
+   end;
+   
 end;

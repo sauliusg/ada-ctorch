@@ -57,11 +57,19 @@ extern "C" {
     std::vector<torch::Tensor>*
     new_parameters(struct AdaShadowModule* shadow_module)
     {
-        return new std::vector<torch::Tensor> (shadow_module->parameters());
+        return new (std::nothrow)
+            std::vector<torch::Tensor> (shadow_module->parameters());
+    }
+
+    std::vector<torch::Tensor>*
+    new_vector_of_tensor(std::vector<torch::Tensor>* vector)
+    {
+        return new (std::nothrow)
+            std::vector<torch::Tensor> (*vector);
     }
 
     void
-    delete_parameters(std::vector<torch::Tensor>* parameters)
+    delete_vector_of_tensor(std::vector<torch::Tensor>* parameters)
     {
         delete parameters;
     }
