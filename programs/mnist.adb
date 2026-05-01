@@ -56,9 +56,7 @@ procedure MNIST is
       return Torch.Log_Softmax (Y, Dim => 1);
    end;
    
-   Net : Torch.NN.Module;
-   
-   Net1 : Net_Type;
+   Net : Net_Type;
    
    T1, T2 : Torch.Tensor;
    
@@ -101,7 +99,7 @@ procedure MNIST is
    Device : Device_Type := Make_Device (Device_Kind);
    
    Optimiser : Torch.Optim.SGD_Type :=
-     Make_SGD_Optimiser (Net1.Parameters,
+     Make_SGD_Optimiser (Net.Parameters,
                          Make_SGD_Options
                            (
                             Learning_Rate => 0.01,
