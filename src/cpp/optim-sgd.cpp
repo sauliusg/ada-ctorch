@@ -4,6 +4,21 @@
 
 extern "C" {
 
+    torch::optim::SGD*
+    new_sgd(std::vector<torch::Tensor> *parameters,
+            torch::optim::SGDOptions *options)
+    {
+        return new (std::nothrow) torch::optim::SGD(*parameters, *options);
+    }
+
+    void
+    delete_sgd(torch::optim::SGDOptions* sgd)
+    {
+        delete sgd;
+    }
+    
+    // ------------------------------------------------------------------------
+    
     torch::optim::SGDOptions*
     new_sgd_options(double x)
     {
