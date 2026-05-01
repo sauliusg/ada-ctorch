@@ -11,7 +11,9 @@ package body Torch.Optim is
    overriding
    procedure Finalize (SGD : in out SGD_Options_Type) is
    begin
-      null;
+      if SGD.Shadow_SGD_Options /= null then
+         Delete_Shadow_SGD_Options (Sgd.Shadow_SGD_Options);
+      end if;
    end;
    
    function Make_SDG_Options (X : Long_Float) return SGD_Options_Type is
