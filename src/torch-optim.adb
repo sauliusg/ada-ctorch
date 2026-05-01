@@ -12,7 +12,7 @@ package body Torch.Optim is
    procedure Finalize (SGD : in out SGD_Options_Type) is
    begin
       if SGD.Shadow_SGD_Options /= null then
-         Delete_Shadow_SGD_Options (Sgd.Shadow_SGD_Options);
+         Delete_Shadow_SGD_Options (SGD.Shadow_SGD_Options);
       end if;
    end;
    
