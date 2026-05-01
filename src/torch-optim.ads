@@ -21,6 +21,10 @@ package Torch.Optim is
    function Make_SGD_Options (Learning_Rate : Long_Float)
                              return SGD_Options_Type;
    
+   function Make_SGD_Options (Learning_Rate : Long_Float;
+                              Momentum : Long_Float)
+                             return SGD_Options_Type;
+   
    procedure Set_Momentum (SGD : in out SGD_Options_Type;
                            Momentum : Long_Float);
    
