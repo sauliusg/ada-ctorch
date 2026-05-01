@@ -107,6 +107,32 @@ procedure MNIST is
                            )
                         );
    
+   procedure Train
+     (
+      Epoch  : Long_Integer;
+      Model  : Net_Type;
+      Device : Device_Type;
+      Loader : Data_Loader_Type;
+      Optimiser    : Torch.Optim.SGD_Type;
+      Dataset_Size : Long_Integer
+     )
+   is
+   begin
+      null;
+   end;
+   
+   procedure Test
+     (
+      Model  : Net_Type;
+      Device : Device_Type;
+      Loader : Data_Loader_Type;
+      Dataset_Size : Long_Integer
+     )
+   is
+   begin
+      null;
+   end;
+   
 begin
    T1 := T2;
    
