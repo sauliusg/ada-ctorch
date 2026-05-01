@@ -5,7 +5,9 @@ package body Torch.Optim is
    overriding
    procedure Finalize (SGD : in out SGD_Type) is
    begin
-      null;
+      if SGD.Shadow_SGD = null then
+         Delete_SGD (SGD.Shadow_SGD);
+      end if;
    end;
    
    function Make_SGD_Optimiser (Parameters : Vector_Of_Tensor_Type;
