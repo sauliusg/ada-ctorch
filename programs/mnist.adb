@@ -6,7 +6,7 @@ with Torch.NN; use Torch.NN;
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 with Torch.Data.Datasets.Loaders; use Torch.Data.Datasets.Loaders;
 
-with Torch.Optim;
+with Torch.Optim; use Torch.Optim;
 
 with Ada.Command_Line; use Ada.Command_Line;
 
@@ -100,7 +100,14 @@ procedure MNIST is
    
    Device : Device_Type := Make_Device (Device_Kind);
    
-   Optimiser : Torch.Optim.SGD_Type;
+   Optimiser : Torch.Optim.SGD_Type :=
+     Make_SGD_Optimiser (Net1.Parameters,
+                         Make_SGD_Options
+                           (
+                            Learning_Rate => 0.01,
+                            Momentum      => 0.5
+                           )
+                        );
    
 begin
    T1 := T2;

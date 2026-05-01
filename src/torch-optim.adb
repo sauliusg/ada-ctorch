@@ -9,7 +9,7 @@ package body Torch.Optim is
    end;
    
    function Make_SGD_Optimiser (Parameters : Vector_Of_Tensor_Type;
-                                Options : SGD_Options_Type)
+                                Options : SGD_Options_Type'Class)
                                return SGD_Type is
    begin
       return Ret : SGD_Type :=

@@ -14,6 +14,8 @@ package Torch.NN is
    
    function Is_Training (Self : in Module) return Boolean;
    
+   function Parameters (M : Module) return Vector_Of_Tensor_Type;
+     
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;

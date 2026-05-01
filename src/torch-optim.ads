@@ -4,8 +4,6 @@ with Interfaces.C;
 
 package Torch.Optim is
    
-   type SGD_Type is tagged limited private;
-   
    -- -------------------------------------------------------------------------
    
    type SGD_Options_Type is new Ada.Finalization.Limited_Controlled with 
@@ -23,6 +21,14 @@ package Torch.Optim is
    
    procedure Set_Momentum (SGD : in out SGD_Options_Type;
                            Momentum : Long_Float);
+   
+   -- -------------------------------------------------------------------------
+   
+   type SGD_Type is tagged limited private;
+   
+   function Make_SGD_Optimiser (Parameters : Vector_Of_Tensor_Type;
+                                Options : SGD_Options_Type'Class)
+                               return SGD_Type;
    
 private
    
