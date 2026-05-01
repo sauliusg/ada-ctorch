@@ -16,7 +16,8 @@ package Torch.Optim is
    overriding
    procedure Finalize (SGD : in out SGD_Options_Type);
    
-   function Make_SDG_Options (X : Long_Float) return SGD_Options_Type;
+   function Make_SDG_Options (Learning_Rate : Long_Float)
+                             return SGD_Options_Type;
    
 private
    
@@ -44,7 +45,8 @@ private
    
    subtype Double is Interfaces.C.double;
    
-   function New_Shadow_SGD_Options (X : Double) return Shadow_SGD_Options_Access
+   function New_Shadow_SGD_Options (Learning_Rate : Double)
+                                   return Shadow_SGD_Options_Access
    with
      Import => True, 
      Convention => CPP, 

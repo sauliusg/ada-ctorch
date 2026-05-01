@@ -16,13 +16,14 @@ package body Torch.Optim is
       end if;
    end;
    
-   function Make_SDG_Options (X : Long_Float) return SGD_Options_Type is
+   function Make_SDG_Options (Learning_Rate : Long_Float)
+                             return SGD_Options_Type is
       subtype Double is Interfaces.C.double;
    begin
       return
         (
          Ada.Finalization.Limited_Controlled with
-         Shadow_SGD_Options => New_Shadow_SGD_Options (Double (X))
+         Shadow_SGD_Options => New_Shadow_SGD_Options (Double (Learning_Rate))
         );
    end;
 
