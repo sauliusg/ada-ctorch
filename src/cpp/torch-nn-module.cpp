@@ -27,32 +27,32 @@ torch::Tensor AdaShadowModule::forward(torch::Tensor x) {
 
 extern "C" {
 
-struct AdaShadowModule* new_AdaShadowModule (AdaModule *module)
-{
-    // We will handle allocation failure on the Ada side, no need to
-    // throw (raise) and exception here:
-    using namespace std;
+    struct AdaShadowModule* new_AdaShadowModule (AdaModule *module)
+    {
+        // We will handle allocation failure on the Ada side, no need to
+        // throw (raise) and exception here:
+        using namespace std;
 #ifdef ADA_CTORCH_DEBUG_PRINT
-    cout << "Creating a new shadow Module object for Ada variable at "
-         << module << endl;
+        cout << "Creating a new shadow Module object for Ada variable at "
+             << module << endl;
 #endif
-    return new (std::nothrow) AdaShadowModule (module);
-}
+        return new (std::nothrow) AdaShadowModule (module);
+    }
 
-void delete_AdaShadowModule (struct AdaShadowModule* shadow_module)
-{
-    using namespace std;
+    void delete_AdaShadowModule (struct AdaShadowModule* shadow_module)
+    {
+        using namespace std;
 #ifdef ADA_CTORCH_DEBUG_PRINT
-    cout << "Deleting the shadow Module object for Ada, object's address is "
-         << shadow_module << endl;
+        cout << "Deleting the shadow Module object for Ada, object's address is "
+             << shadow_module << endl;
 #endif
-    delete shadow_module;
-}
+        delete shadow_module;
+    }
 
-uint8_t module_is_training (struct AdaShadowModule* shadow_module)
-{
-    return shadow_module->is_training();
-}
+    uint8_t module_is_training (struct AdaShadowModule* shadow_module)
+    {
+        return shadow_module->is_training();
+    }
 
     std::vector<torch::Tensor>*
     new_parameters(struct AdaShadowModule* shadow_module)
