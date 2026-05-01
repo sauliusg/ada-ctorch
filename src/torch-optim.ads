@@ -82,15 +82,15 @@ private
    overriding
    procedure Finalize (SGD : in out SGD_Type);
    
-   function New_SGD (Parameters : Shadow_Vector_Of_Tensor_Access;
-                     Options : Shadow_SGD_Options_Access)
-                    return Shadow_SGD_Access
+   function New_Shadow_SGD (Parameters : Shadow_Vector_Of_Tensor_Access;
+                            Options : Shadow_SGD_Options_Access)
+                           return Shadow_SGD_Access
    with
      Import => True,
      Convention => CPP,
      External_Name => "new_sgd";
    
-   procedure Delete_SGD (S : Shadow_SGD_Access)
+   procedure Delete_Shadow_SGD (S : Shadow_SGD_Access)
    with
      Import => True,
      Convention => CPP,

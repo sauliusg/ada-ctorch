@@ -6,7 +6,7 @@ package body Torch.Optim is
    procedure Finalize (SGD : in out SGD_Type) is
    begin
       if SGD.Shadow_SGD = null then
-         Delete_SGD (SGD.Shadow_SGD);
+         Delete_Shadow_SGD (SGD.Shadow_SGD);
       end if;
    end;
    
@@ -17,7 +17,7 @@ package body Torch.Optim is
       return Ret : SGD_Type :=
         (
          Ada.Finalization.Limited_Controlled with
-         Shadow_SGD => New_SGD
+         Shadow_SGD => New_Shadow_SGD
            (
             Parameters => Parameters.Shadow_Vector,
             Options    => Options.Shadow_SGD_Options
