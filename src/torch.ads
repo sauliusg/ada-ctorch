@@ -17,37 +17,19 @@ package Torch is
    type Integer_Array is array (Int64_T range <>) of Integer;
    type Int64_Array is array (Int64_T range <>) of Int64_T;
    
-   type Tensor is new Ada.Finalization.Controlled with private;
+   -- -------------------------------------------------------------------------
+   -- Tensor
    
-   overriding
-   procedure Initialize (M : in out Tensor);
-   
-   overriding
-   procedure Adjust (M : in out Tensor);
-   
-   overriding
-   procedure Finalize (M : in out Tensor);
-   
-   type Shadow_Tensor_Type is limited private;
-   
-   type Shadow_Tensor_Access is access Shadow_Tensor_Type;
+   type Tensor is tagged private;
    
    function Refcount (M : Tensor) return Integer;
 
-   -- Copy the Src C++ tensor to the Dst tensor using the C++
-   --  assignment operator on the C++ side:
-   procedure Copy (Dst, Src : Shadow_Tensor_Access)
-     with Import => True,
-     Convention => CPP,
-     External_Name => "tensor_copy";
+   -- Copy the Src C++ tensor to the Dst tensor. Uses the C++
+   --  assignment operator on the C++ side under the hood:
    
    procedure Copy (Dst, Src : in out Tensor);
    
-   procedure Copy (Dst : in out Tensor; Src : Shadow_Tensor_Access);
-   
-   procedure Copy (Dst : Shadow_Tensor_Access; Src : in Tensor);
-   
-   -- Tensor update functions impoerted from the C++ code:
+   -- Tensor update functions imported from the C++ code:
    
    function Relu (X : Tensor) return Tensor;
    
@@ -144,12 +126,36 @@ package Torch is
    
 private
    
-   type Shadow_Tensor_Type is null record; -- Declared in full and managed on the C++ side
+    -- Declared in full and managed on the C++ side:
+   
+   type Shadow_Tensor_Type is null record;
+   
+   type Shadow_Tensor_Access is access Shadow_Tensor_Type;
    
    type Tensor is new Ada.Finalization.Controlled with record
      Shadow_Tensor : Shadow_Tensor_Access;
    end record;
 
+   overriding
+   procedure Initialize (M : in out Tensor);
+   
+   overriding
+   procedure Adjust (M : in out Tensor);
+   
+   overriding
+   procedure Finalize (M : in out Tensor);
+   
+   -- Copy the Src C++ tensor to the Dst tensor using the C++
+   --  assignment operator on the C++ side:
+   procedure Copy (Dst, Src : Shadow_Tensor_Access)
+     with Import => True,
+     Convention => CPP,
+     External_Name => "tensor_copy";
+   
+   procedure Copy (Dst : in out Tensor; Src : Shadow_Tensor_Access);
+   
+   procedure Copy (Dst : Shadow_Tensor_Access; Src : in Tensor);
+   
    function New_AdaShadowTensor return Shadow_Tensor_Access
      with Import => True,
      Convention => CPP,
