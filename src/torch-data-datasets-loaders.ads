@@ -1,7 +1,11 @@
 with Ada.Finalization;
+with Ada.Iterator_Interfaces;
+
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 
 package Torch.Data.Datasets.Loaders is
+   
+   -- -------------------------------------------------------------------------
    
    type Data_Loader_Mode is (Sequential, Random);
    
@@ -16,7 +20,15 @@ package Torch.Data.Datasets.Loaders is
      )
      return Data_Loader_Type;
    
+   type Batch_Cursor_Type is private;   
+   
 private
+   
+   -- -------------------------------------------------------------------------
+   
+   type Batch_Type is null record;
+   
+   -- -------------------------------------------------------------------------
    
    -- declared and managed on the C++ side:
    type Shadow_Data_Sequential_Loader_Type is null record;
@@ -44,9 +56,42 @@ private
             
          end case;
       end record;
+   -- with
+   --   Default_Iterator => Iterate,
+   --   Iterator_Element => Batch_Type,
+   --   Indexing => Batch_Value,
+   --   Constant_Indexing => Batch_Constant_Value;
 
    overriding
    procedure Finalize (L : in out Data_Loader_Type);
+   
+   -- -------------------------------------------------------------------------
+   -- Iterator infrastructure:
+   
+   type Batch_Cursor_Record is null record;
+   
+   type Batch_Reference_Type (Batch : not null access Batch_Type) is null record
+   with
+     Implicit_Dereference => Batch;
+   
+   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
+                                 return Batch_Reference_Type;
+   
+   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean;
+   
+   package Data_Loader_Iterator_Interface is
+     new Ada.Iterator_Interfaces (Batch_Cursor_Type, Has_Element);   
+      
+   function Iterate (D : Data_Loader_Type)
+                    return Data_Loader_Iterator_Interface
+                      .Forward_Iterator'Class;
+   
+   -- Changing the location of the Batch_Cursor_Type declaration leads
+   -- to obscure compilation errors:
+   type Batch_Cursor_Type is access Batch_Cursor_Record;
+   
+   -- -------------------------------------------------------------------------
+   -- C++ side allocating functions:
    
    function New_MNIST_Data_Loader_Sequential_Sampler
      (

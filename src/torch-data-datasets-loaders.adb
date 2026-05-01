@@ -124,4 +124,64 @@ package body Torch.Data.Datasets.Loaders is
       end case;
    end;
    
+   -- -------------------------------------------------------------------------
+   -- Iterator infrastructure:
+   
+   type Data_Loader_Iterator_Type is
+     new Data_Loader_Iterator_Interface.Forward_Iterator with 
+      record
+         Cursor : Batch_Cursor_Type;
+      end record;
+   
+   overriding
+   function First (Object : Data_Loader_Iterator_Type)
+                  return Data_Loader_Iterator_Interface.Cursor;
+   
+   overriding
+   function Next
+     (
+      Object : Data_Loader_Iterator_Type;
+      Position : Data_Loader_Iterator_Interface.Cursor
+     ) return Data_Loader_Iterator_Interface.Cursor;
+   
+   overriding
+   function First (Object : Data_Loader_Iterator_Type)
+                  return Data_Loader_Iterator_Interface.Cursor is
+   begin
+      pragma Debug (Put_Line ("Calling First"));
+      return Data_Loader_Iterator_Interface.Cursor (Object.Cursor);
+   end;
+   
+   overriding
+   function Next
+     (
+      Object : Data_Loader_Iterator_Type;
+      Position : Data_Loader_Iterator_Interface.Cursor
+     ) return Data_Loader_Iterator_Interface.Cursor is
+   begin
+      return Data_Loader_Iterator_Interface.Cursor (Position);
+   end;
+   
+   -- -------------------------------------------------------------------------
+   
+   function Iterate (D : Data_Loader_Type)
+                    return Data_Loader_Iterator_Interface
+                      .Forward_Iterator'Class is
+      R : Data_Loader_Iterator_Type;
+   begin
+      return R;
+   end;
+   
+   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean is
+   begin
+      return False;
+   end;
+   
+   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
+                                 return Batch_Reference_Type is
+      R : Batch_Reference_Type (null);
+   begin
+      return R;
+   end;
+
 end;
