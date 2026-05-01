@@ -6,11 +6,7 @@ package Torch.Data.Datasets.Loaders is
    type Data_Loader_Mode is (Sequential, Random);
    
    type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
-     new Ada.Finalization.Limited_Controlled 
-     with private;
-   
-   overriding
-   procedure Finalize (L : in out Data_Loader_Type);
+     tagged limited private;
    
    function Make_Mnist_Data_Loader
      (
@@ -49,6 +45,9 @@ private
          end case;
       end record;
 
+   overriding
+   procedure Finalize (L : in out Data_Loader_Type);
+   
    function New_MNIST_Data_Loader_Sequential_Sampler
      (
       D : Shadow_Stacked_MNIST_Access;
