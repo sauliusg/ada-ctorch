@@ -33,9 +33,6 @@ package Torch.Data.Datasets.Loaders is
    with
      Implicit_Dereference => Batch;
    
-   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
-                                 return Batch_Reference_Type;
-   
    function Batch_Reference
      (
       Loader   : aliased in out Data_Loader_Type;

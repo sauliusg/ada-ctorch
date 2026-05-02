@@ -197,11 +197,4 @@ package body Torch.Data.Datasets.Loaders is
       return False;
    end;
    
-   function Make_Batch_Reference (Loader : aliased in out Data_Loader_Type)
-                                 return Batch_Reference_Type is
-      R : Batch_Reference_Type (null);
-   begin
-      return R;
-   end;
-
 end;
