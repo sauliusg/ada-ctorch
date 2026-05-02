@@ -181,6 +181,38 @@ package body Torch.Data.Datasets.Loaders is
       end if;
    end;
    
+   function Data (B : Batch_Type) return Tensor is
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor => New_AdaShadowTensor_Batch_Data (B.Shadow_Batch)
+        )
+      do
+         if Ret.Shadow_Tensor = null then
+            raise Storage_Error with
+              "Could not allocated tensor for data in """ &
+              Enclosing_Entity & """";
+         end if;
+      end return;
+   end;
+   
+   function Targets (B : Batch_Type) return Tensor is
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor => New_AdaShadowTensor_Batch_Target (B.Shadow_Batch)
+        )
+      do
+         if Ret.Shadow_Tensor = null then
+            raise Storage_Error with
+              "Could not allocated tensor for data in """ &
+              Enclosing_Entity & """";
+         end if;
+      end return;
+   end;
+   
    -- -------------------------------------------------------------------------
    -- Iterator infrastructure:
    

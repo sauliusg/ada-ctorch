@@ -8,6 +8,9 @@ package Torch.Data.Datasets.Loaders is
    
    type Batch_Type is tagged private;
    
+   function Data (B : Batch_Type) return Tensor;
+   
+   function Targets (B : Batch_Type) return Tensor;
    
    type Batch_Cursor_Type is tagged private;   
    
@@ -135,6 +138,20 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "get_ada_shadow_batch_refcount";
+   
+   function New_AdaShadowTensor_Batch_Data(S : Shadow_Batch_Access)
+                                          return Shadow_Tensor_Access
+   with
+     Import => True,
+     Convention => Cpp,
+     External_Name => "new_AdaShadowTensor_batch_data";
+   
+   function New_AdaShadowTensor_Batch_Target(S : Shadow_Batch_Access)
+                                            return Shadow_Tensor_Access
+   with
+     Import => True,
+     Convention => Cpp,
+     External_Name => "new_AdaShadowTensor_batch_target";
    
    -- -------------------------------------------------------------------------
    
