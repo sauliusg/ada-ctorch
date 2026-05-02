@@ -10,7 +10,7 @@ package Torch.Data.Datasets.Loaders is
    
    function Data (B : Batch_Type) return Tensor;
    
-   function Targets (B : Batch_Type) return Tensor;
+   function Target (B : Batch_Type) return Tensor;
    
    type Batch_Cursor_Type is tagged private;   
    

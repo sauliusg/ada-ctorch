@@ -197,7 +197,7 @@ package body Torch.Data.Datasets.Loaders is
       end return;
    end;
    
-   function Targets (B : Batch_Type) return Tensor is
+   function Target (B : Batch_Type) return Tensor is
    begin
       return Ret : Tensor :=
         (
