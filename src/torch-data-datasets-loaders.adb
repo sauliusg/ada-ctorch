@@ -154,12 +154,7 @@ package body Torch.Data.Datasets.Loaders is
       Position  : Batch_Cursor_Type'Class
      ) return Batch_Cursor_Type'Class is
    begin
-      return Ret : Batch_Cursor_Type :=
-        (
-         Ada.Finalization.Controlled with
-         Current_Shadow_Iterator => null,
-         others => null
-        );
+      return Position;
    end;
    
    function Has_Element
