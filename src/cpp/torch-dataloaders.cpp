@@ -103,4 +103,31 @@ extern "C" {
         delete shadow;
     }    
 
+    // Iterator interface:
+
+    typedef torch::data::Iterator<torch::data::Example<>> example_iterator_t;
+    
+    struct AdaShadowIteratorHolder {
+        example_iterator_t it;
+
+        AdaShadowIteratorHolder(example_iterator_t iter): it(iter) {};
+    };
+
+    AdaShadowIteratorHolder*   
+    get_sequential_sampler_iterator(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
+    {
+        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
+    }
+
+    AdaShadowIteratorHolder*   
+    get_default_sampler_iterator(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
+    {
+        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
+    }
+    
+    void
+    delete_ada_shadow_iterator_holder(AdaShadowIteratorHolder* holder)
+    {
+        delete holder;
+    }
 }
