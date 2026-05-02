@@ -56,62 +56,64 @@ struct Net : torch::nn::Module {
 
 template <typename DataLoader>
 void train(
-    size_t epoch,
-    Net& model,
-    torch::Device device,
-    DataLoader& data_loader,
-    torch::optim::Optimizer& optimizer,
-    size_t dataset_size) {
-  model.train();
-  size_t batch_idx = 0;
-  for (auto& batch : data_loader) {
-    auto data = batch.data.to(device), targets = batch.target.to(device);
-    optimizer.zero_grad();
-    auto output = model.forward(data);
-    auto loss = torch::nll_loss(output, targets);
-    AT_ASSERT(!std::isnan(loss.template item<float>()));
-    loss.backward();
-    optimizer.step();
+           size_t epoch,
+           Net& model,
+           torch::Device device,
+           DataLoader& data_loader,
+           torch::optim::Optimizer& optimizer,
+           size_t dataset_size) {
+    model.train();
+    size_t batch_idx = 0;
+    for (auto& batch : data_loader) {
+        auto data = batch.data.to(device), targets = batch.target.to(device);
+        optimizer.zero_grad();
+        auto output = model.forward(data);
+        auto loss = torch::nll_loss(output, targets);
+        AT_ASSERT(!std::isnan(loss.template item<float>()));
+        loss.backward();
+        optimizer.step();
 
-    if (batch_idx++ % kLogInterval == 0) {
-      std::printf(
-          "\rTrain Epoch: %ld [%5ld/%5ld] Loss: %.4f",
-          epoch,
-          batch_idx * batch.data.size(0),
-          dataset_size,
-          loss.template item<float>());
+        if (batch_idx++ % kLogInterval == 0) {
+            std::printf(
+                        "\rTrain Epoch: %ld [%5ld/%5ld] Loss: %.4f",
+                        epoch,
+                        batch_idx * batch.data.size(0),
+                        dataset_size,
+                        loss.template item<float>());
+        }
     }
-  }
 }
 
 template <typename DataLoader>
 void test(
-    Net& model,
-    torch::Device device,
-    DataLoader& data_loader,
-    size_t dataset_size) {
-  torch::NoGradGuard no_grad;
-  model.eval();
-  double test_loss = 0;
-  int32_t correct = 0;
-  for (const auto& batch : data_loader) {
-    auto data = batch.data.to(device), targets = batch.target.to(device);
-    auto output = model.forward(data);
-    test_loss += torch::nll_loss(
-                     output,
-                     targets,
-                     /*weight=*/{},
-                     torch::Reduction::Sum)
-                     .template item<float>();
-    auto pred = output.argmax(1);
-    correct += pred.eq(targets).sum().template item<int64_t>();
-  }
+          Net& model,
+          torch::Device device,
+          DataLoader& data_loader,
+          size_t dataset_size) {
+    torch::NoGradGuard no_grad;
+    model.eval();
+    double test_loss = 0;
+    int32_t correct = 0;
+    // for (const auto& batch : data_loader) {
+    for (auto batch = data_loader.begin(); batch != data_loader.end(); ++batch) {
+        // auto data = batch.data.to(device), targets = batch.target.to(device);
+        auto data = batch->data.to(device), targets = batch->target.to(device);
+        auto output = model.forward(data);
+        test_loss += torch::nll_loss(
+                                     output,
+                                     targets,
+                                     /*weight=*/{},
+                                     torch::Reduction::Sum)
+            .template item<float>();
+        auto pred = output.argmax(1);
+        correct += pred.eq(targets).sum().template item<int64_t>();
+    }
 
-  test_loss /= dataset_size;
-  std::printf(
-      "\nTest set: Average loss: %.4f | Accuracy: %.3f\n",
-      test_loss,
-      static_cast<double>(correct) / dataset_size);
+    test_loss /= dataset_size;
+    std::printf(
+                "\nTest set: Average loss: %.4f | Accuracy: %.3f\n",
+                test_loss,
+                static_cast<double>(correct) / dataset_size);
 }
 
 auto main() -> int {
@@ -158,7 +160,7 @@ auto main() -> int {
   torch::optim::SGD optimizer(
       model.parameters(), torch::optim::SGDOptions(0.01).momentum(0.5));
 
-  exit (0);
+  // exit (0);
   
   for (size_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
     train(epoch, model, device, *train_loader, optimizer, train_dataset_size);
