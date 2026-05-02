@@ -113,21 +113,42 @@ extern "C" {
         AdaShadowIteratorHolder(example_iterator_t iter): it(iter) {};
     };
 
-    AdaShadowIteratorHolder*   
+    AdaShadowIteratorHolder*
     get_sequential_sampler_iterator(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
     {
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
     }
 
-    AdaShadowIteratorHolder*   
+    AdaShadowIteratorHolder*
+    get_sequential_sampler_iterator_end(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
+    {
+        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
+    }
+
+    AdaShadowIteratorHolder*
     get_default_sampler_iterator(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
     {
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
     }
     
+    AdaShadowIteratorHolder*
+    get_default_sampler_iterator_end(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
+    {
+        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
+    }
+
+    // Delete iterators created by any of the above functions:
     void
     delete_ada_shadow_iterator_holder(AdaShadowIteratorHolder* holder)
     {
         delete holder;
     }
+
+    void
+    advance_iterator(AdaShadowIteratorHolder* holder)
+    {
+        assert(holder);
+        ++(holder->it);
+    }
+
 }
