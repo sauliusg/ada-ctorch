@@ -1,4 +1,5 @@
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
 with Torch; use Torch;
 with Torch.NN; use Torch.NN;
@@ -159,13 +160,27 @@ begin
    Put_Line ("Random number generator initialised from Ada");
    
    declare
-      Step : Integer := 1;
+      Step : Integer := 0;
    begin
       for Batch of Train_Loader loop
+         Step := Step + 1;
          if Step mod 100 = 0 then
             Put_Line ("Step: " & Step'Image);
          end if;
+      end loop;
+      Put_Line ("Total steps: " & Step'Image);
+   end;
+   
+   Put_Line (80 * "=");
+   
+   declare
+      Step : Integer := 0;
+   begin
+      for Batch of Test_Loader loop
          Step := Step + 1;
+         if Step mod 2 = 0 then
+            Put_Line ("Step: " & Step'Image);
+         end if;
       end loop;
       Put_Line ("Total steps: " & Step'Image);
    end;
