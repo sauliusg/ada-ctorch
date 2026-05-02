@@ -117,6 +117,8 @@ package Torch is
    function Make_Device (Kind : Device_Kind_Type; Idx : Int8_T := -1) 
                         return Device_Type;
    
+   procedure To (X : Tensor'Class; D : Device_Type'Class);
+   
    -- -------------------------------------------------------------------------
    
    procedure Manual_Seed (Seed : UInt64_T)
@@ -263,6 +265,13 @@ private
    with Import => True,
      Convention => CPP,
      External_Name => "delete_torch_device";
+   
+   procedure Shadow_Tensor_To_Device (T : Shadow_Tensor_Access; 
+                                      D : Shadow_Torch_Device_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "shadow_tensor_to_device";
    
    -- -------------------------------------------------------------------------
    

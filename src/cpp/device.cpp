@@ -1,5 +1,7 @@
 // uses:
 #include <torch/torch.h>
+#include <tensors.h>
+#include <assert.h>
 
 extern "C" {
 
@@ -19,5 +21,12 @@ extern "C" {
         delete dev;
     }
 
-
+    void
+    shadow_tensor_to_device(AdaShadowTensor *tensor, torch::Device* device)
+    {
+        assert(tensor);
+        assert(device);
+        tensor->to(*device);
+    }
+    
 };  // extern "C"
