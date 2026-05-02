@@ -1,24 +1,12 @@
-// Expoerts:
-#include <torch/torch.h>
-#include <c10/util/ArrayRef.h>
+// Exports:
+#include <tensors.h>
 
 // Uses:
+#include <torch/torch.h>
+#include <c10/util/ArrayRef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <ada_c_error_codes.h>
-
-struct AdaShadowTensor : torch::Tensor {
-    
-    // Shadow tensors can be shared between the Ada variables,
-    // reference counted and copied to an unshared copy if
-    // modification is required. The 'refcount' will keep track of how
-    // many Ada variables have reference to the given tensor:
-    
-    int refcount;
-    
-    AdaShadowTensor () : refcount(1) {}
-
-};
 
 // Functions that Ada will call to create an AdaShadowModule object
 // and to destroy them. Ada side will own all created methods and care

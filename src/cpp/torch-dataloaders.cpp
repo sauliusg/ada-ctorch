@@ -5,6 +5,7 @@
 #include <torch/torch.h>
 #include <torch-datasets.h>
 #include <ada_c_error_codes.h>
+#include <tensors.h>
 
 extern "C" {
 
@@ -217,18 +218,18 @@ extern "C" {
         return shadow->refcount;
     }
 
-    torch::Tensor
-    get_batch_data(AdaShadowBatch *shadow)
+    AdaShadowTensor*
+    new_AdaShadowTensor_batch_data(AdaShadowBatch *shadow)
     {
         assert(shadow);
-        return shadow->batch.data;
+        return new (std::nothrow) AdaShadowTensor(shadow->batch.data);
     }
     
-    torch::Tensor
-    get_batch_target(AdaShadowBatch *shadow)
+    AdaShadowTensor*
+    new_AdaShadowTensor_batch_target(AdaShadowBatch *shadow)
     {
         assert(shadow);
-        return shadow->batch.target;
+        return new (std::nothrow) AdaShadowTensor(shadow->batch.target);
     }
     
 } // extern "C" {
