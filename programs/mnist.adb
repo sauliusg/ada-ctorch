@@ -48,8 +48,8 @@ procedure MNIST is
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
       Y : Tensor;
    begin
-      pragma Debug (Put_Line (">>> Calling 'Forward' from Net_Type of " &
-                                "'mnist'."));
+      Put_Line (">>> Calling 'Forward' from Net_Type of " &
+                  "'mnist'.");
       Y := Torch.Relu (Max_Pool2d (Self.Conv1.Forward (Y), 2));
       Y := Torch.Relu (Max_Pool2d (Self.Dropout.Forward 
                                      (Self.Conv2.Forward (Y)), 2));
@@ -114,7 +114,7 @@ procedure MNIST is
    procedure Train
      (
       Epoch  : Long_Integer;
-      Model  : Net_Type;
+      Model  : in out Net_Type;
       Device : Device_Type;
       Loader : Data_Loader_Type;
       Optimiser    : Torch.Optim.SGD_Type;
@@ -133,7 +133,7 @@ procedure MNIST is
          begin
             Data.To   (Device);
             Target.To (Device);
-            Output := Model.Forward;
+            Output := Model.Forward (Data);
          end;
          if Batch_Idx mod Log_Interval = 0 then
             Put_Line 
