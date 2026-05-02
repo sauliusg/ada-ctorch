@@ -125,6 +125,29 @@ package body Torch.Data.Datasets.Loaders is
    end;
    
    -- -------------------------------------------------------------------------
+   -- Batch_Type
+   
+   overriding
+   procedure Finalize (Batch : in out Batch_Type) is
+      Counter : Int64_T;
+   begin
+      if Batch.Shadow_Batch /= null then
+         Counter := Dec_Refcount (Batch.Shadow_Batch);
+         if Counter <= 0 then
+            Delete_Shadow_Batch (Batch.Shadow_Batch);
+         end if;
+      end if;
+   end;
+   
+   overriding
+   procedure Adjust (Batch : in out Batch_Type) is
+   begin
+      if Batch.Shadow_Batch /= null then
+         Inc_Refcount (Batch.Shadow_Batch);
+      end if;
+   end;
+   
+   -- -------------------------------------------------------------------------
    -- Iterator infrastructure:
    
    -- Created and maintained on the C++ side:

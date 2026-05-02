@@ -85,6 +85,45 @@ private
          Shadow_Batch : Shadow_Batch_Access;
       end record;
    
+   overriding
+   procedure Finalize (Batch : in out Batch_Type);
+   
+   overriding
+   procedure Adjust (Batch : in out Batch_Type);
+   
+   function New_Shadow_Batch (SI : Shadow_Iterator_Access)
+                             return Shadow_Batch_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_ada_shadow_batch_from_iterator";
+   
+   procedure Delete_Shadow_Batch (SI : Shadow_Batch_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "delete_ada_shadow_batch";
+   
+   procedure Inc_Refcount (S : Shadow_Batch_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "inc_ada_shadow_batch_refcount";
+   
+   function Dec_Refcount (S : Shadow_Batch_Access)
+                         return Int64_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "dec_ada_shadow_batch_refcount";
+   
+   function Get_Refcount (S : Shadow_Batch_Access)
+                         return Int64_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "get_ada_shadow_batch_refcount";
+   
    -- -------------------------------------------------------------------------
    
    -- declared and managed on the C++ side:
