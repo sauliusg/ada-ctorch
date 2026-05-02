@@ -8,9 +8,9 @@ package Torch.Data.Datasets.Loaders is
    
    type Data_Loader_Mode is (Sequential, Random);
    
-   type Batch_Type is private;
+   type Batch_Type is tagged private;
    
-   type Batch_Cursor_Type is private;   
+   type Batch_Cursor_Type is tagged private;   
    
    -- Iterator implementation done according to:
    -- https://gcc.gnu.org/onlinedocs/gcc-14.3.0/gnat_rm/Aspect-Iterable.html
@@ -27,25 +27,25 @@ package Torch.Data.Datasets.Loaders is
         Element     => Element_Value
        );
    
-   function Start (Container : Data_Loader_Type) return Batch_Cursor_Type;
+   function Start (Container : Data_Loader_Type) return Batch_Cursor_Type'Class;
    
    function Advance
      (
       Container : Data_Loader_Type;
-      Position  : Batch_Cursor_Type
-     ) return Batch_Cursor_Type;
+      Position  : Batch_Cursor_Type'Class
+     ) return Batch_Cursor_Type'Class;
    
    function Has_Element
      (
       Container : Data_Loader_Type;
-      Position : Batch_Cursor_Type
+      Position : Batch_Cursor_Type'Class
      ) return Boolean;
    
    function Element_Value
      (
       Container : Data_Loader_Type;
-      Cursor    : Batch_Cursor_Type
-     ) return Batch_Type;
+      Cursor    : Batch_Cursor_Type'Class
+     ) return Batch_Type'Class;
    
    -- -------------------------------------------------------------------------
    
@@ -67,10 +67,11 @@ private
    
    type Shadow_Iterator_Access is access Shadow_Iterator_Type;
   
-   type Batch_Cursor_Type is record
-      Current_Shadow_Iterator : Shadow_Iterator_Access;
-      End_Shadow_Iterator     : Shadow_Iterator_Access;
-   end record;
+   type Batch_Cursor_Type is new Ada.Finalization.Controlled with
+      record
+         Current_Shadow_Iterator : Shadow_Iterator_Access;
+         End_Shadow_Iterator     : Shadow_Iterator_Access;
+      end record;
    
    -- -------------------------------------------------------------------------
    
@@ -79,9 +80,10 @@ private
    
    type Shadow_Batch_Access is access Shadow_Batch_Type;
       
-   type Batch_Type is record
-      Shadow_Batch : Shadow_Batch_Access;
-   end record;
+   type Batch_Type is new Ada.Finalization.Controlled with
+      record
+         Shadow_Batch : Shadow_Batch_Access;
+      end record;
    
    -- -------------------------------------------------------------------------
    

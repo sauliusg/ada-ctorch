@@ -134,24 +134,38 @@ package body Torch.Data.Datasets.Loaders is
    type Shadow_Data_Loader_Iterator_Access is 
      access Shadow_Data_Loader_Iterator_Type;
    
-   function Start (Container : Data_Loader_Type) return Batch_Cursor_Type is
+   function Start (Container : Data_Loader_Type)
+                  return Batch_Cursor_Type'Class is
    begin
-      return (Current_Shadow_Iterator => null, others => null);
+      return Ret : Batch_Cursor_Type :=
+        (
+         Ada.Finalization.Controlled with
+         Current_Shadow_Iterator => null,
+         others => null
+        )
+      do
+         null;
+      end return;
    end;
    
    function Advance
      (
       Container : Data_Loader_Type;
-      Position  : Batch_Cursor_Type
-     ) return Batch_Cursor_Type is
+      Position  : Batch_Cursor_Type'Class
+     ) return Batch_Cursor_Type'Class is
    begin
-      return (Current_Shadow_Iterator => null, others => null);
+      return Ret : Batch_Cursor_Type :=
+        (
+         Ada.Finalization.Controlled with
+         Current_Shadow_Iterator => null,
+         others => null
+        );
    end;
    
    function Has_Element
      (
       Container : Data_Loader_Type;
-      Position : Batch_Cursor_Type
+      Position : Batch_Cursor_Type'Class
      ) return Boolean is
    begin
       return (Position.Current_Shadow_Iterator /= null);
@@ -160,11 +174,15 @@ package body Torch.Data.Datasets.Loaders is
    function Element_Value
      (
       Container : Data_Loader_Type;
-      Cursor    : Batch_Cursor_Type
-     ) return Batch_Type
+      Cursor    : Batch_Cursor_Type'Class
+     ) return Batch_Type'Class
    is
    begin
-      return (Shadow_Batch => null);
+      return Ret : Batch_Type := 
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Batch => null
+        );
    end;
    
 end;
