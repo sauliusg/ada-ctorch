@@ -125,6 +125,40 @@ package body Torch.Data.Datasets.Loaders is
    end;
    
    -- -------------------------------------------------------------------------
+   -- Batch_Cursor_Type
+   
+   overriding
+   procedure Finalize (Batch : in out Batch_Cursor_Type) is
+   begin
+      if Batch.Current_Shadow_Iterator /= null then
+          Delete_Ada_Shadow_Iterator (Batch.Current_Shadow_Iterator);
+      end if;
+      if Batch.End_Shadow_Iterator /= null then
+          Delete_Ada_Shadow_Iterator (Batch.End_Shadow_Iterator);
+      end if;
+   end;
+   
+   overriding
+   procedure Adjust (Batch : in out Batch_Cursor_Type) is
+      
+      procedure Clone (S : in out Shadow_Iterator_Access) is
+      begin
+         if S /= null then
+            S := Clone_Ada_Shadow_Iterator (S);
+            if S = null then
+               raise Storage_Error with
+                 "Could not clone Ada shadow iterator at """ &
+                 Enclosing_Entity & """";
+            end if;
+         end if;
+      end;
+      
+   begin
+      Clone (Batch.Current_Shadow_Iterator);
+      Clone (Batch.End_Shadow_Iterator);
+   end;
+   
+   -- -------------------------------------------------------------------------
    -- Batch_Type
    
    overriding
