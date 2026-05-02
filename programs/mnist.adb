@@ -46,10 +46,10 @@ procedure MNIST is
    
    overriding
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor is
-      Y : Tensor;
+      Y : Tensor := X;
    begin
-      Put_Line (">>> Calling 'Forward' from Net_Type of " &
-                  "'mnist'.");
+      pragma Debug (Put_Line (">>> Calling 'Forward' from Net_Type of " &
+                                "'mnist'."));
       Y := Torch.Relu (Max_Pool2d (Self.Conv1.Forward (Y), 2));
       Y := Torch.Relu (Max_Pool2d (Self.Dropout.Forward 
                                      (Self.Conv2.Forward (Y)), 2));
@@ -170,7 +170,7 @@ begin
    Copy (X2, T2);
    Copy (T1, X1);
    
-   -- T1 := Net1.Forward (T1); -- This raises exception in C++, forwarded to Ada.
+   -- T1 := Net.Forward (T1); -- This raises exception in C++, forwarded to Ada.
    
    Put_Line ("T1 Refcount: " & Integer'Image (Torch.Refcount (T1)));
    Put_Line ("T2 Refcount: " & Integer'Image (Torch.Refcount (T2)));
