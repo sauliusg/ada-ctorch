@@ -6,9 +6,8 @@ package Torch.Data.Datasets.Loaders is
    
    -- -------------------------------------------------------------------------
    
-   type Data_Loader_Mode is (Sequential, Random);
-   
    type Batch_Type is tagged private;
+   
    
    type Batch_Cursor_Type is tagged private;   
    
@@ -17,6 +16,8 @@ package Torch.Data.Datasets.Loaders is
    -- Iterator implementation is done according to:
    -- https://gcc.gnu.org/onlinedocs/gcc-14.3.0/gnat_rm/Aspect-Iterable.html
    -- S.G.
+   
+   type Data_Loader_Mode is (Sequential, Random);
    
    type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
      tagged limited private

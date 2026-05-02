@@ -216,5 +216,19 @@ extern "C" {
         assert(shadow);
         return shadow->refcount;
     }
+
+    torch::Tensor
+    get_batch_data(AdaShadowBatch *shadow)
+    {
+        assert(shadow);
+        return shadow->batch.data;
+    }
+    
+    torch::Tensor
+    get_batch_target(AdaShadowBatch *shadow)
+    {
+        assert(shadow);
+        return shadow->batch.target;
+    }
     
 } // extern "C" {
