@@ -13,6 +13,8 @@ with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
    
+   Number_Of_Epochs : constant Long_Integer := 10;
+   
    Device_Kind : Torch.Device_Kind_Type := Torch.CPU;
    
    type Net_Type is new Torch.NN.Module with record
@@ -115,7 +117,7 @@ procedure MNIST is
       Device : Device_Type;
       Loader : Data_Loader_Type;
       Optimiser    : Torch.Optim.SGD_Type;
-      Dataset_Size : Long_Integer
+      Dataset_Size : UInt64_T
      )
    is
    begin
@@ -130,13 +132,16 @@ procedure MNIST is
       Model  : Net_Type;
       Device : Device_Type;
       Loader : Data_Loader_Type;
-      Dataset_Size : Long_Integer
+      Dataset_Size : UInt64_T
      )
    is
    begin
       Model.Eval;
       null;
    end;
+   
+   Train_Dataset_Size : UInt64_T;
+   Test_Dataset_Size  : UInt64_T;
    
 begin
    T1 := T2;
@@ -200,5 +205,13 @@ begin
       end loop;
       Put_Line ("Total steps: " & Step'Image);
    end;
+   
+   Train_Dataset_Size := Size (Train_MNIST_Dataset);
+   Test_Dataset_Size  := Size (Test_MNIST_Dataset);
+   
+   for Epoch in 1 .. Number_Of_Epochs loop
+      Train (Epoch, Net, Device, Train_Loader, Optimiser, Train_Dataset_Size);
+      Test  (Net, Device, Test_Loader, Test_Dataset_Size);
+   end loop;
    
 end MNIST;
