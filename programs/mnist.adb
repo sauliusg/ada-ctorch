@@ -13,7 +13,8 @@ with Ada.Command_Line; use Ada.Command_Line;
 
 procedure MNIST is
    
-   Number_Of_Epochs : constant Long_Integer := 10;
+   Number_Of_Epochs : constant Long_Integer := 10;   
+   Log_Interval     : constant Long_Integer := 10;
    
    Device_Kind : Torch.Device_Kind_Type := Torch.CPU;
    
@@ -120,10 +121,25 @@ procedure MNIST is
       Dataset_Size : UInt64_T
      )
    is
+      Batch_Idx : Long_Integer := 0;
    begin
       Model.Train;
       for Batch of Loader loop
-         null;
+         Batch_Idx := Batch_Idx + 1;
+         declare
+            Data   : Tensor := Batch.Data;
+            Target : Tensor := Batch.Target;
+         begin
+            Data.To   (Device);
+            Target.To (Device);
+         end;
+         if Batch_Idx mod Log_Interval = 0 then
+            Put_Line 
+              (
+               "Train Epoch: " & Epoch'Image & ", " &
+               "batch: " & Batch_Idx'Image
+              );
+         end if;
       end loop;
    end;
    
