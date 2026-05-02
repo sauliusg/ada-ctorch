@@ -453,4 +453,26 @@ package body Torch.NN is
       end return;
    end;
    
+   procedure Train_Shadow_Module (S : Shadow_Module_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "shadow_module_train";
+   
+   procedure Train (M : Module) is
+   begin
+      Train_Shadow_Module (M.Shadow_Module);
+   end;
+
+   procedure Eval_Shadow_Module (S : Shadow_Module_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "shadow_module_eval";
+   
+   procedure Eval (M : Module) is
+   begin
+      Train_Shadow_Module (M.Shadow_Module);
+   end;
+   
 end;

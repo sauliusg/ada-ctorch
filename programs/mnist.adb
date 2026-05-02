@@ -119,6 +119,7 @@ procedure MNIST is
      )
    is
    begin
+      Model.Train;
       for Batch of Loader loop
          null;
       end loop;
@@ -133,6 +134,7 @@ procedure MNIST is
      )
    is
    begin
+      Model.Eval;
       null;
    end;
    

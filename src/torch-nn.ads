@@ -15,7 +15,13 @@ package Torch.NN is
    function Is_Training (Self : in Module) return Boolean;
    
    function Parameters (M : Module) return Vector_Of_Tensor_Type;
-     
+   
+   -- Switch the Module M to training mode:
+   procedure Train (M : Module);
+   
+   -- Switch the Module M to evaluation (test) mode:
+   procedure Eval (M : Module);
+   
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;

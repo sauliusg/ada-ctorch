@@ -61,4 +61,18 @@ extern "C" {
             std::vector<torch::Tensor> (shadow_module->parameters());
     }
 
+    void
+    shadow_module_train (struct AdaShadowModule* shadow_module)
+    {
+        assert(shadow_module);
+        shadow_module->train();
+    }
+    
+    void
+    shadow_module_eval (struct AdaShadowModule* shadow_module)
+    {
+        assert(shadow_module);
+        shadow_module->eval();
+    }
+    
 }; // extern "C"
