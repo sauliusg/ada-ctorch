@@ -163,10 +163,11 @@ begin
    begin
       for Batch of Train_Loader loop
          if Step mod 100 = 0 then
-            Put_Line ("Step " & Step'Image);
+            Put_Line ("Step: " & Step'Image);
          end if;
          Step := Step + 1;
       end loop;
+      Put_Line ("Total steps: " & Step'Image);
    end;
    
 end MNIST;
