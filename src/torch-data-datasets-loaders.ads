@@ -21,23 +21,19 @@ package Torch.Data.Datasets.Loaders is
    type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
      tagged limited private
    with
-     Default_Iterator => Iterate,
-     Iterator_Element => Batch_Type,
-     Variable_Indexing => Batch_Reference;
+     Default_Iterator  => Iterate,
+     Iterator_Element  => Batch_Type,
+     Constant_Indexing => Element_Value;
    
    function Iterate (D : Data_Loader_Type)
                     return Data_Loader_Iterator_Interface
                       .Forward_Iterator'Class;
    
-   type Batch_Reference_Type (Batch : not null access Batch_Type) is null record
-   with
-     Implicit_Dereference => Batch;
-   
-   function Batch_Reference
+   function Element_Value
      (
-      Loader   : aliased in out Data_Loader_Type;
-      Position : in Batch_Cursor_Type
-     ) return Batch_Reference_Type;
+      Container : Data_Loader_Type;
+      Cursor    : Batch_Cursor_Type
+     ) return Batch_Type;
    
    -- -------------------------------------------------------------------------
    
