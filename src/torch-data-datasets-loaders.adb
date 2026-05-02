@@ -183,7 +183,7 @@ package body Torch.Data.Datasets.Loaders is
    function Has_Element
      (
       Container : Data_Loader_Type;
-      Position : Batch_Cursor_Type'Class
+      Position  : Batch_Cursor_Type'Class
      ) return Boolean is
    begin
       return (Position.Current_Shadow_Iterator /= null);
