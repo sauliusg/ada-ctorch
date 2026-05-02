@@ -127,6 +127,13 @@ package body Torch.Data.Datasets.Loaders is
    -- -------------------------------------------------------------------------
    -- Iterator infrastructure:
    
+   -- Created and maintained on the C++ side:
+   type Shadow_Data_Loader_Iterator_Type is
+     null record;
+   
+   type Shadow_Data_Loader_Iterator_Access is 
+     access Shadow_Data_Loader_Iterator_Type;
+   
    type Data_Loader_Iterator_Type is
      new Data_Loader_Iterator_Interface.Forward_Iterator with 
       record
