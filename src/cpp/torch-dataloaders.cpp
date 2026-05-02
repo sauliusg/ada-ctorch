@@ -164,4 +164,25 @@ extern "C" {
         return (h1->it) == (h2->it);
     }
 
+    // Dataset batch interface:
+
+    struct AdaShadowBatch {
+        torch::data::Example<> batch;
+
+        AdaShadowBatch(torch::data::Example<> b): batch(b) {};
+    };
+
+    AdaShadowBatch*
+    new_ada_shadow_batch_from_iterator(AdaShadowIteratorHolder* h)
+    {
+        assert(h);
+        return new (std::nothrow) AdaShadowBatch(*(h->it));
+    }
+
+    void
+    delete_ada_shadow_batch(AdaShadowBatch *shadow)
+    {
+        delete shadow;
+    }
+    
 } // extern "C" {
