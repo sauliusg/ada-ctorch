@@ -196,7 +196,7 @@ package body Torch is
    overriding
    procedure Finalize (D : in out Device_Type) is
    begin
-      if D.Shadow_Device = null then
+      if D.Shadow_Device /= null then
          Delete_Torch_Shadow_Device (D.Shadow_Device);
       end if;
    end;   

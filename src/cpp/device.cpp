@@ -14,7 +14,7 @@ extern "C" {
     }
     
     void
-    detele_torch_device (torch::Device* dev)
+    delete_torch_device (torch::Device* dev)
     {
         delete dev;
     }

@@ -262,7 +262,7 @@ private
    procedure Delete_Torch_Shadow_Device (D : Shadow_Torch_Device_Access)
    with Import => True,
      Convention => CPP,
-     External_Name => "new_torch_device";
+     External_Name => "delete_torch_device";
    
    -- -------------------------------------------------------------------------
    

@@ -5,7 +5,7 @@ package body Torch.Optim is
    overriding
    procedure Finalize (SGD : in out SGD_Type) is
    begin
-      if SGD.Shadow_SGD = null then
+      if SGD.Shadow_SGD /= null then
          Delete_Shadow_SGD (SGD.Shadow_SGD);
       end if;
    end;
