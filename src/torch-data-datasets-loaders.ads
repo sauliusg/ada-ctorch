@@ -212,6 +212,27 @@ private
      Convention => CPP,
      External_Name => "new_sequential_sampler_iterator";
 
+   function New_Sequential_Sampler_Iterator_End (S : Shadow_Data_Sequential_Loader_Access)
+                                                return Shadow_Iterator_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_sequential_sampler_iterator_end";
+
+   function New_Default_Sampler_Iterator_Start (S : Shadow_Data_Random_Loader_Access)
+                                               return Shadow_Iterator_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_default_sampler_iterator";
+
+   function New_Default_Sampler_Iterator_End (S : Shadow_Data_Random_Loader_Access)
+                                             return Shadow_Iterator_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_default_sampler_iterator_end";
+
    function Clone_Ada_Shadow_Iterator (S : Shadow_Iterator_Access)
                                       return Shadow_Iterator_Access
    with

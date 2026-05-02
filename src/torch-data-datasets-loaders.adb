@@ -195,13 +195,36 @@ package body Torch.Data.Datasets.Loaders is
                   return Batch_Cursor_Type'Class is
    begin
       return Ret : Batch_Cursor_Type :=
-        (
-         Ada.Finalization.Controlled with
-         Current_Shadow_Iterator => null,
-         others => null
+        (case Container.Mode is
+            when Sequential =>
+              (
+               Ada.Finalization.Controlled with
+               Current_Shadow_Iterator =>
+                 New_Sequential_Sampler_Iterator_Start
+                   (Container.Shadow_Sequential_Data_Loader),
+               End_Shadow_Iterator =>
+                 New_Sequential_Sampler_Iterator_End
+                   (Container.Shadow_Sequential_Data_Loader)
+              ),
+            when Random =>
+              (
+               Ada.Finalization.Controlled with
+               Current_Shadow_Iterator =>
+                 New_Default_Sampler_Iterator_Start
+                   (Container.Shadow_Random_Data_Loader),
+               End_Shadow_Iterator =>
+                 New_Default_Sampler_Iterator_End
+                   (Container.Shadow_Random_Data_Loader)
+              )
         )
       do
-         null;
+         if Ret.Current_Shadow_Iterator = null or else
+           Ret.End_Shadow_Iterator = null
+         then
+            raise Storage_Error with
+              "Could not allocate C++ shadow objects in """ &
+              Enclosing_Entity & """";
+         end if;
       end return;
    end;
    
