@@ -118,7 +118,9 @@ procedure MNIST is
      )
    is
    begin
-      null;
+      for Batch of Loader loop
+         null;
+      end loop;
    end;
    
    procedure Test
