@@ -141,6 +141,13 @@ extern "C" {
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
     }
 
+    AdaShadowIteratorHolder*
+    clone_shadow_iterator(AdaShadowIteratorHolder* old_holder)
+    {
+        assert(old_holder);
+        return new (std::nothrow) AdaShadowIteratorHolder(old_holder->it);
+    }
+    
     // Delete iterators created by any of the above functions:
     void
     delete_ada_shadow_iterator_holder(AdaShadowIteratorHolder* holder)
