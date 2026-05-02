@@ -134,40 +134,27 @@ package body Torch.Data.Datasets.Loaders is
    type Shadow_Data_Loader_Iterator_Access is 
      access Shadow_Data_Loader_Iterator_Type;
    
-   type Data_Loader_Iterator_Type is
-     new Data_Loader_Iterator_Interface.Forward_Iterator with
-      record
-         Cur_Batch : Batch_Cursor_Type;
-         End_Batch : Batch_Cursor_Type;
-      end record;
-   
-   overriding
-   function First (Object : Data_Loader_Iterator_Type)
-                  return Data_Loader_Iterator_Interface.Cursor;
-   
-   overriding
-   function Next
-     (
-      Object : Data_Loader_Iterator_Type;
-      Position : Data_Loader_Iterator_Interface.Cursor
-     ) return Data_Loader_Iterator_Interface.Cursor;
-   
-   overriding
-   function First (Object : Data_Loader_Iterator_Type)
-                  return Data_Loader_Iterator_Interface.Cursor is
+   function Start (Container : Data_Loader_Type) return Batch_Cursor_Type is
    begin
-      pragma Debug (Put_Line ("Calling First"));
-      return Data_Loader_Iterator_Interface.Cursor (Object.Cur_Batch);
+      return (Current_Shadow_Iterator => null, others => null);
    end;
    
-   overriding
-   function Next
+   function Advance
      (
-      Object : Data_Loader_Iterator_Type;
-      Position : Data_Loader_Iterator_Interface.Cursor
-     ) return Data_Loader_Iterator_Interface.Cursor is
+      Container : Data_Loader_Type;
+      Position  : Batch_Cursor_Type
+     ) return Batch_Cursor_Type is
    begin
-      return Data_Loader_Iterator_Interface.Cursor (Position);
+      return (Current_Shadow_Iterator => null, others => null);
+   end;
+   
+   function Has_Element
+     (
+      Container : Data_Loader_Type;
+      Position : Batch_Cursor_Type
+     ) return Boolean is
+   begin
+      return (Position.Current_Shadow_Iterator /= null);
    end;
    
    function Element_Value
@@ -177,22 +164,7 @@ package body Torch.Data.Datasets.Loaders is
      ) return Batch_Type
    is
    begin
-      return (null record);
-   end;
-   
-   -- -------------------------------------------------------------------------
-   
-   function Iterate (D : Data_Loader_Type)
-                    return Data_Loader_Iterator_Interface
-                      .Forward_Iterator'Class is
-      R : Data_Loader_Iterator_Type;
-   begin
-      return R;
-   end;
-   
-   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean is
-   begin
-      return False;
+      return (Shadow_Batch => null);
    end;
    
 end;

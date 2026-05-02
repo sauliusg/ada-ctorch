@@ -1,5 +1,4 @@
 with Ada.Finalization;
-with Ada.Iterator_Interfaces;
 
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 
@@ -13,21 +12,34 @@ package Torch.Data.Datasets.Loaders is
    
    type Batch_Cursor_Type is private;   
    
-   function Has_Element (Cursor : Batch_Cursor_Type) return Boolean;
+   -- Iterator implementation done according to:
+   -- https://gcc.gnu.org/onlinedocs/gcc-14.3.0/gnat_rm/Aspect-Iterable.html
+   -- S.G.
    
-   package Data_Loader_Iterator_Interface is
-     new Ada.Iterator_Interfaces (Batch_Cursor_Type, Has_Element);   
-      
    type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
      tagged limited private
    with
-     Default_Iterator  => Iterate,
-     Iterator_Element  => Batch_Type,
-     Constant_Indexing => Element_Value;
+     Iterable =>
+       (
+        First       => Start,
+        Next        => Advance,
+        Has_Element => Has_Element,
+        Element     => Element_Value
+       );
    
-   function Iterate (D : Data_Loader_Type)
-                    return Data_Loader_Iterator_Interface
-                      .Forward_Iterator'Class;
+   function Start (Container : Data_Loader_Type) return Batch_Cursor_Type;
+   
+   function Advance
+     (
+      Container : Data_Loader_Type;
+      Position  : Batch_Cursor_Type
+     ) return Batch_Cursor_Type;
+   
+   function Has_Element
+     (
+      Container : Data_Loader_Type;
+      Position : Batch_Cursor_Type
+     ) return Boolean;
    
    function Element_Value
      (
@@ -55,18 +67,21 @@ private
    
    type Shadow_Iterator_Access is access Shadow_Iterator_Type;
   
-   type Batch_Cursor_Record is record
-      Shadow_Iterator : Shadow_Iterator_Access;
+   type Batch_Cursor_Type is record
+      Current_Shadow_Iterator : Shadow_Iterator_Access;
+      End_Shadow_Iterator     : Shadow_Iterator_Access;
    end record;
-   
-   -- Changing the 'Batch_Cursor_Type' to be just a new
-   -- 'Batch_Cursor_Record' leads to obscure compilation errors:
-   
-   type Batch_Cursor_Type is access Batch_Cursor_Record;
    
    -- -------------------------------------------------------------------------
    
-   type Batch_Type is null record;
+   -- Created and managed on the C++ side:
+   type Shadow_Batch_Type is null record;
+   
+   type Shadow_Batch_Access is access Shadow_Batch_Type;
+      
+   type Batch_Type is record
+      Shadow_Batch : Shadow_Batch_Access;
+   end record;
    
    -- -------------------------------------------------------------------------
    
