@@ -199,8 +199,15 @@ package body Torch.Data.Datasets.Loaders is
       return Ret : Batch_Type := 
         (
          Ada.Finalization.Controlled with
-         Shadow_Batch => null
-        );
+         Shadow_Batch => New_Shadow_Batch (Cursor.Current_Shadow_Iterator)
+        )
+      do
+         if Ret.Shadow_Batch = null then
+            raise Storage_Error with
+              "Could not allocate memory for the batch on the C++ side in """ &
+              Enclosing_Entity & """";
+         end if;
+      end return;
    end;
    
 end;
