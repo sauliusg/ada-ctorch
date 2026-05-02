@@ -94,10 +94,10 @@ void test(
     model.eval();
     double test_loss = 0;
     int32_t correct = 0;
-    // for (const auto& batch : data_loader) {
-    for (auto batch = data_loader.begin(); batch != data_loader.end(); ++batch) {
-        // auto data = batch.data.to(device), targets = batch.target.to(device);
-        auto data = batch->data.to(device), targets = batch->target.to(device);
+    for (const auto& batch : data_loader) {
+    // for (auto batch = data_loader.begin(); batch != data_loader.end(); ++batch) {
+        auto data = batch.data.to(device), targets = batch.target.to(device);
+        // auto data = batch->data.to(device), targets = batch->target.to(device);
         auto output = model.forward(data);
         test_loss += torch::nll_loss(
                                      output,
