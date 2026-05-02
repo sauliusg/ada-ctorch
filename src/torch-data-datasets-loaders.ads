@@ -86,10 +86,19 @@ private
    -- -------------------------------------------------------------------------
    -- Iterator infrastructure:
    
-   type Batch_Cursor_Record is null record;
+   -- Created and managed on the C++ side:
+   type Shadow_Iterator_Type is null record; 
    
-   -- Changing the location of the Batch_Cursor_Type declaration leads
-   -- to obscure compilation errors:
+   type Shadow_Iterator_Access is access Shadow_Iterator_Type;
+  
+   type Batch_Cursor_Record is record
+      Shadow_Iterator : Shadow_Iterator_Access;
+   end record;
+   
+   -- Changing the location of the Batch_Cursor_Type declaration, or
+   -- changing the 'Batch_Cursor_Type' to be just a new
+   -- 'Batch_Cursor_Record' leads to obscure compilation errors:
+   
    type Batch_Cursor_Type is access Batch_Cursor_Record;
    
    -- -------------------------------------------------------------------------
