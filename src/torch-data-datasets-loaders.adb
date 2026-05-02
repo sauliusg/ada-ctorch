@@ -135,9 +135,10 @@ package body Torch.Data.Datasets.Loaders is
      access Shadow_Data_Loader_Iterator_Type;
    
    type Data_Loader_Iterator_Type is
-     new Data_Loader_Iterator_Interface.Forward_Iterator with 
+     new Data_Loader_Iterator_Interface.Forward_Iterator with
       record
-         Cursor : Batch_Cursor_Type;
+         Cur_Batch : Batch_Cursor_Type;
+         End_Batch : Batch_Cursor_Type;
       end record;
    
    overriding
@@ -156,7 +157,7 @@ package body Torch.Data.Datasets.Loaders is
                   return Data_Loader_Iterator_Interface.Cursor is
    begin
       pragma Debug (Put_Line ("Calling First"));
-      return Data_Loader_Iterator_Interface.Cursor (Object.Cursor);
+      return Data_Loader_Iterator_Interface.Cursor (Object.Cur_Batch);
    end;
    
    overriding
