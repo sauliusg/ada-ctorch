@@ -129,9 +129,11 @@ procedure MNIST is
          declare
             Data   : Tensor := Batch.Data;
             Target : Tensor := Batch.Target;
+            Output : Tensor;
          begin
             Data.To   (Device);
             Target.To (Device);
+            Output := Model.Forward;
          end;
          if Batch_Idx mod Log_Interval = 0 then
             Put_Line 
