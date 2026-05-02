@@ -171,6 +171,20 @@ begin
       Put_Line ("Total steps: " & Step'Image);
    end;
    
+   Put_Line (80 * "-");
+   
+   declare
+      Step : Integer := 0;
+   begin
+      for Batch of Train_Loader loop
+         Step := Step + 1;
+         if Step mod 100 = 0 then
+            Put_Line ("Step: " & Step'Image);
+         end if;
+      end loop;
+      Put_Line ("Total steps: " & Step'Image);
+   end;
+   
    Put_Line (80 * "=");
    
    declare
