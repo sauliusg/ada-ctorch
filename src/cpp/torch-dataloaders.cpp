@@ -116,24 +116,28 @@ extern "C" {
     AdaShadowIteratorHolder*
     get_sequential_sampler_iterator(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
     {
+        assert(shadow);
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
     }
 
     AdaShadowIteratorHolder*
     get_sequential_sampler_iterator_end(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
     {
+        assert(shadow);
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
     }
 
     AdaShadowIteratorHolder*
     get_default_sampler_iterator(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
     {
+        assert(shadow);
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
     }
     
     AdaShadowIteratorHolder*
     get_default_sampler_iterator_end(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
     {
+        assert(shadow);
         return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
     }
 
@@ -151,4 +155,13 @@ extern "C" {
         ++(holder->it);
     }
 
-}
+    int8_t
+    iterators_are_equal(AdaShadowIteratorHolder* h1,
+                        AdaShadowIteratorHolder* h2)
+    {
+        assert(h1);
+        assert(h2);
+        return (h1->it) == (h2->it);
+    }
+
+} // extern "C" {
