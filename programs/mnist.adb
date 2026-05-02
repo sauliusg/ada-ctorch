@@ -24,7 +24,7 @@ procedure MNIST is
    
    overriding
    procedure Initialize (N : in out Net_Type);
-      
+   
    overriding
    function Forward (Self : in out Net_Type; X : Tensor) return Tensor;
    
@@ -157,4 +157,16 @@ begin
    
    Torch.Manual_Seed (1);
    Put_Line ("Random number generator initialised from Ada");
+   
+   declare
+      Step : Integer := 1;
+   begin
+      for Batch of Train_Loader loop
+         if Step mod 100 = 0 then
+            Put_Line ("Step " & Step'Image);
+         end if;
+         Step := Step + 1;
+      end loop;
+   end;
+   
 end MNIST;
