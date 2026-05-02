@@ -231,9 +231,16 @@ package body Torch.Data.Datasets.Loaders is
    function Advance
      (
       Container : Data_Loader_Type;
-      Position  : Batch_Cursor_Type'Class
+      Position  : in out Batch_Cursor_Type'Class
      ) return Batch_Cursor_Type'Class is
    begin
+      if Position.Current_Shadow_Iterator /= null then
+         Advance_Shadow_Iterator (Position.Current_Shadow_Iterator);
+         if not Has_Element (Container, Position) then
+            Delete_Ada_Shadow_Iterator (Position.Current_Shadow_Iterator);
+            Position.Current_Shadow_Iterator := null;
+         end if;
+      end if;
       return Position;
    end;
    
@@ -243,7 +250,15 @@ package body Torch.Data.Datasets.Loaders is
       Position  : Batch_Cursor_Type'Class
      ) return Boolean is
    begin
-      return (Position.Current_Shadow_Iterator /= null);
+      return
+        (
+         Position.Current_Shadow_Iterator /= null and then
+           Shadow_Iterarors_Are_Equal
+             (
+              Position.Current_Shadow_Iterator,
+              Position.End_Shadow_Iterator
+             ) = 0
+        );
    end;
    
    function Element_Value

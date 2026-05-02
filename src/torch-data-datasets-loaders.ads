@@ -34,7 +34,7 @@ package Torch.Data.Datasets.Loaders is
    function Advance
      (
       Container : Data_Loader_Type;
-      Position  : Batch_Cursor_Type'Class
+      Position  : in out Batch_Cursor_Type'Class
      ) return Batch_Cursor_Type'Class;
    
    function Has_Element
@@ -245,5 +245,18 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "delete_ada_shadow_iterator_holder";
-
+   
+   procedure Advance_Shadow_Iterator (S : Shadow_Iterator_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "advance_iterator";
+   
+   function Shadow_Iterarors_Are_Equal (I1, I2 : Shadow_Iterator_Access)
+                                       return Int8_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "iterators_are_equal";
+   
 end;
