@@ -22,8 +22,8 @@ torch::Tensor AdaShadowModule::forward(torch::Tensor x) {
 }
 
 // Functions that Ada will call to create an AdaShadowModule object
-// and to destroy them. Ada side will own all created methods and care
-// to manage their lifetime:
+// and to destroy them. Ada side will own all created objects and take
+// care to manage their lifetime:
 
 extern "C" {
 
