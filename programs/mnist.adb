@@ -144,6 +144,7 @@ procedure MNIST is
             end if;
             
             Loss.Backward;
+            Optimiser.Step;
             
             if Batch_Idx mod Log_Interval = 0 then
                Put

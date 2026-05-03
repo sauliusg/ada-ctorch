@@ -37,6 +37,10 @@ package body Torch.Optim is
       SGD_Zero_Grad (SGD.Shadow_SGD);
    end;
      
+   procedure Step (SGD : in out SGD_Type) is
+   begin
+      SGD_Step (SGD.Shadow_SGD);
+   end;
 
    -- -------------------------------------------------------------------------
    

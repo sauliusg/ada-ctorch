@@ -24,6 +24,13 @@ extern "C" {
         sgd->zero_grad();
     }
     
+    void
+    sgd_step(torch::optim::SGD* sgd)
+    {
+        assert(sgd);
+        sgd->step();
+    }
+    
     // ------------------------------------------------------------------------
     
     torch::optim::SGDOptions*

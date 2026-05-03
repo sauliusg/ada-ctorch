@@ -32,6 +32,8 @@ package Torch.Optim is
    
    procedure Zero_Grad (SGD : in out Sgd_Type);
    
+   procedure Step (SGD : in out Sgd_Type);
+   
 private
    
    -- -------------------------------------------------------------------------
@@ -98,10 +100,16 @@ private
      Convention => CPP,
      External_Name => "delete_sgd";
    
-   procedure Sgd_Zero_Grad (S : Shadow_SGD_Access)
+   procedure SGD_Zero_Grad (S : Shadow_SGD_Access)
    with
      Import => True,
      Convention => CPP,
      External_Name => "sgd_zero_grad";
+   
+   procedure SGD_Step (S : Shadow_SGD_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "sgd_step";
    
 end;
