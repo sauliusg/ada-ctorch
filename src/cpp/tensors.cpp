@@ -240,6 +240,29 @@ extern "C" {
         return NULL;
     }
 
+    int64_t
+    tensor_size(AdaShadowTensor* t, int64_t dim, ada_c_error_type *err)
+    {
+        assert(t);
+        try {
+            return ((torch::Tensor)*t).size(dim);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+        return 0.0;
+    }
+    
     float
     tensor_float_item(AdaShadowTensor* t, ada_c_error_type *err)
     {

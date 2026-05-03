@@ -29,7 +29,7 @@ package Torch is
    
    procedure Copy (Dst : in out Tensor; Src : in Tensor);
    
-   -- Tensor update functions imported from the C++ code:
+   -- Tensor update and query functions imported from the C++ code:
    
    function Relu (X : Tensor) return Tensor;
    
@@ -43,6 +43,8 @@ package Torch is
    function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor;
    
    function Nll_Loss (Output, Target : Tensor) return Tensor;
+   
+   function Size (T : Tensor; Dimension_Idx : Int64_T) return Int64_T;
    
    function Scalar (T : Tensor) return Float;
    
@@ -261,6 +263,15 @@ private
    with Import => True, 
      Convention => CPP, 
      External_Name => "new_tensor_nll_loss";   
+   
+   function Tensor_Size (T : Shadow_Tensor_Access;
+                         Dimension_Idx : Int64_T;
+                         Err : Ada_C_Error_Access)
+                        return Int64_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_size";
    
    function Tensor_Float_Item (S : Shadow_Tensor_Access;
                                Err : Ada_C_Error_Access)

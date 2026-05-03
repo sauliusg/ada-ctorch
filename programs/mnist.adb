@@ -81,6 +81,9 @@ procedure MNIST is
                                     0.1307, 0.3081
                                    );
    
+   Train_Dataset_Size : UInt64_T := Size (Train_MNIST_Dataset);
+   Test_Dataset_Size  : UInt64_T := Size (Test_MNIST_Dataset);   
+   
    Train_Batch_Size : constant Int64_T := 64;
    Test_Batch_Size  : constant Int64_T := 1000;
    
@@ -150,9 +153,16 @@ procedure MNIST is
                Put
                  (
                   "Train Epoch: " & Epoch'Image & ", " &
-                    "batch: " & Batch_Idx'Image
+                    "Batch: " & Batch_Idx'Image & ", " &
+                    "Data: " & '[' & 
+                    Long_Integer'Image
+                      (Batch_Idx * Long_Integer (Size (Data, 0))) &
+                    '/' & 
+                    UInt64_T'Image (Dataset_Size) &
+                    ']' & ", " &
+                    "Loss: " & Scalar (Loss)'Image &
+                    ASCII.CR
                  );
-               Put_Line (", Loss: " & Scalar (Loss)'Image);
             end if;
          end;
       end loop;
@@ -170,9 +180,6 @@ procedure MNIST is
       Model.Eval;
       null;
    end;
-   
-   Train_Dataset_Size : UInt64_T;
-   Test_Dataset_Size  : UInt64_T;
    
 begin
    T1 := T2;
@@ -236,9 +243,6 @@ begin
       end loop;
       Put_Line ("Total steps: " & Step'Image);
    end;
-   
-   Train_Dataset_Size := Size (Train_MNIST_Dataset);
-   Test_Dataset_Size  := Size (Test_MNIST_Dataset);
    
    for Epoch in 1 .. Number_Of_Epochs loop
       Train (Epoch, Net, Device, Train_Loader, Optimiser, Train_Dataset_Size);

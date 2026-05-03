@@ -163,6 +163,16 @@ package body Torch is
       end return;
    end;
    
+   function Size (T : Tensor; Dimension_Idx : Int64_T) return Int64_T is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      return Ret : Int64_T :=
+        Tensor_Size (T.Shadow_Tensor, Dimension_Idx, Err'Unchecked_Access)
+      do
+         Check_Error (Err);
+      end return;
+   end;
+   
    function Scalar (T : Tensor) return Float is
       Value : Float;
       Err : aliased Ada_C_Error_Type;
