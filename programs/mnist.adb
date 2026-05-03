@@ -156,10 +156,12 @@ procedure MNIST is
                   "Train Epoch: " & Epoch'Image & ", " &
                     "Batch: " & Batch_Idx'Image & ", " &
                     "Data: " & '[' & 
-                    Long_Integer'Image
-                      (Batch_Idx * Long_Integer (Size (Data, 0))) &
+                    Trim (Long_Integer'Image
+                            (Batch_Idx * Long_Integer (Size (Data, 0))),
+                          Side => Ada.Strings.Both) &
                     '/' &
-                    UInt64_T'Image (Dataset_Size) &
+                    Trim (UInt64_T'Image (Dataset_Size),
+                          Side => Ada.Strings.Both) &
                     ']' & ", " &
                     "Loss: "
                  );
