@@ -1,4 +1,5 @@
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Float_Text_IO; use Ada.Float_Text_IO;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
 with Torch; use Torch;
@@ -157,15 +158,17 @@ procedure MNIST is
                     "Data: " & '[' & 
                     Long_Integer'Image
                       (Batch_Idx * Long_Integer (Size (Data, 0))) &
-                    '/' & 
+                    '/' &
                     UInt64_T'Image (Dataset_Size) &
                     ']' & ", " &
-                    "Loss: " & Scalar (Loss)'Image &
-                    ASCII.CR
+                    "Loss: "
                  );
+               Put (Scalar (Loss), 1, 6, 0);
+               Put (ASCII.CR);
             end if;
          end;
       end loop;
+      New_Line;
    end;
    
    procedure Test
