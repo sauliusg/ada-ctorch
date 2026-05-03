@@ -27,7 +27,7 @@ package Torch is
    -- Copy the Src C++ tensor to the Dst tensor. Uses the C++
    --  assignment operator on the C++ side under the hood:
    
-   procedure Copy (Dst, Src : in out Tensor);
+   procedure Copy (Dst : in out Tensor; Src : in Tensor);
    
    -- Tensor update functions imported from the C++ code:
    
@@ -41,6 +41,8 @@ package Torch is
                      Is_Training : Boolean) return Tensor;
       
    function Log_Softmax (X : Tensor; Dim : Int64_T) return Tensor;
+   
+   function Nll_Loss (Output, Target : Tensor) return Tensor;
    
    -- -------------------------------------------------------------------------
    
@@ -243,6 +245,17 @@ private
    with Import => True, 
      Convention => CPP, 
      External_Name => "tensor_log_softmax";
+   
+   procedure Tensor_Nll_Loss
+     (
+      Retval : Shadow_Tensor_Access;
+      Output : Shadow_Tensor_Access;
+      Target : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
+     )
+   with Import => True, 
+     Convention => CPP, 
+     External_Name => "tensor_nll_loss";   
    
    -- -------------------------------------------------------------------------
    

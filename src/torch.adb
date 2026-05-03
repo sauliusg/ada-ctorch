@@ -56,7 +56,7 @@ package body Torch is
    
    -- The Copy procedure uses the C++ side assignemt operator to copy
    --  the underlying tensors, but not the reference counts:
-   procedure Copy (Dst, Src : in out Tensor) is
+   procedure Copy (Dst : in out Tensor; Src : in Tensor) is
    begin
       -- Implement copy-on-write:
       Ensure_Unaliased (Dst);
@@ -186,6 +186,29 @@ package body Torch is
            """ raised exception " &
            To_String (Err.Error_Message) &
            " (code " & Err.Error_Code'Image & ")";
+      end if;
+      return Ret;
+   end;
+   
+   function Nll_Loss (Output, Target : Tensor) return Tensor is
+      Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Copy (Dst => Ret, Src => Output);
+      Tensor_Nll_Loss (Ret.Shadow_Tensor, Output.Shadow_Tensor,
+                       Target.Shadow_Tensor, Err'Unchecked_Access);
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function """ & Enclosing_Entity &
+                     """ raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function """ & Enclosing_Entity &
+           """ raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";         
       end if;
       return Ret;
    end;

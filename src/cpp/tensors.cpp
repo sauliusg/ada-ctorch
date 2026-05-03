@@ -213,5 +213,31 @@ extern "C" {
         torch_tensor_view (retval, x, params, nparam, err);
     }
 
+    void tensor_nll_loss (AdaShadowTensor* retval,
+                          AdaShadowTensor* output,
+                          AdaShadowTensor* target,
+                          ada_c_error_type *err)
+    {
+        assert (retval);
+        assert (output);
+        assert (target);
+
+        try {
+            ((torch::Tensor)*retval) = torch::nll_loss(*output, *target);
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }            
+    }    
     
 }; // extern "C"

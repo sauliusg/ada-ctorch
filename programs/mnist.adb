@@ -130,11 +130,13 @@ procedure MNIST is
             Data   : Tensor := Batch.Data;
             Target : Tensor := Batch.Target;
             Output : Tensor;
+            Loss   : Tensor;
          begin
             Data.To   (Device);
             Target.To (Device);
             Optimiser.Zero_Grad;
             Output := Model.Forward (Data);
+            Loss   := Torch.Nll_Loss (Output, Target);
          end;
          if Batch_Idx mod Log_Interval = 0 then
             Put_Line 
