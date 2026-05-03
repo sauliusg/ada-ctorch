@@ -117,7 +117,7 @@ procedure MNIST is
       Model  : in out Net_Type;
       Device : Device_Type;
       Loader : Data_Loader_Type;
-      Optimiser    : Torch.Optim.SGD_Type;
+      Optimiser    : in out Torch.Optim.SGD_Type;
       Dataset_Size : UInt64_T
      )
    is
@@ -133,6 +133,7 @@ procedure MNIST is
          begin
             Data.To   (Device);
             Target.To (Device);
+            Optimiser.Zero_Grad;
             Output := Model.Forward (Data);
          end;
          if Batch_Idx mod Log_Interval = 0 then

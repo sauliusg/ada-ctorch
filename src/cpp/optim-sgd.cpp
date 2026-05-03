@@ -17,6 +17,13 @@ extern "C" {
         delete sgd;
     }
     
+    void
+    sgd_zero_grad(torch::optim::SGD* sgd)
+    {
+        assert(sgd);
+        sgd->zero_grad();
+    }
+    
     // ------------------------------------------------------------------------
     
     torch::optim::SGDOptions*
@@ -37,5 +44,5 @@ extern "C" {
         assert(opt);
         opt->momentum(m);
     }
-    
+
 }; // extern "C"

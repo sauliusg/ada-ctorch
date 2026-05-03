@@ -30,6 +30,8 @@ package Torch.Optim is
                                 Options : SGD_Options_Type'Class)
                                return SGD_Type;
    
+   procedure Zero_Grad (SGD : in out Sgd_Type);
+   
 private
    
    -- -------------------------------------------------------------------------
@@ -67,7 +69,7 @@ private
      External_Name => "set_momentum";
    
    -- -------------------------------------------------------------------------
-   -- Shadow_SGD_Type
+   -- SGD_Type
    
    -- created and managed on the C++ side:
    type Shadow_SGD_Type is null record;
@@ -95,5 +97,11 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "delete_sgd";
+   
+   procedure Sgd_Zero_Grad (S : Shadow_SGD_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "sgd_zero_grad";
    
 end;

@@ -32,6 +32,12 @@ package body Torch.Optim is
       end return;
    end;
    
+   procedure Zero_Grad (SGD : in out SGD_Type) is
+   begin
+      SGD_Zero_Grad (SGD.Shadow_SGD);
+   end;
+     
+
    -- -------------------------------------------------------------------------
    
    overriding
