@@ -213,6 +213,8 @@ procedure MNIST is
    
 begin
    
+   Torch.Manual_Seed (1);
+   
    for Epoch in 1 .. Number_Of_Epochs loop
       Train (Epoch, Net, Device, Train_Loader, Optimiser, Train_Dataset_Size);
       Test  (Net, Device, Test_Loader, Test_Dataset_Size);
