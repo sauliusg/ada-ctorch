@@ -50,6 +50,8 @@ package Torch is
    
    function Scalar (T : Tensor) return Float;
    
+   function Scalar (T : Tensor) return Int64_T;
+   
    function Is_NaN (T : Tensor) return Boolean;
 
    procedure Backward (T : Tensor);
@@ -294,6 +296,14 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "tensor_float_item";
+   
+   function Tensor_Int64_Item (S : Shadow_Tensor_Access;
+                               Err : Ada_C_Error_Access)
+                              return Int64_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_int64_item";
    
    function Tensor_Is_Nan (S : Shadow_Tensor_Access;
                            Err : Ada_C_Error_Access)

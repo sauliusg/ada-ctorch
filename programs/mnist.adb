@@ -182,6 +182,7 @@ procedure MNIST is
      )
    is
       Test_Loss : Long_Float := 0.0;
+      Curr_Loss : Float;
       Corrent   : Integer := 0;
    begin
       Model.Eval;
@@ -195,8 +196,8 @@ procedure MNIST is
             Data.To   (Device);
             Target.To (Device);
             Output := Model.Forward (Data);
-            Test_Loss := Test_Loss + 
-              Long_Float (Scalar (Torch.Nll_Loss_Sum (Output, Target)));
+            Curr_Loss := Scalar (Torch.Nll_Loss_Sum (Output, Target));
+            Test_Loss := Test_Loss + Long_Float (Curr_Loss);
             Predicted := Output.Arg_Max (1);
          end;
       end loop;

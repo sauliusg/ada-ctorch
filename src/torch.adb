@@ -198,6 +198,15 @@ package body Torch is
       return Value;
    end;
    
+   function Scalar (T : Tensor) return Int64_T is
+      Value : Int64_T;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Value := Tensor_Int64_Item (T.Shadow_Tensor, Err'Unchecked_Access);
+      Check_Error (Err);
+      return Value;
+   end;
+   
    function Is_NaN (T : Tensor) return Boolean is
       Value : Int8_T;
       Err : aliased Ada_C_Error_Type;
