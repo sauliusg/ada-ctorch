@@ -158,7 +158,7 @@ procedure MNIST is
                     "Batch: " & Batch_Idx'Image & ", " &
                     "Data: " & '[' & 
                     Trim (Long_Integer'Image
-                            (Batch_Idx * Long_Integer (Size (Data, 0))),
+                            (Batch_Idx * Long_Integer (Batch.Data.Size (0))),
                           Side => Ada.Strings.Both) &
                     '/' &
                     Trim (UInt64_T'Image (Dataset_Size),
