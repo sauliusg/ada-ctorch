@@ -201,7 +201,7 @@ procedure MNIST is
             Correct := Correct + Scalar (Predicted.Eq (Target).Sum);
          end;
       end loop;
-      Test_Loss := Test_Loss / Long_Float (Dataset_Size);            
+      Test_Loss := Test_Loss / Long_Float (Dataset_Size);
       Put ("Test set: Average loss: ");
       Put (Test_Loss, 1, 4, 0);
       Put (" | Accuracy: ");
