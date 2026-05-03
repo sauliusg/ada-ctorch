@@ -26,7 +26,8 @@ extern "C" {
     {
         assert(tensor);
         assert(device);
-        tensor->to(*device);
+
+        *((torch::Tensor*)tensor) = tensor->to(*device);
     }
     
 };  // extern "C"

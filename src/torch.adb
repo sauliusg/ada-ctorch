@@ -294,8 +294,9 @@ package body Torch is
       end return;
    end;
    
-   procedure To (X : Tensor'Class; D : Device_Type'Class) is
+   procedure To (X : in out Tensor'Class; D : Device_Type'Class) is
    begin
+      Ensure_Unaliased (Tensor (X));
       Shadow_Tensor_To_Device (X.Shadow_Tensor, D.Shadow_Device);
    end;
    

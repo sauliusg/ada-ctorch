@@ -138,7 +138,7 @@ package Torch is
    function Make_Device (Kind : Device_Kind_Type; Idx : Int8_T := -1) 
                         return Device_Type;
    
-   procedure To (X : Tensor'Class; D : Device_Type'Class);
+   procedure To (X : in out Tensor'Class; D : Device_Type'Class);
    
    -- -------------------------------------------------------------------------
    
