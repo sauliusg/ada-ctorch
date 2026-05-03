@@ -44,6 +44,10 @@ package Torch is
    
    function Nll_Loss (Output, Target : Tensor) return Tensor;
    
+   function Scalar (T : Tensor) return Float;
+   
+   function Is_NaN (T : Tensor) return Boolean;
+
    -- -------------------------------------------------------------------------
    
    type Vector_Of_Tensor_Type is private;

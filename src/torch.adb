@@ -162,6 +162,40 @@ package body Torch is
       return Ret;
    end;
    
+   function Tensor_Float_Item (S : Shadow_Tensor_Access;
+                               Err : Ada_C_Error_Access)
+                              return Float
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_float_item";
+   
+   function Scalar (T : Tensor) return Float is
+      Value : Float;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Value := Tensor_Float_Item (T.Shadow_Tensor, Err'Unchecked_Access);
+      Check_Error (Err);
+      return Value;
+   end;
+   
+   function Tensor_Is_Nan (S : Shadow_Tensor_Access;
+                           Err : Ada_C_Error_Access)
+                          return Int8_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_is_nan";   
+   
+   function Is_NaN (T : Tensor) return Boolean is
+      Value : Int8_T;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Value := Tensor_Is_Nan (T.Shadow_Tensor, Err'Unchecked_Access);
+      Check_Error (Err);
+      return (Value /= 0); -- Truth is not a zero :)
+   end;
+   
    -- -------------------------------------------------------------------------
    -- Device_Type:
    
