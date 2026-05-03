@@ -250,16 +250,15 @@ private
      Convention => CPP, 
      External_Name => "tensor_log_softmax";
    
-   procedure Tensor_Nll_Loss
+   function New_Tensor_Nll_Loss
      (
-      Retval : Shadow_Tensor_Access;
       Output : Shadow_Tensor_Access;
       Target : Shadow_Tensor_Access;
       E : Ada_C_Error_Access
-     )
+     ) return Shadow_Tensor_Access
    with Import => True, 
      Convention => CPP, 
-     External_Name => "tensor_nll_loss";   
+     External_Name => "new_tensor_nll_loss";   
    
    -- -------------------------------------------------------------------------
    

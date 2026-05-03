@@ -149,17 +149,18 @@ package body Torch is
    end;
    
    function Nll_Loss (Output, Target : Tensor) return Tensor is
-      Ret : Tensor;
       Err : aliased Ada_C_Error_Type;
    begin
-      -- Ensure that the Ret tensor is not an undefined Tensor in C++
-      -- and that it is not aliased with Output (a simple assignment
-      -- statement would make two variables with a shared C++ tensor):
-      Copy (Dst => Ret, Src => Output);
-      Tensor_Nll_Loss (Ret.Shadow_Tensor, Output.Shadow_Tensor,
-                       Target.Shadow_Tensor, Err'Unchecked_Access);
-      Check_Error (Err);
-      return Ret;
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor =>
+           New_Tensor_Nll_Loss (Output.Shadow_Tensor, Target.Shadow_Tensor,
+                                Err'Unchecked_Access)
+        )
+      do
+         Check_Error (Err);
+      end return;
    end;
    
    function Tensor_Float_Item (S : Shadow_Tensor_Access;

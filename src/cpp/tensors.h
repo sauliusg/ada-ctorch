@@ -6,7 +6,7 @@
 struct AdaShadowTensor : torch::Tensor {
     
     // Shadow tensors can be shared between the Ada variables,
-    // reference counted and copied to an unshared copy if
+    // reference counted and copied to an unshared copy if a
     // modification is required. The 'refcount' will keep track of how
     // many Ada variables have reference to the given tensor:
     

@@ -141,14 +141,16 @@ procedure MNIST is
                raise Program_Error with 
                  "invalid (Nan?) values found in the Loss tensor";
             end if;
+            
+            if Batch_Idx mod Log_Interval = 0 then
+               Put
+                 (
+                  "Train Epoch: " & Epoch'Image & ", " &
+                    "batch: " & Batch_Idx'Image
+                 );
+               Put_Line (", Loss: " & Scalar (Loss)'Image);
+            end if;
          end;
-         if Batch_Idx mod Log_Interval = 0 then
-            Put_Line 
-              (
-               "Train Epoch: " & Epoch'Image & ", " &
-               "batch: " & Batch_Idx'Image
-              );
-         end if;
       end loop;
    end;
    
