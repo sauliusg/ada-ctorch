@@ -287,7 +287,7 @@ private
    
    -- -------------------------------------------------------------------------
    
-   -- Declared anad managed on the C++ side:
+   -- Declared and managed on the C++ side:
    type Shadow_Torch_Device_Type is null record;
    
    type Shadow_Torch_Device_Access is access Shadow_Torch_Device_Type;
