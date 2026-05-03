@@ -181,6 +181,13 @@ package body Torch is
       return (Value /= 0); -- Truth is not a zero :)
    end;
    
+   procedure Backward (T : Tensor) is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Tensor_Backward (T.Shadow_Tensor, Err'Unchecked_Access);
+      Check_Error (Err);
+   end;
+   
    -- -------------------------------------------------------------------------
    -- Device_Type:
    

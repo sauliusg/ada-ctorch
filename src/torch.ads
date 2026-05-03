@@ -48,6 +48,8 @@ package Torch is
    
    function Is_NaN (T : Tensor) return Boolean;
 
+   procedure Backward (T : Tensor);
+   
    -- -------------------------------------------------------------------------
    
    type Vector_Of_Tensor_Type is private;
@@ -274,7 +276,14 @@ private
    with
      Import => True,
      Convention => CPP,
-     External_Name => "tensor_is_nan";   
+     External_Name => "tensor_is_nan";
+   
+   procedure Tensor_Backward (S : Shadow_Tensor_Access;
+                              Err : Ada_C_Error_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_backward";
    
    -- -------------------------------------------------------------------------
    

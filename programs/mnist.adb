@@ -137,10 +137,13 @@ procedure MNIST is
             Optimiser.Zero_Grad;
             Output := Model.Forward (Data);
             Loss   := Torch.Nll_Loss (Output, Target);
+            
             if Is_Nan (Loss) then
                raise Program_Error with 
                  "invalid (Nan?) values found in the Loss tensor";
             end if;
+            
+            Loss.Backward;
             
             if Batch_Idx mod Log_Interval = 0 then
                Put
