@@ -163,14 +163,6 @@ package body Torch is
       end return;
    end;
    
-   function Tensor_Float_Item (S : Shadow_Tensor_Access;
-                               Err : Ada_C_Error_Access)
-                              return Float
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "tensor_float_item";
-   
    function Scalar (T : Tensor) return Float is
       Value : Float;
       Err : aliased Ada_C_Error_Type;
@@ -179,14 +171,6 @@ package body Torch is
       Check_Error (Err);
       return Value;
    end;
-   
-   function Tensor_Is_Nan (S : Shadow_Tensor_Access;
-                           Err : Ada_C_Error_Access)
-                          return Int8_T
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "tensor_is_nan";   
    
    function Is_NaN (T : Tensor) return Boolean is
       Value : Int8_T;

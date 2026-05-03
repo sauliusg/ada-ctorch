@@ -260,6 +260,22 @@ private
      Convention => CPP, 
      External_Name => "new_tensor_nll_loss";   
    
+   function Tensor_Float_Item (S : Shadow_Tensor_Access;
+                               Err : Ada_C_Error_Access)
+                              return Float
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_float_item";
+   
+   function Tensor_Is_Nan (S : Shadow_Tensor_Access;
+                           Err : Ada_C_Error_Access)
+                          return Int8_T
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "tensor_is_nan";   
+   
    -- -------------------------------------------------------------------------
    
    -- Declared anad managed on the C++ side:
