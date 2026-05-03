@@ -78,24 +78,30 @@ package body Torch is
       Copy (Dst, Src.Shadow_Tensor);
    end;
    
-   function Relu (X : Tensor) return Tensor is
-      Ret : Tensor;
-      Err : aliased Ada_C_Error_Type;
+   procedure Check_Error (Err : Ada_C_Error_Type;
+                          Entity_Name : String := Enclosing_Entity) is
    begin
-      Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor, Err'Unchecked_Access);
       if Err.Has_Error then
          Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
+                   "STDERR: function """ & Entity_Name &
                      """ raised exception " &
                      To_String (Err.Error_Message) &
                      " (code " & Err.Error_Code'Image & ")");
          Ada.Text_Io.Flush;
          raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
+           with "ERROR, function """ & Entity_Name &
            """ raised exception " &
            To_String (Err.Error_Message) &
-           " (code " & Err.Error_Code'Image & ")";
+           " (code " & Err.Error_Code'Image & ")";         
       end if;
+   end;
+   
+   function Relu (X : Tensor) return Tensor is
+      Ret : Tensor;
+      Err : aliased Ada_C_Error_Type;
+   begin
+      Tensor_Relu (Ret.Shadow_Tensor, X.Shadow_Tensor, Err'Unchecked_Access);
+      Check_Error (Err);
       return Ret;
    end;
    
@@ -106,19 +112,7 @@ package body Torch is
       Tensor_View (Ret.Shadow_Tensor, Self.Shadow_Tensor,
                    Params, Params'Length,
                    Err'Unchecked_Access);
-      if Err.Has_Error then
-         Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
-                     """ raised exception " &
-                     To_String (Err.Error_Message) &
-                     " (code " & Err.Error_Code'Image & ")");
-         Ada.Text_Io.Flush;
-         raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
-             """ raised exception " &
-             To_String (Err.Error_Message) &
-             " (code " & Err.Error_Code'Image & ")";
-      end if;
+      Check_Error (Err);
       return Ret;      
    end;
    
@@ -128,19 +122,7 @@ package body Torch is
    begin
       Tensor_Max_Pool2d (Ret.Shadow_Tensor, X.Shadow_Tensor, N,
                          Err'Unchecked_Access);
-      if Err.Has_Error then
-         Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
-                     """ raised exception " &
-                     To_String (Err.Error_Message) &
-                     " (code " & Err.Error_Code'Image & ")");
-         Ada.Text_Io.Flush;
-         raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
-           """ raised exception " &
-           To_String (Err.Error_Message) &
-           " (code " & Err.Error_Code'Image & ")";
-      end if;
+      Check_Error (Err);
       return Ret;
    end;
    
@@ -152,19 +134,7 @@ package body Torch is
       Tensor_Dropout (Ret.Shadow_Tensor, X.Shadow_Tensor, P, 
                       (if Is_Training then 1 else 0),
                       Err'Unchecked_Access);
-      if Err.Has_Error then
-         Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
-                     """ raised exception " &
-                     To_String (Err.Error_Message) &
-                     " (code " & Err.Error_Code'Image & ")");
-         Ada.Text_Io.Flush;
-         raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
-           """ raised exception " &
-           To_String (Err.Error_Message) &
-           " (code " & Err.Error_Code'Image & ")";
-      end if;
+      Check_Error (Err);
       return Ret;
    end;
    
@@ -174,19 +144,7 @@ package body Torch is
    begin
       Tensor_Log_Softmax (Ret.Shadow_Tensor, X.Shadow_Tensor, Dim,
                           Err'Unchecked_Access);
-      if Err.Has_Error then
-         Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
-                     """ raised exception " &
-                     To_String (Err.Error_Message) &
-                     " (code " & Err.Error_Code'Image & ")");
-         Ada.Text_Io.Flush;
-         raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
-           """ raised exception " &
-           To_String (Err.Error_Message) &
-           " (code " & Err.Error_Code'Image & ")";
-      end if;
+      Check_Error (Err);
       return Ret;
    end;
    
@@ -200,19 +158,7 @@ package body Torch is
       Copy (Dst => Ret, Src => Output);
       Tensor_Nll_Loss (Ret.Shadow_Tensor, Output.Shadow_Tensor,
                        Target.Shadow_Tensor, Err'Unchecked_Access);
-      if Err.Has_Error then
-         Put_Line (Standard_Error, 
-                   "STDERR: function """ & Enclosing_Entity &
-                     """ raised exception " &
-                     To_String (Err.Error_Message) &
-                     " (code " & Err.Error_Code'Image & ")");
-         Ada.Text_Io.Flush;
-         raise PROGRAM_ERROR 
-           with "ERROR, function """ & Enclosing_Entity &
-           """ raised exception " &
-           To_String (Err.Error_Message) &
-           " (code " & Err.Error_Code'Image & ")";         
-      end if;
+      Check_Error (Err);
       return Ret;
    end;
    
