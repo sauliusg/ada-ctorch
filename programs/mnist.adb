@@ -1,5 +1,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Float_Text_IO; use Ada.Float_Text_IO;
+with Ada.Long_Float_Text_IO; use Ada.Long_Float_Text_IO;
 with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 
 with Torch; use Torch;
@@ -182,8 +183,7 @@ procedure MNIST is
      )
    is
       Test_Loss : Long_Float := 0.0;
-      Curr_Loss : Float;
-      Corrent   : Integer := 0;
+      Correct   : Int64_T := 0;
    begin
       Model.Eval;
       for Batch of Loader loop
@@ -192,6 +192,7 @@ procedure MNIST is
             Target : Tensor := Batch.Target;
             Output : Tensor;
             Predicted : Tensor;
+            Curr_Loss : Float;
          begin
             Data.To   (Device);
             Target.To (Device);
@@ -199,8 +200,15 @@ procedure MNIST is
             Curr_Loss := Scalar (Torch.Nll_Loss_Sum (Output, Target));
             Test_Loss := Test_Loss + Long_Float (Curr_Loss);
             Predicted := Output.Arg_Max (1);
+            Correct := Correct + Scalar (Predicted.Eq (Target).Sum);
          end;
       end loop;
+      Test_Loss := Test_Loss / Long_Float (Dataset_Size);            
+      Put ("Test set: Average loss: ");
+      Put (Test_Loss, 1, 4, 0);
+      Put (" | Accuracy: ");
+      Put (Long_Float (Correct) / Long_Float (Dataset_Size), 1, 4, 0);
+      New_Line;
    end;
    
 begin
