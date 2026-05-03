@@ -58,6 +58,11 @@ package Torch is
    
    function Arg_Max (T : Tensor; Dimension_Idx : Int64_T) return Tensor;
    
+   -- Returns Boolean Tensor indicating which elements were equal:
+   function Eq (T1, T2 : Tensor) return Tensor;
+   
+   function Sum (T : Tensor) return Tensor;
+   
    -- -------------------------------------------------------------------------
    
    type Vector_Of_Tensor_Type is private;
@@ -328,6 +333,26 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "new_tensor_arg_max";
+   
+   function New_Tensor_Eq
+     (
+      T1, T2 : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
+     ) return Shadow_Tensor_Access
+   with
+     Import => True, 
+     Convention => CPP, 
+     External_Name => "new_tensor_eq";
+   
+   function New_Tensor_Sum
+     (
+      T : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
+     ) return Shadow_Tensor_Access
+   with
+     Import => True, 
+     Convention => CPP, 
+     External_Name => "new_tensor_sum";
    
    -- -------------------------------------------------------------------------
    

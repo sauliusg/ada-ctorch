@@ -277,5 +277,34 @@ extern "C" {
         }
         return NULL;
     }
+
+    AdaShadowTensor*
+    new_tensor_eq(AdaShadowTensor* t1, AdaShadowTensor* t2,
+                  ada_c_error_type *err)
+    {
+        assert(t1);
+        assert(t2);
+
+        try {
+            return new AdaShadowTensor(((torch::Tensor)*t1).eq(*t2));
+        }
+        catch (c10::Error e) {
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
+        }
+        return NULL;
+    }
     
+    AdaShadowTensor*
+    new_tensor_sum(AdaShadowTensor* t, ada_c_error_type *err)
+    {
+        assert(t);
+        try {
+            return new AdaShadowTensor(((torch::Tensor)*t).sum());
+        }
+        catch (c10::Error e) {
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
+        }
+        return NULL;
+    }
+
 }; // extern "C"

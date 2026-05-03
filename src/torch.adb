@@ -237,6 +237,35 @@ package body Torch is
          Check_Error (Err);
       end return;
    end;
+   
+   function Eq (T1, T2 : Tensor) return Tensor is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor => 
+           New_Tensor_Eq (T1.Shadow_Tensor, T2.Shadow_Tensor,
+                          Err'Unchecked_Access)
+        )
+      do
+         Check_Error (Err);
+      end return;
+   end;
+      
+   function Sum (T : Tensor) return Tensor is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor => 
+           New_Tensor_Sum (T.Shadow_Tensor, Err'Unchecked_Access)
+        )
+      do
+         Check_Error (Err);
+      end return;
+   end;
 
    -- -------------------------------------------------------------------------
    -- Device_Type:
