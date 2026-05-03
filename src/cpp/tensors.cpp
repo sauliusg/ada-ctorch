@@ -68,17 +68,7 @@ extern "C" {
             *retval = torch::relu (*x);
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
     }
 
@@ -98,17 +88,7 @@ extern "C" {
             *retval = torch::log_softmax (*x, dim);
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
     }
 
@@ -128,17 +108,7 @@ extern "C" {
             *retval = torch::max_pool2d (*x, n);
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
     }
 
@@ -182,17 +152,7 @@ extern "C" {
             *ret = self->view (param_array);
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
     }
 
@@ -215,17 +175,7 @@ extern "C" {
             return new AdaShadowTensor (torch::nll_loss(*output, *target));
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
         return NULL;
     }
@@ -245,17 +195,7 @@ extern "C" {
                                  torch::Reduction::Sum));
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
         return NULL;
     }
@@ -268,19 +208,9 @@ extern "C" {
             return ((torch::Tensor)*t).size(dim);
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
-        return 0.0;
+        return 0;
     }
     
     float
@@ -291,17 +221,7 @@ extern "C" {
             return ((torch::Tensor)*t).template item<float>();
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
         return 0.0;
     }
@@ -314,19 +234,9 @@ extern "C" {
             return ((torch::Tensor)*t).template item<int64_t>();
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
-        return 0.0;
+        return 0;
     }
     
     int8_t
@@ -337,17 +247,7 @@ extern "C" {
             return std::isnan(((torch::Tensor)*t).template item<float>());
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
         return 0;
     }
@@ -360,17 +260,7 @@ extern "C" {
             ((torch::Tensor)*t).backward();
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
     }
     
@@ -383,19 +273,9 @@ extern "C" {
             return new AdaShadowTensor(((torch::Tensor)*t).argmax(idx));
         }
         catch (c10::Error e) {
-            char message [4096];
-            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
-                      "forwarded from", __FUNCTION__,
-                      e.what());
-            message [sizeof(message) - 4] = '.';
-            message [sizeof(message) - 3] = '.';
-            message [sizeof(message) - 2] = '.';
-
-            message [sizeof(message) - 1] = '\0';
-            ada_set_error_code (err, 13);
-            ada_set_error_message (err,  message);
+            ada_propagate_error(err, e.what(), __FUNCTION__, 13);
         }
-        return 0;
+        return NULL;
     }
     
 }; // extern "C"
