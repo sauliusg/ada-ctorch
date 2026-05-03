@@ -64,10 +64,6 @@ procedure MNIST is
    
    Net : Net_Type;
    
-   T1, T2 : Torch.Tensor;
-   
-   X1, X2, X3 : Torch.Tensor;
-   
    Root_Dir : constant String :=
      (if Argument_Count > 0 then Argument (1) else "data/");
    
@@ -209,72 +205,13 @@ procedure MNIST is
       Put ("Test set: Average loss: ");
       Put (Test_Loss, 1, 4, 0);
       Put (" | Accuracy: ");
+      Put (Correct'Image & '/');
+      Put (Dataset_Size'Image & ' ');
       Put (Long_Float (Correct) / Long_Float (Dataset_Size), 1, 4, 0);
       New_Line;
    end;
    
 begin
-   T1 := T2;
-   
-   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Refcount (T1)));
-   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Refcount (T2)));
-   
-   Copy (X2, T2);
-   Copy (T1, X1);
-   
-   -- T1 := Net.Forward (T1); -- This raises exception in C++, forwarded to Ada.
-   
-   Put_Line ("T1 Refcount: " & Integer'Image (Torch.Refcount (T1)));
-   Put_Line ("T2 Refcount: " & Integer'Image (Torch.Refcount (T2)));
-   
-   Put_Line ("X1 Refcount: " & Integer'Image (Torch.Refcount (X1)));
-   Put_Line ("X2 Refcount: " & Integer'Image (Torch.Refcount (X2)));
-   
-   Put_Line (Device_Kind'Size'Image);
-   Put_Line (Device'Size'Image);
-   
-   Torch.Manual_Seed (1);
-   Put_Line ("Random number generator initialised from Ada");
-   
-   declare
-      Step : Integer := 0;
-   begin
-      for Batch of Train_Loader loop
-         Step := Step + 1;
-         if Step mod 100 = 0 then
-            Put_Line ("Step: " & Step'Image);
-         end if;
-      end loop;
-      Put_Line ("Total steps: " & Step'Image);
-   end;
-   
-   Put_Line (80 * "-");
-   
-   declare
-      Step : Integer := 0;
-   begin
-      for Batch of Train_Loader loop
-         Step := Step + 1;
-         if Step mod 100 = 0 then
-            Put_Line ("Step: " & Step'Image);
-         end if;
-      end loop;
-      Put_Line ("Total steps: " & Step'Image);
-   end;
-   
-   Put_Line (80 * "=");
-   
-   declare
-      Step : Integer := 0;
-   begin
-      for Batch of Test_Loader loop
-         Step := Step + 1;
-         if Step mod 2 = 0 then
-            Put_Line ("Step: " & Step'Image);
-         end if;
-      end loop;
-      Put_Line ("Total steps: " & Step'Image);
-   end;
    
    for Epoch in 1 .. Number_Of_Epochs loop
       Train (Epoch, Net, Device, Train_Loader, Optimiser, Train_Dataset_Size);
