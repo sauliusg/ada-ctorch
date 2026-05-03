@@ -116,6 +116,11 @@ procedure MNIST is
                            )
                         );
    
+   function Display (I : Int64_T) return String is
+   begin
+      return Trim (I'Image, Side => Ada.Strings.Both);
+   end;
+   
    procedure Train
      (
       Epoch  : Long_Integer;
@@ -126,11 +131,10 @@ procedure MNIST is
       Dataset_Size : UInt64_T
      )
    is
-      Batch_Idx : Long_Integer := 0;
+      Batch_Idx : Int64_T := 0;
    begin
       Model.Train;
       for Batch of Loader loop
-         Batch_Idx := Batch_Idx + 1;
          declare
             Data   : Tensor := Batch.Data;
             Target : Tensor := Batch.Target;
@@ -157,12 +161,9 @@ procedure MNIST is
                   "Train Epoch: " & Epoch'Image & ", " &
                     "Batch: " & Batch_Idx'Image & ", " &
                     "Data: " & '[' & 
-                    Trim (Long_Integer'Image
-                            (Batch_Idx * Long_Integer (Batch.Data.Size (0))),
-                          Side => Ada.Strings.Both) &
+                    Display ((Batch_Idx + 1) * Int64_T (Batch.Data.Size (0))) &
                     '/' &
-                    Trim (UInt64_T'Image (Dataset_Size),
-                          Side => Ada.Strings.Both) &
+                    Display (Int64_T (Dataset_Size)) &
                     ']' & ", " &
                     "Loss: "
                  );
@@ -170,6 +171,7 @@ procedure MNIST is
                Put (ASCII.CR);
             end if;
          end;
+         Batch_Idx := Batch_Idx + 1;
       end loop;
       New_Line;
    end;
