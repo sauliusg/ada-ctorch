@@ -22,6 +22,9 @@ struct AdaShadowDropout2d : torch::nn::Dropout2d {
     
     AdaShadowDropout2d (struct AdaDropout2d *dropout2d) :
         ada_dropout2d(dropout2d) {}
+
+    AdaShadowDropout2d (struct AdaDropout2d *dropout2d, float p) :
+        ada_dropout2d(dropout2d), torch::nn::Dropout2d (p) {}
 };
 
 // Functions that Ada will call to create an AdaShadowDropout2d object
@@ -41,6 +44,12 @@ new_AdaShadowDropout2d (AdaDropout2d *dropout2d)
          << dropout2d << endl;
 #endif
     return new (std::nothrow) AdaShadowDropout2d (dropout2d);
+}
+
+struct AdaShadowDropout2d*
+new_AdaShadowDropout2d_with_p (AdaDropout2d *dropout2d, float p)
+{
+    return new (std::nothrow) AdaShadowDropout2d (dropout2d, p);
 }
 
 void
