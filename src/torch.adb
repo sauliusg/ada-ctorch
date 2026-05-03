@@ -163,6 +163,22 @@ package body Torch is
       end return;
    end;
    
+   function Nll_Loss_Sum (Output, Target : Tensor) return Tensor is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor =>
+           New_Tensor_Nll_Loss_Sum (Output.Shadow_Tensor, 
+                                    Target.Shadow_Tensor,
+                                    Err'Unchecked_Access)
+        )
+      do
+         Check_Error (Err);
+      end return;
+   end;
+   
    function Size (T : Tensor; Dimension_Idx : Int64_T) return Int64_T is
       Err : aliased Ada_C_Error_Type;
    begin
@@ -198,6 +214,21 @@ package body Torch is
       Check_Error (Err);
    end;
    
+   function Arg_Max (T : Tensor; Dimension_Idx : Int64_T) return Tensor is
+      Err : aliased Ada_C_Error_Type;
+   begin
+      return Ret : Tensor :=
+        (
+         Ada.Finalization.Controlled with
+         Shadow_Tensor => 
+           New_Tensor_Arg_Max (T.Shadow_Tensor, Dimension_Idx, 
+                               Err'Unchecked_Access)
+        )
+      do
+         Check_Error (Err);
+      end return;
+   end;
+
    -- -------------------------------------------------------------------------
    -- Device_Type:
    

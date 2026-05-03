@@ -240,6 +240,36 @@ extern "C" {
         return NULL;
     }
 
+    AdaShadowTensor*
+    new_tensor_nll_loss_sum (AdaShadowTensor* output,
+                             AdaShadowTensor* target,
+                             ada_c_error_type *err)
+    {
+        assert (output);
+        assert (target);
+
+        try {
+            return new AdaShadowTensor
+                (torch::nll_loss(*output, *target,
+                                 /*weight =*/{},
+                                 torch::Reduction::Sum));
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+        return NULL;
+    }
+
     int64_t
     tensor_size(AdaShadowTensor* t, int64_t dim, ada_c_error_type *err)
     {
@@ -329,6 +359,30 @@ extern "C" {
             ada_set_error_code (err, 13);
             ada_set_error_message (err,  message);
         }
+    }
+    
+    AdaShadowTensor*
+    new_tensor_arg_max(AdaShadowTensor* t, uint64_t idx,
+                       ada_c_error_type *err)
+    {
+        assert(t);
+        try {
+            return new AdaShadowTensor(((torch::Tensor)*t).argmax(idx));
+        }
+        catch (c10::Error e) {
+            char message [4096];
+            snprintf (message, sizeof(message), "(%s \"%s\") - \"%s\"",
+                      "forwarded from", __FUNCTION__,
+                      e.what());
+            message [sizeof(message) - 4] = '.';
+            message [sizeof(message) - 3] = '.';
+            message [sizeof(message) - 2] = '.';
+
+            message [sizeof(message) - 1] = '\0';
+            ada_set_error_code (err, 13);
+            ada_set_error_message (err,  message);
+        }
+        return 0;
     }
     
 }; // extern "C"

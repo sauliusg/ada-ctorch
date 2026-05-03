@@ -44,6 +44,8 @@ package Torch is
    
    function Nll_Loss (Output, Target : Tensor) return Tensor;
    
+   function Nll_Loss_Sum (Output, Target : Tensor) return Tensor;
+   
    function Size (T : Tensor; Dimension_Idx : Int64_T) return Int64_T;
    
    function Scalar (T : Tensor) return Float;
@@ -51,6 +53,8 @@ package Torch is
    function Is_NaN (T : Tensor) return Boolean;
 
    procedure Backward (T : Tensor);
+   
+   function Arg_Max (T : Tensor; Dimension_Idx : Int64_T) return Tensor;
    
    -- -------------------------------------------------------------------------
    
@@ -262,7 +266,17 @@ private
      ) return Shadow_Tensor_Access
    with Import => True, 
      Convention => CPP, 
-     External_Name => "new_tensor_nll_loss";   
+     External_Name => "new_tensor_nll_loss";
+   
+   function New_Tensor_Nll_Loss_Sum
+     (
+      Output : Shadow_Tensor_Access;
+      Target : Shadow_Tensor_Access;
+      E : Ada_C_Error_Access
+     ) return Shadow_Tensor_Access
+   with Import => True, 
+     Convention => CPP, 
+     External_Name => "new_tensor_nll_loss_sum";
    
    function Tensor_Size (T : Shadow_Tensor_Access;
                          Dimension_Idx : Int64_T;
@@ -295,6 +309,15 @@ private
      Import => True,
      Convention => CPP,
      External_Name => "tensor_backward";
+   
+   function New_Tensor_Arg_Max (T : Shadow_Tensor_Access;
+                                Dimension_Idx : Int64_T;
+                                Err : Ada_C_Error_Access)
+                               return Shadow_Tensor_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_tensor_arg_max";
    
    -- -------------------------------------------------------------------------
    

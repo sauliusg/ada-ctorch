@@ -175,15 +175,31 @@ procedure MNIST is
    
    procedure Test
      (
-      Model  : Net_Type;
+      Model  : in out Net_Type;
       Device : Device_Type;
       Loader : Data_Loader_Type;
       Dataset_Size : UInt64_T
      )
    is
+      Test_Loss : Long_Float := 0.0;
+      Corrent   : Integer := 0;
    begin
       Model.Eval;
-      null;
+      for Batch of Loader loop
+         declare
+            Data   : Tensor := Batch.Data;
+            Target : Tensor := Batch.Target;
+            Output : Tensor;
+            Predicted : Tensor;
+         begin
+            Data.To   (Device);
+            Target.To (Device);
+            Output := Model.Forward (Data);
+            Test_Loss := Test_Loss + 
+              Long_Float (Scalar (Torch.Nll_Loss_Sum (Output, Target)));
+            Predicted := Output.Arg_Max (1);
+         end;
+      end loop;
    end;
    
 begin
