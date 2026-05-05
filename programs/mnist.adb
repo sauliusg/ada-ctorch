@@ -13,6 +13,8 @@ with Torch.Optim; use Torch.Optim;
 
 with Ada.Command_Line; use Ada.Command_Line;
 
+with Init_Seed;
+
 procedure MNIST is
    
    Number_Of_Epochs : constant Long_Integer := 10;   
@@ -212,8 +214,6 @@ procedure MNIST is
    end;
    
 begin
-   
-   Torch.Manual_Seed (1);
    
    for Epoch in 1 .. Number_Of_Epochs loop
       Train (Epoch, Net, Device, Train_Loader, Optimiser, Train_Dataset_Size);
