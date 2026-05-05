@@ -67,7 +67,7 @@ procedure MNIST is
    Root_Dir : constant String :=
      (if Argument_Count > 0 then Argument (1) else "data/");
    
-   Train_Mnist_Dataset :  Torch.Data.Datasets.Mnist :=
+   Train_Mnist_Dataset : Torch.Data.Datasets.Mnist :=
      Make_Stacked_Normalised_MNIST (
                                     Make_MNIST (Root_Dir, Mode => Train),
                                     0.1307, 0.3081
