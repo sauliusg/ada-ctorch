@@ -1,0 +1,4 @@
+  591  apptainer -q run apptainer/python-ubuntu.sif sh -c 'cd externals; git clone https://github.com/pytorch/pytorch.git'
+  595  mkdir externals/pytorch/build
+  603  apptainer -q run apptainer/python-ubuntu.sif sh -c 'cd externals/pytorch/build; virtualenv venv'
+  605  apptainer -q run apptainer/python-ubuntu.sif sh -c 'cd externals/pytorch/build; ./venv/bin/pip install -r ../requirements.txt'
