@@ -1,0 +1,10 @@
+.obj/*
+bin/*
+programs/.*.d
+src/cpp/generated/*
+Makeconfig
+Makeconfig-run
+.*~
+b~*
+*.ali
+*.o
