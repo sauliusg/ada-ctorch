@@ -2,3 +2,4 @@
   781  LD_LIBRARY_PATH=~/.alire/lib64:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib ./bin/mnist 
   782  LD_LIBRARY_PATH=~/.alire/lib64:$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e/lib ./mnist_cpp 
   606  apptainer run /home/saulius/src/pytorch/build-d3d655ad14e/python-ubuntu.sif make run
+  592  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'LD_LIBRARY_PATH=externals/install/pytorch/pytorch-main-commit-393c8054edc/lib ./bin/mnist'
