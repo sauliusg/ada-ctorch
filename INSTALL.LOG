@@ -1,0 +1,1767 @@
++ directory-metadata
++ whoami
+saulius
++ hostname -f
+starta
++ pwd
+/home/saulius/work/ada-ctorch
++ set +x
++ svnversion
+342
++ svn info
+Path: .
+Working Copy Root Path: /home/saulius/work/ada-ctorch
+URL: svn+ssh://saulius.grazulis.lt/home/saulius/svn-repositories/ada-ctorch/trunk
+Relative URL: ^/trunk
+Repository Root: svn+ssh://saulius.grazulis.lt/home/saulius/svn-repositories/ada-ctorch
+Repository UUID: 58c103b0-9528-442c-8745-02648d8b579a
+Revision: 342
+Node Kind: directory
+Schedule: normal
+Last Changed Author: saulius
+Last Changed Rev: 342
+Last Changed Date: 2026-05-08 06:53:27 +0300 (Fri, 08 May 2026)
+
++ df -h .
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme1n1p1  1,9T  1,6T  199G  89% /home
++ type osname
+osname is /home/saulius/scripts/osname
++ osname
+Linuxmint-20.3
++ uname -a
+Linux starta 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
++ date
+2026-05-08T06:57:31 EEST
++ apptainer -q exec apptainer/python-ubuntu.sif bash -xc 'cd externals/pytorch/build; PATH=$(pwd)/venv/bin:$PATH make install'
++ cd externals/pytorch/build
+++ pwd
++ PATH=/home/saulius/work/ada-ctorch/externals/pytorch/build/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ make install
+CMake Deprecation Warning at CMakeLists.txt:8 (cmake_policy):
+  The OLD behavior for policy CMP0126 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+CMake Deprecation Warning at CMakeLists.txt:20 (cmake_policy):
+  The OLD behavior for policy CMP0146 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- Found Python: /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/bin/python3.12 (found version "3.12.3") found components: Interpreter
+-- Could not find neither ccache nor sccache. Consider installing ccache to speed up compilation.
+-- Current compiler supports avx2 extension. Will build perfkernels.
+-- No SVE support on this machine.
+-- Compiler does not support SVE extension. Will not build perfkernels.
+-- Building using own protobuf under third_party per request.
+-- Use custom protobuf build.
+CMake Warning at cmake/ProtoBuf.cmake:37 (message):
+  Ancient protobuf forces CMake compatibility
+Call Stack (most recent call first):
+  cmake/ProtoBuf.cmake:87 (custom_protobuf_find)
+  cmake/Dependencies.cmake:113 (include)
+  CMakeLists.txt:955 (include)
+
+
+CMake Deprecation Warning at third_party/protobuf/cmake/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- 
+-- 3.13.0.0
+-- Caffe2 protobuf include directory: $<BUILD_INTERFACE:/home/saulius/work/ada-ctorch/externals/pytorch/third_party/protobuf/src>$<INSTALL_INTERFACE:include>
+-- Trying to find preferred BLAS backend of choice: MKL
+-- MKL_THREADING = OMP
+-- MKL_THREADING = OMP
+CMake Warning at cmake/Dependencies.cmake:230 (message):
+  MKL could not be found.  Defaulting to Eigen
+Call Stack (most recent call first):
+  CMakeLists.txt:955 (include)
+
+
+CMake Warning at cmake/Dependencies.cmake:296 (message):
+  Preferred BLAS (MKL) cannot be found, now searching for a general BLAS
+  library
+Call Stack (most recent call first):
+  CMakeLists.txt:955 (include)
+
+
+-- MKL_THREADING = OMP
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl - guide - pthread - m]
+--   Library mkl: not found
+-- MKL library not found
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Checking for [Accelerate]
+--   Library Accelerate: BLAS_Accelerate_LIBRARY-NOTFOUND
+-- Checking for [vecLib]
+--   Library vecLib: BLAS_vecLib_LIBRARY-NOTFOUND
+-- Checking for [flexiblas]
+--   Library flexiblas: BLAS_flexiblas_LIBRARY-NOTFOUND
+-- Checking for [openblas]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m - gomp]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran - pthread]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [acml - gfortran]
+--   Library acml: BLAS_acml_LIBRARY-NOTFOUND
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Could NOT find Atlas (missing: Atlas_CBLAS_INCLUDE_DIR Atlas_CLAPACK_INCLUDE_DIR Atlas_CBLAS_LIBRARY Atlas_BLAS_LIBRARY Atlas_LAPACK_LIBRARY) 
+-- Checking for [ptf77blas - atlas - gfortran]
+--   Library ptf77blas: BLAS_ptf77blas_LIBRARY-NOTFOUND
+-- Checking for []
+-- Cannot find a library with BLAS API. Not using BLAS.
+-- Using pocketfft in directory: /home/saulius/work/ada-ctorch/externals/pytorch/third_party/pocketfft/
+CMake Deprecation Warning at third_party/pthreadpool/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at third_party/FXdiv/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Warning at aten/src/ATen/native/quantized/cpu/qnnpack/CMakeLists.txt:399 (message):
+  Ancient psimd/FP16 forces CMake compatibility
+
+
+CMake Deprecation Warning at third_party/psimd/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at third_party/FP16/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Brace yourself, we are building NNPACK
+CMake Warning at cmake/External/nnpack.cmake:66 (message):
+  Ancient nnpack forces CMake compatibility
+Call Stack (most recent call first):
+  cmake/Dependencies.cmake:519 (include)
+  CMakeLists.txt:955 (include)
+
+
+CMake Deprecation Warning at third_party/NNPACK/CMakeLists.txt:1 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Warning (dev) at third_party/NNPACK/CMakeLists.txt:110 (FIND_PACKAGE):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- NNPACK backend is x86-64
+-- Building for XNNPACK_TARGET_PROCESSOR: x86_64
+-- Generating microkernels.cmake
+No microkernel found in src/reference/unary-elementwise.cc
+No microkernel found in src/reference/binary-elementwise.cc
+No microkernel found in src/reference/packing.cc
+Duplicate microkernel definition: src/qs8-qc4w-packw/gen/qs8-qc4w-packw-x8c8-gemm-goi-scalar.c and src/qs8-qc4w-packw/gen/qs8-qc4w-packw-x8c8-gemm-goi-avxvnni.c (1th function)
+Duplicate microkernel definition: src/qs8-qc4w-packw/gen/qs8-qc4w-packw-x8c8-gemm-goi-avxvnni.c and src/qs8-qc4w-packw/gen/qs8-qc4w-packw-x8c8-gemm-goi-avx256vnni.c (1th function)
+-- Failed to find LLVM FileCheck
+-- Google Benchmark version: v1.9.3, normalized to 1.9.3
+-- Performing Test HAVE_STD_REGEX -- success
+-- Performing Test HAVE_GNU_POSIX_REGEX -- failed to compile
+-- Performing Test HAVE_POSIX_REGEX -- success
+-- Performing Test HAVE_STEADY_CLOCK -- success
+-- Performing Test HAVE_PTHREAD_AFFINITY -- success
+
+
+================================================================================
+Default C++ compiler flags
+(values may be overridden by CMAKE_CXX_STANDARD and CXX_STANDARD):
+
+CMAKE_CXX_FLAGS:  -fvisibility-inlines-hidden -DUSE_PTHREADPOOL
+
+CMAKE_CXX_FLAGS_DEBUG: -g
+
+CMAKE_CXX_FLAGS_RELEASE: -O3 -DNDEBUG
+================================================================================
+
+-- CXX_AVX_FLAGS: -mavx
+-- CXX_AVX2_FLAGS: -mavx2 -mfma -mf16c
+-- CXX_AVX512_FLAGS: -mavx512f -mavx512dq -mavx512vl -mavx512bw -mfma
+CMake Warning (dev) at build/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:493 (message):
+  The package name passed to find_package_handle_standard_args() (OpenMP_C)
+  does not match the name of the calling package (OpenMP).  This can lead to
+  problems in calling code that expects find_package() result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/Modules/FindOpenMP.cmake:635 (find_package_handle_standard_args)
+  third_party/fbgemm/CMakeLists.txt:139 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found OpenMP_C: -fopenmp
+CMake Warning (dev) at build/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:493 (message):
+  The package name passed to find_package_handle_standard_args() (OpenMP_CXX)
+  does not match the name of the calling package (OpenMP).  This can lead to
+  problems in calling code that expects find_package() result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/Modules/FindOpenMP.cmake:635 (find_package_handle_standard_args)
+  third_party/fbgemm/CMakeLists.txt:139 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found OpenMP_CXX: -fopenmp
+-- OpenMP found: OpenMP_C_INCLUDE_DIRS = 
+
+
+================================================================================
+CPP Library Target: fbgemm_generic (OBJECT)
+ 
+SRCS:
+src/EmbeddingSpMDM.cc
+src/EmbeddingSpMDMNBit.cc
+src/ExecuteKernel.cc
+src/ExecuteKernelU8S8.cc
+src/Fbgemm.cc
+src/FbgemmBfloat16Convert.cc
+src/FbgemmConv.cc
+src/FbgemmFPCommon.cc
+src/FbgemmFP16.cc
+src/FbgemmFloat16Convert.cc
+src/FbgemmI64.cc
+src/FbgemmSparseDense.cc
+src/FbgemmI8Spmdm.cc
+src/FbgemmPackMatrixB.cc
+src/GenerateKernelDirectConvU8S8S32ACC32.cc
+src/GenerateKernel.cc
+src/GenerateKernelU8S8S32ACC16.cc
+src/GenerateKernelU8S8S32ACC16Avx512.cc
+src/GenerateKernelU8S8S32ACC16Avx512VNNI.cc
+src/GenerateKernelU8S8S32ACC32.cc
+src/GenerateKernelU8S8S32ACC32Avx512VNNI.cc
+src/GroupwiseConv.cc
+src/GroupwiseConvAcc32Avx2.cc
+src/GroupwiseConvAcc32Avx512.cc
+src/PackAMatrix.cc
+src/PackAWithIm2Col.cc
+src/PackAWithQuantRowOffset.cc
+src/PackAWithRowOffset.cc
+src/PackBMatrix.cc
+src/PackMatrix.cc
+src/PackWeightMatrixForGConv.cc
+src/PackWeightsForConv.cc
+src/PackWeightsForDirectConv.cc
+src/QuantUtils.cc
+src/RowWiseSparseAdagradFused.cc
+src/SparseAdagrad.cc
+src/spmmUtils.cc
+src/TransposeUtils.cc
+src/GenerateI8Depthwise.cc
+src/RefImplementations.cc
+src/Utils.cc
+src/fp32/FbgemmFP32.cc
+ 
+CC_FLAGS:
+
+ 
+MSVC_FLAGS:
+/wd4717
+/bigobj
+ 
+DEFINITIONS:
+FBGEMM_STATIC
+ 
+ENABLE_IPO: 
+
+ 
+INCLUDE_DIRS:
+$<BUILD_INTERFACE:/home/saulius/work/ada-ctorch/externals/pytorch/third_party/fbgemm>
+$<BUILD_INTERFACE:/home/saulius/work/ada-ctorch/externals/pytorch/third_party/fbgemm/include>
+$<BUILD_INTERFACE:/home/saulius/work/ada-ctorch/externals/pytorch/third_party/fbgemm/bench>
+ 
+Library Dependencies:
+$<BUILD_INTERFACE:cpuinfo>
+$<BUILD_INTERFACE:asmjit>
+ 
+Output Library:
+fbgemm_generic
+ 
+Install Destination:
+lib
+================================================================================
+
+-- Processor is x86_64; will build AVX2 target
+
+
+================================================================================
+CPP Library Target: fbgemm_avx2 (OBJECT)
+ 
+SRCS:
+src/EmbeddingSpMDMAvx2.cc
+src/FbgemmBfloat16ConvertAvx2.cc
+src/FbgemmFloat16ConvertAvx2.cc
+src/FbgemmI8Depthwise3DAvx2.cc
+src/FbgemmI8DepthwiseAvx2.cc
+src/FbgemmI8DepthwisePerChannelQuantAvx2.cc
+src/FbgemmSparseDenseAvx2.cc
+src/FbgemmSparseDenseInt8Avx2.cc
+src/OptimizedKernelsAvx2.cc
+src/PackDepthwiseConvMatrixAvx2.cc
+src/QuantUtilsAvx2.cc
+src/spmmUtilsAvx2.cc
+src/UtilsAvx2.cc
+src/fp32/FbgemmFP32UKernelsAvx2.cc
+src/FbgemmFP16UKernelsAvx2.cc
+ 
+CC_FLAGS:
+-m64
+-mf16c
+-mfma
+-mavx2
+-mfma
+-mf16c
+ 
+MSVC_FLAGS:
+-mavx2
+-mfma
+-mf16c
+ 
+DEFINITIONS:
+
+ 
+ENABLE_IPO: 
+
+ 
+INCLUDE_DIRS:
+
+ 
+Library Dependencies:
+$<BUILD_INTERFACE:cpuinfo>
+$<BUILD_INTERFACE:asmjit>
+fbgemm_generic
+ 
+Output Library:
+fbgemm_avx2
+ 
+Install Destination:
+lib
+================================================================================
+
+-- Processor is x86_64; will build AVX512 target
+
+
+================================================================================
+CPP Library Target: fbgemm_avx512 (OBJECT)
+ 
+SRCS:
+src/FbgemmBfloat16ConvertAvx512.cc
+src/EmbeddingSpMDMAvx512.cc
+src/FbgemmFloat16ConvertAvx512.cc
+src/FbgemmSparseDenseAvx512.cc
+src/FbgemmSparseDenseInt8Avx512.cc
+src/FbgemmSparseDenseVectorInt8Avx512.cc
+src/QuantUtilsAvx512.cc
+src/UtilsAvx512.cc
+src/FbgemmFP16UKernelsAvx512.cc
+src/FbgemmFP16UKernelsAvx512_256.cc
+src/fp32/FbgemmFP32UKernelsAvx512.cc
+src/fp32/FbgemmFP32UKernelsAvx512_256.cc
+ 
+CC_FLAGS:
+-m64
+-mfma
+-mavx512f
+-mavx512dq
+-mavx512vl
+-mavx512bw
+-mfma
+-mavx2
+-mfma
+-mf16c
+ 
+MSVC_FLAGS:
+-mavx512f
+-mavx512dq
+-mavx512vl
+-mavx512bw
+-mfma
+-mavx2
+-mfma
+-mf16c
+ 
+DEFINITIONS:
+
+ 
+ENABLE_IPO: 
+
+ 
+INCLUDE_DIRS:
+
+ 
+Library Dependencies:
+$<BUILD_INTERFACE:cpuinfo>
+$<BUILD_INTERFACE:asmjit>
+fbgemm_generic
+ 
+Output Library:
+fbgemm_avx512
+ 
+Install Destination:
+lib
+================================================================================
+
+-- Processor is x86_64; will NOT build Neon target
+-- Processor is x86_64; will NOT build SVE target
+-- Will build autovec target
+
+
+================================================================================
+CPP Library Target: fbgemm_autovec (OBJECT)
+ 
+SRCS:
+src/EmbeddingSpMDMAutovec.cc
+src/EmbeddingStatsTracker.cc
+ 
+CC_FLAGS:
+
+ 
+MSVC_FLAGS:
+
+ 
+DEFINITIONS:
+
+ 
+ENABLE_IPO: 
+OFF
+ 
+INCLUDE_DIRS:
+
+ 
+Library Dependencies:
+$<BUILD_INTERFACE:cpuinfo>
+$<BUILD_INTERFACE:asmjit>
+fbgemm_generic
+ 
+Output Library:
+fbgemm_autovec
+ 
+Install Destination:
+lib
+================================================================================
+
+
+
+================================================================================
+CPP Library Target: fbgemm (STATIC)
+ 
+SRCS:
+
+ 
+CC_FLAGS:
+
+ 
+MSVC_FLAGS:
+
+ 
+DEFINITIONS:
+
+ 
+ENABLE_IPO: 
+
+ 
+INCLUDE_DIRS:
+
+ 
+Library Dependencies:
+fbgemm_generic
+fbgemm_avx2
+fbgemm_avx512
+fbgemm_autovec
+ 
+Output Library:
+fbgemm
+ 
+Install Destination:
+lib
+================================================================================
+
+-- Dependency: adding libc (Linux, BSD, or other UNIX/POSIX environment)
+-- Dependency: libpthread provided by libc (not linking to libpthread)
+-- Dependency: shm_open provided by libc (not linking to librt)
+** AsmJit Summary **
+   ASMJIT_DIR=/home/saulius/work/ada-ctorch/externals/pytorch/third_party/fbgemm/external/asmjit
+   ASMJIT_TEST=FALSE
+   ASMJIT_TARGET_TYPE=STATIC
+   ASMJIT_DEPS=c
+   ASMJIT_LIBS=asmjit;c
+   ASMJIT_CFLAGS=-DASMJIT_STATIC
+   ASMJIT_PRIVATE_CFLAGS=-Wall;-Wextra;-Wconversion;-fno-math-errno;-fno-threadsafe-statics;-fno-semantic-interposition;-DASMJIT_STATIC
+   ASMJIT_PRIVATE_CFLAGS_DBG=
+   ASMJIT_PRIVATE_CFLAGS_REL=-O2;-fmerge-all-constants;-fno-enforce-eh-specs
+CMake Deprecation Warning at third_party/ittapi/CMakeLists.txt:7 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Using third party subdirectory Eigen.
+-- Found Python: /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/bin/python3.12 (found version "3.12.3") found components: Interpreter Development.Module NumPy
+-- Using third_party/pybind11.
+-- pybind11 include dirs: /home/saulius/work/ada-ctorch/externals/pytorch/cmake/../third_party/pybind11/include
+-- Adding OpenMP CXX_FLAGS: -fopenmp
+-- Will link against OpenMP libraries: /usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so
+-- summary of build options:
+    Install prefix:  /home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc
+    Target system:   Linux
+    Compiler:
+      C compiler:    /usr/bin/cc (GNU)
+      CFLAGS:         
+
+-- Gloo build as SHARED library
+-- ONNX_PROTOC_EXECUTABLE: $<TARGET_FILE:protobuf::protoc>
+-- Protobuf_VERSION: Protobuf_VERSION_NOTFOUND
+Generated: /home/saulius/work/ada-ctorch/externals/pytorch/build/third_party/onnx/onnx/onnx_onnx_torch-ml.proto
+Generated: /home/saulius/work/ada-ctorch/externals/pytorch/build/third_party/onnx/onnx/onnx-operators_onnx_torch-ml.proto
+Generated: /home/saulius/work/ada-ctorch/externals/pytorch/build/third_party/onnx/onnx/onnx-data_onnx_torch.proto
+-- 
+-- ******** Summary ********
+--   CMake version                     : 4.3.2
+--   CMake command                     : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/lib/python3.12/site-packages/cmake/data/bin/cmake
+--   System                            : Linux
+--   C++ compiler                      : /usr/bin/c++
+--   C++ compiler version              : 13.3.0
+--   CXX flags                         :  -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -Wnon-virtual-dtor
+--   Build type                        : Release
+--   Compile definitions               : ONNX_ML=1;ONNXIFI_ENABLE_EXT=1
+--   CMAKE_PREFIX_PATH                 : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/lib/python3.12/site-packages;/home/saulius/src/pytorch/build
+--   CMAKE_INSTALL_PREFIX              : /home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc
+--   CMAKE_MODULE_PATH                 : /home/saulius/work/ada-ctorch/externals/pytorch/cmake/Modules
+-- 
+--   ONNX version                      : 1.18.0
+--   ONNX NAMESPACE                    : onnx_torch
+--   ONNX_USE_LITE_PROTO               : OFF
+--   USE_PROTOBUF_SHARED_LIBS          : OFF
+--   ONNX_DISABLE_EXCEPTIONS           : OFF
+--   ONNX_DISABLE_STATIC_REGISTRATION  : OFF
+--   ONNX_WERROR                       : OFF
+--   ONNX_BUILD_TESTS                  : OFF
+--   BUILD_SHARED_LIBS                 : OFF
+-- 
+--   Protobuf compiler                 : $<TARGET_FILE:protobuf::protoc>
+--   Protobuf includes                 : 
+--   Protobuf libraries                : 
+--   ONNX_BUILD_PYTHON                 : OFF
+-- Found CUDA with FP16 support, compiling with torch.cuda.HalfTensor
+-- Adding -DNDEBUG to compile flags
+-- No SVE support on this machine.
+-- MKL_THREADING = OMP
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl - guide - pthread - m]
+--   Library mkl: not found
+-- MKL library not found
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Checking for [Accelerate]
+--   Library Accelerate: BLAS_Accelerate_LIBRARY-NOTFOUND
+-- Checking for [vecLib]
+--   Library vecLib: BLAS_vecLib_LIBRARY-NOTFOUND
+-- Checking for [flexiblas]
+--   Library flexiblas: BLAS_flexiblas_LIBRARY-NOTFOUND
+-- Checking for [openblas]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m - gomp]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran - pthread]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [acml - gfortran]
+--   Library acml: BLAS_acml_LIBRARY-NOTFOUND
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Could NOT find Atlas (missing: Atlas_CBLAS_INCLUDE_DIR Atlas_CLAPACK_INCLUDE_DIR Atlas_CBLAS_LIBRARY Atlas_BLAS_LIBRARY Atlas_LAPACK_LIBRARY) 
+-- Checking for [ptf77blas - atlas - gfortran]
+--   Library ptf77blas: BLAS_ptf77blas_LIBRARY-NOTFOUND
+-- Checking for []
+-- Cannot find a library with BLAS API. Not using BLAS.
+-- LAPACK requires BLAS
+-- Cannot find a library with LAPACK API. Not using LAPACK.
+disabling CUDA because NOT USE_CUDA is set
+disabling ROCM because NOT USE_ROCM is set
+-- MIOpen not found. Compiling without MIOpen support
+-- Will build oneDNN Graph
+-- Will build oneDNN UKERNEL
+-- MKL_THREADING = OMP
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_intel - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf_lp64 - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_gnu_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_gf - mkl_intel_thread - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_sequential - mkl_core - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - gomp - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - iomp5 - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl_intel_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_intel_lp64: not found
+-- Checking for [mkl_intel - mkl_core - pthread - m - dl]
+--   Library mkl_intel: not found
+-- Checking for [mkl_gf_lp64 - mkl_core - pthread - m - dl]
+--   Library mkl_gf_lp64: not found
+-- Checking for [mkl_gf - mkl_core - pthread - m - dl]
+--   Library mkl_gf: not found
+-- Checking for [mkl - guide - pthread - m]
+--   Library mkl: not found
+-- MKL library not found
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Checking for [Accelerate]
+--   Library Accelerate: BLAS_Accelerate_LIBRARY-NOTFOUND
+-- Checking for [vecLib]
+--   Library vecLib: BLAS_vecLib_LIBRARY-NOTFOUND
+-- Checking for [flexiblas]
+--   Library flexiblas: BLAS_flexiblas_LIBRARY-NOTFOUND
+-- Checking for [openblas]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [openblas - pthread - m - gomp]
+--   Library openblas: BLAS_openblas_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [goto2 - gfortran - pthread]
+--   Library goto2: BLAS_goto2_LIBRARY-NOTFOUND
+-- Checking for [acml - gfortran]
+--   Library acml: BLAS_acml_LIBRARY-NOTFOUND
+-- Checking for [blis]
+--   Library blis: BLAS_blis_LIBRARY-NOTFOUND
+-- Could NOT find Atlas (missing: Atlas_CBLAS_INCLUDE_DIR Atlas_CLAPACK_INCLUDE_DIR Atlas_CBLAS_LIBRARY Atlas_BLAS_LIBRARY Atlas_LAPACK_LIBRARY) 
+-- Checking for [ptf77blas - atlas - gfortran]
+--   Library ptf77blas: BLAS_ptf77blas_LIBRARY-NOTFOUND
+-- Checking for []
+-- Cannot find a library with BLAS API. Not using BLAS.
+-- MKLDNN_CPU_RUNTIME = OMP
+CMake Deprecation Warning at third_party/ideep/mkl-dnn/CMakeLists.txt:36 (cmake_policy):
+  The OLD behavior for policy CMP0146 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- DNNL_TARGET_ARCH: X64
+-- DNNL_LIBRARY_NAME: dnnl
+CMake Warning (dev) at build/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:493 (message):
+  The package name passed to find_package_handle_standard_args() (OpenMP_C)
+  does not match the name of the calling package (OpenMP).  This can lead to
+  problems in calling code that expects find_package() result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/Modules/FindOpenMP.cmake:635 (find_package_handle_standard_args)
+  third_party/ideep/mkl-dnn/cmake/OpenMP.cmake:41 (find_package)
+  third_party/ideep/mkl-dnn/CMakeLists.txt:94 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found OpenMP_C: -fopenmp
+CMake Warning (dev) at build/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake:493 (message):
+  The package name passed to find_package_handle_standard_args() (OpenMP_CXX)
+  does not match the name of the calling package (OpenMP).  This can lead to
+  problems in calling code that expects find_package() result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/Modules/FindOpenMP.cmake:635 (find_package_handle_standard_args)
+  third_party/ideep/mkl-dnn/cmake/OpenMP.cmake:41 (find_package)
+  third_party/ideep/mkl-dnn/CMakeLists.txt:94 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found OpenMP_CXX: -fopenmp
+-- Enabled testing coverage: CI
+-- Enabled workload: TRAINING
+-- Enabled primitives: ALL
+-- Enabled primitive CPU ISA: ALL
+-- Enabled primitive GPU ISA: ALL
+-- Enabled GeMM kernels ISA: ALL
+-- Primitive cache is enabled
+-- Experimental functionality for ukernels is enabled
+-- Graph component is enabled
+-- Found MKL-DNN: TRUE
+-- <FindZVECTOR>
+-- ZVECTOR flags were NOT set.
+-- </FindZVECTOR>
+-- {fmt} version: 12.1.0
+-- Build type: Release
+-- Using CPU-only version of Kineto
+-- Configuring Kineto dependency:
+--   KINETO_SOURCE_DIR = /home/saulius/work/ada-ctorch/externals/pytorch/third_party/kineto/libkineto
+--   KINETO_BUILD_TESTS = OFF
+--   KINETO_LIBRARY_TYPE = static
+--  ROCM_SOURCE_DIR = 
+-- Could not find nvcc, please set CUDAToolkit_ROOT.
+--  No GPU backend available - building CPU-only profilers
+--  ROCTRACER_INCLUDE_DIR = /include/roctracer
+--  DYNOLOG_INCLUDE_DIR = /home/saulius/work/ada-ctorch/externals/pytorch/third_party/kineto/libkineto/third_party/dynolog/
+--  IPCFABRIC_INCLUDE_DIR = /home/saulius/work/ada-ctorch/externals/pytorch/third_party/kineto/libkineto/third_party/dynolog//dynolog/src/ipcfabric/
+-- Configured Kineto (CPU)
+-- GCC 13.3.0: Adding gcc and gcc_s libs to link line
+-- don't use NUMA
+-- headers outputs: 
+-- sources outputs: 
+-- declarations_yaml outputs: 
+-- Using ATen parallel backend: OMP
+disabling CUDA because USE_CUDA is set false
+-- Could NOT find OpenSSL, try to set the path to OpenSSL root folder in the system variable OPENSSL_ROOT_DIR (missing: OPENSSL_CRYPTO_LIBRARY OPENSSL_INCLUDE_DIR) 
+-- Support for OpenMP disabled by CMake option
+-- Configuring build for SLEEF-v3.8.0
+   Target system: Linux-5.15.0-139-generic
+   Target processor: x86_64
+   Host system: Linux-5.15.0-139-generic
+   Host processor: x86_64
+   Detected C compiler: GNU @ /usr/bin/cc
+   CMake: 4.3.2
+   Make program: /usr/bin/gmake
+-- Using option `-Wall -Wno-unused-function -Wno-attributes -Wno-unused-result -Wno-psabi -ffp-contract=off -fno-math-errno -fno-trapping-math` to compile libsleef
+-- Building shared libs : OFF
+-- Building static test bins: OFF
+-- MPFR : LIB_MPFR-NOTFOUND
+-- GMP : LIBGMP-NOTFOUND
+-- RT : /usr/lib/x86_64-linux-gnu/librt.a
+-- FFTW3 : LIBFFTW3-NOTFOUND
+-- OPENSSL : 
+-- SDE : SDE_COMMAND-NOTFOUND
+-- COMPILER_SUPPORTS_OPENMP : 
+AT_INSTALL_INCLUDE_DIR include/ATen/core
+core header install: /home/saulius/work/ada-ctorch/externals/pytorch/build/aten/src/ATen/core/TensorBody.h
+core header install: /home/saulius/work/ada-ctorch/externals/pytorch/build/aten/src/ATen/core/aten_interned_strings.h
+CMake Warning at CMakeLists.txt:1359 (message):
+  Generated cmake files are only fully tested if one builds with system glog,
+  gflags, and protobuf.  Other settings may generate files that are not well
+  tested.
+
+
+-- 
+-- ******** Summary ********
+-- General:
+--   CMake version         : 4.3.2
+--   CMake command         : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/lib/python3.12/site-packages/cmake/data/bin/cmake
+--   System                : Linux
+--   C++ compiler          : /usr/bin/c++
+--   C++ compiler id       : GNU
+--   C++ compiler version  : 13.3.0
+--   Using ccache if found : ON
+--   Found ccache          : CCACHE_PROGRAM-NOTFOUND
+--   CXX flags             :  -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -faligned-new -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-dangling-reference -Wno-error=dangling-reference -Wno-stringop-overflow
+--   Shared LD flags       :  -Wl,--no-as-needed -rdynamic
+--   Static LD flags       : 
+--   Module LD flags       : 
+--   Build type            : Release
+--   Compile definitions   : ONNX_ML=1;ONNXIFI_ENABLE_EXT=1;ONNX_NAMESPACE=onnx_torch;HAVE_MMAP=1;_FILE_OFFSET_BITS=64;HAVE_SHM_OPEN=1;HAVE_SHM_UNLINK=1;HAVE_MALLOC_USABLE_SIZE=1;HAVE_POSIX_FALLOCATE=1;USE_EXTERNAL_MZCRC;MINIZ_DISABLE_ZIP_READER_CRC32_CHECKS
+--   CMAKE_PREFIX_PATH     : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/lib/python3.12/site-packages;/home/saulius/src/pytorch/build
+--   CMAKE_INSTALL_PREFIX  : /home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc
+--   USE_GOLD_LINKER       : OFF
+-- 
+--   TORCH_VERSION         : 2.13.0
+--   BUILD_STATIC_RUNTIME_BENCHMARK: OFF
+--   BUILD_BINARY          : OFF
+--   BUILD_CUSTOM_PROTOBUF : ON
+--     Link local protobuf : ON
+--   BUILD_PYTHON          : ON
+--     Python version      : 3.12.3
+--     Python executable   : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/bin/python3.12
+--     Python library      : 
+--     Python includes     : /usr/include/python3.12
+--     Python site-package : /home/saulius/work/ada-ctorch/externals/pytorch/build/venv/lib/python3.12/site-packages
+--   BUILD_SHARED_LIBS     : ON
+--   CAFFE2_USE_MSVC_STATIC_RUNTIME     : OFF
+--   BUILD_TEST            : ON
+--   BUILD_JNI             : OFF
+--   BUILD_MOBILE_AUTOGRAD : OFF
+--   BUILD_LITE_INTERPRETER: OFF
+--   INTERN_BUILD_MOBILE   : 
+--   TRACING_BASED         : OFF
+--   USE_BLAS              : 0
+--   USE_LAPACK            : 0
+--   USE_ASAN              : OFF
+--   USE_LSAN              : OFF
+--   USE_TSAN              : OFF
+--   USE_CPP_CODE_COVERAGE : OFF
+--   USE_CUDA              : OFF
+--   USE_XPU               : OFF
+--   USE_ROCM              : OFF
+--   BUILD_NVFUSER         : 
+--   USE_EIGEN_FOR_BLAS    : ON
+--   USE_EIGEN_FOR_SPARSE  : OFF
+--   USE_FBGEMM            : ON
+--   USE_MSLK              : OFF
+--   USE_KINETO            : ON
+--   USE_GFLAGS            : OFF
+--   USE_GLOG              : OFF
+--   USE_LITE_PROTO        : OFF
+--   USE_PYTORCH_METAL     : OFF
+--   USE_PYTORCH_METAL_EXPORT     : OFF
+--   USE_MPS               : OFF
+--   CAN_COMPILE_METAL     : 
+--   CAN_COMPILE_METAL_40  : 
+--   USE_MKL               : OFF
+--   USE_MKLDNN            : ON
+--   USE_MKLDNN_ACL        : OFF
+--   USE_MKLDNN_CBLAS      : OFF
+--   USE_PRIORITIZED_TEXT_FOR_LD : OFF
+--   USE_UCC               : OFF
+--   USE_ITT               : ON
+--   USE_XCCL              : OFF
+--   USE_NCCL              : OFF
+--   Found NVSHMEM         : 
+--   USE_NNPACK            : ON
+--   USE_NUMPY             : ON
+--   USE_OBSERVERS         : ON
+--   USE_OPENCL            : OFF
+--   USE_OPENMP            : ON
+--   USE_MIMALLOC          : OFF
+--   USE_VULKAN            : OFF
+--   USE_PROF              : OFF
+--   USE_PYTORCH_QNNPACK   : ON
+--   USE_XNNPACK           : ON
+--   USE_DISTRIBUTED       : ON
+--     USE_MPI               : OFF
+--     USE_GLOO              : ON
+--     USE_GLOO_WITH_OPENSSL : OFF
+--     USE_GLOO_IBVERBS      : OFF
+--     USE_TENSORPIPE        : ON
+--   Public Dependencies  : 
+--   Private Dependencies : Threads::Threads;pthreadpool;cpuinfo;pytorch_qnnpack;nnpack;XNNPACK;microkernels-prod;fbgemm;ittnotify;fp16;caffe2::openmp;tensorpipe;nlohmann;moodycamel;gloo;rt;fmt::fmt-header-only;kineto;gcc_s;gcc;dl
+--   Public CUDA Deps.    : 
+--   Private CUDA Deps.   : 
+--   USE_COREML_DELEGATE     : OFF
+--   BUILD_LAZY_TS_BACKEND   : ON
+--   USE_ROCM_KERNEL_ASSERT : OFF
+-- Configuring done (10.5s)
+-- Generating done (2.5s)
+-- Build files have been written to: /home/saulius/work/ada-ctorch/externals/pytorch/build
+[  0%] Merging compile_commands.json...
+[  0%] Built target merge_compile_commands
+[  0%] Built target libprotobuf-lite
+[  1%] Built target libprotobuf
+[  2%] Built target libprotoc
+[  2%] Built target protoc
+[  2%] Built target pthreadpool
+[  3%] Built target cpuinfo
+[  3%] Built target cpuinfo_internals
+[  3%] Built target clog
+[  4%] Built target pytorch_qnnpack
+[  5%] Built target nnpack
+[  5%] Built target nnpack_reference_layers
+[ 16%] Built target microkernels-prod
+[ 59%] Built target microkernels-all
+[ 60%] Built target logging
+[ 60%] Built target hardware-config
+[ 60%] Built target indirection
+[ 60%] Built target microparams-init
+[ 60%] Built target normalization
+[ 60%] Built target packing
+[ 60%] Built target allocator
+[ 60%] Built target cache
+[ 60%] Built target datatype
+[ 60%] Built target memory
+[ 60%] Built target microkernel-utils
+[ 60%] Built target mutex
+[ 60%] Built target reference-ukernels
+[ 60%] Built target operator-utils
+[ 60%] Built target operators
+[ 60%] Built target operator-run
+[ 61%] Built target subgraph
+[ 61%] Built target XNNPACK
+[ 61%] Built target gtest
+[ 61%] Built target gmock
+[ 61%] Built target gmock_main
+[ 61%] Built target gtest_main
+[ 62%] Built target benchmark
+[ 62%] Built target benchmark_main
+[ 62%] Built target asmjit
+[ 62%] Built target fbgemm_generic
+[ 62%] Built target fbgemm_avx2
+[ 63%] Built target fbgemm_avx512
+[ 63%] Built target fbgemm_autovec
+[ 63%] Building CXX object third_party/fbgemm/CMakeFiles/fbgemm.dir/__/__/gen_placeholder_aXNYE1.cc.o
+[ 63%] Linking CXX static library ../../lib/libfbgemm.a
+[ 63%] Built target fbgemm
+[ 63%] Built target ittnotify
+[ 64%] Built target jitprofiling
+[ 65%] Built target tensorpipe_uv
+[ 65%] Built target tensorpipe
+[ 66%] Built target gloo
+[ 66%] Built target dnnl_graph_utils
+[ 67%] Built target dnnl_common
+[ 68%] Built target dnnl_cpu
+[ 72%] Built target dnnl_cpu_x64
+[ 72%] Built target dnnl_graph_interface
+[ 72%] Built target dnnl_graph_backend_fake
+[ 73%] Built target dnnl_graph_backend_dnnl
+[ 73%] Built target dnnl
+[ 73%] Built target fmt
+[ 73%] Built target libkineto_defs.bzl
+[ 73%] Built target kineto_base
+[ 73%] Built target kineto_api
+[ 73%] Built target kineto
+[ 73%] Built target headeronly
+[ 74%] Built target c10
+[ 74%] Built target c10_AllocatorConfig_test
+[ 74%] Built target c10_CompileTimeFunctionPointer_test
+[ 74%] Built target c10_DeviceGuard_test
+[ 74%] Built target c10_Device_test
+[ 74%] Built target c10_DispatchKeySet_test
+[ 74%] Built target c10_Scalar_test
+[ 74%] Built target c10_StreamGuard_test
+[ 74%] Built target c10_SymInt_test
+[ 74%] Built target c10_InlineDeviceGuard_test
+[ 74%] Built target c10_InlineStreamGuard_test
+[ 74%] Built target c10_SizesAndStrides_test
+[ 74%] Built target c10_cow_test
+[ 74%] Built target c10_ArrayRef_test
+[ 74%] Built target c10_Bitset_test
+[ 74%] Built target c10_ConstexprCrc_test
+[ 74%] Built target c10_DeadlockDetection_test
+[ 74%] Built target c10_Enumerate_test
+[ 74%] Built target c10_Half_test
+[ 74%] Built target c10_IntrusiveList_test
+[ 74%] Built target c10_LeftRight_test
+[ 74%] Built target c10_NetworkFlow_test
+[ 74%] Built target c10_Semaphore_test
+[ 74%] Built target c10_Synchronized_test
+[ 74%] Built target c10_ThreadLocalDebugInfo_test
+[ 75%] Built target c10_ThreadLocal_test
+[ 75%] Built target c10_TypeIndex_test
+[ 75%] Built target c10_WaitCounter_test
+[ 75%] Built target c10_accumulate_test
+[ 75%] Built target c10_bfloat16_test
+[ 75%] Built target c10_bit_cast_test
+[ 75%] Built target c10_complex_math_test
+[ 75%] Built target c10_complex_test
+[ 75%] Built target c10_error_test
+[ 75%] Built target c10_exception_test
+[ 75%] Built target c10_flags_test
+[ 75%] Built target c10_generic_math_test
+[ 75%] Built target c10_intrusive_ptr_test
+[ 75%] Built target c10_irange_test
+[ 75%] Built target c10_lazy_test
+[ 75%] Built target c10_logging_test
+[ 75%] Built target c10_nofatal_test
+[ 75%] Built target c10_optional_test
+[ 75%] Built target c10_ordered_preserving_dict_test
+[ 75%] Built target c10_registry_test
+[ 75%] Built target c10_small_vector_test
+[ 75%] Built target c10_ssize_test
+[ 75%] Built target c10_string_util_test
+[ 75%] Built target c10_string_view_test
+[ 75%] Built target c10_tempfile_test
+[ 75%] Built target c10_typeid_test
+[ 75%] Built target c10_cpp17_header_build_test
+[ 75%] Built target c10_intrusive_ptr_benchmark
+[ 75%] Built target common
+[ 75%] Built target mkrename
+[ 75%] Built target headers
+[ 75%] Built target renameAVX512FNOFMA.h_generated
+[ 75%] Built target sleefavx512fnofma
+[ 75%] Built target sleefdetavx512fnofma
+[ 75%] Built target mkalias
+[ 75%] Built target alias_avx512f.h_generated
+[ 75%] Built target renameAVX512F.h_generated
+[ 76%] Built target sleefavx512f
+[ 76%] Built target sleefdetavx512f
+[ 76%] Built target renameAVX2.h_generated
+[ 76%] Built target sleefavx2
+[ 76%] Built target sleefdetavx2
+[ 76%] Built target renameAVX2128.h_generated
+[ 76%] Built target sleefavx2128
+[ 76%] Built target sleefdetavx2128
+[ 76%] Built target renameFMA4.h_generated
+[ 76%] Built target sleeffma4
+[ 76%] Built target sleefdetfma4
+[ 76%] Built target renameAVX.h_generated
+[ 76%] Built target sleefavx
+[ 76%] Built target sleefdetavx
+[ 76%] Built target renameSSE4.h_generated
+[ 76%] Built target sleefsse4
+[ 76%] Built target sleefdetsse4
+[ 76%] Built target renameSSE2.h_generated
+[ 76%] Built target sleefsse2
+[ 76%] Built target sleefdetsse2
+[ 76%] Built target renamePUREC_SCALAR.h_generated
+[ 76%] Built target sleefpurec_scalar
+[ 76%] Built target sleefdetpurec_scalar
+[ 76%] Built target renamePURECFMA_SCALAR.h_generated
+[ 76%] Built target sleefpurecfma_scalar
+[ 76%] Built target sleefdetpurecfma_scalar
+[ 76%] Built target renamedspscalar.h_generated
+[ 76%] Built target mkdisp
+[ 76%] Built target dispscalar.c_generated
+[ 76%] Built target dispscalar_obj
+[ 76%] Built target renamedsp128.h_generated
+[ 76%] Built target dispsse.c_generated
+[ 76%] Built target dispsse_obj
+[ 76%] Built target renamedsp256.h_generated
+[ 76%] Built target dispavx.c_generated
+[ 76%] Built target dispavx_obj
+[ 76%] Built target sleef
+[ 76%] Built target gen_onnx_proto
+[ 76%] Built target gen_onnx_data_proto
+[ 76%] Built target gen_onnx_operators_proto
+[ 77%] Built target onnx_proto
+[ 77%] Built target onnx
+[ 77%] Built target ATEN_CPU_FILES_GEN_TARGET
+[ 77%] Linking CXX shared library ../lib/libtorch_cpu.so
+[ 93%] Built target torch_cpu
+[ 93%] Building CXX object caffe2/CMakeFiles/torch.dir/__/empty.cpp.o
+[ 93%] Linking CXX shared library ../lib/libtorch.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 93%] Built target torch
+[ 93%] Built target torch_global_deps
+[ 93%] Linking CXX executable ../bin/vec_test_all_types_DEFAULT
+[ 93%] Built target vec_test_all_types_DEFAULT
+[ 93%] Linking CXX executable ../bin/vec_test_all_types_AVX512
+[ 93%] Built target vec_test_all_types_AVX512
+[ 93%] Linking CXX executable ../bin/vec_test_all_types_AVX2
+[ 93%] Built target vec_test_all_types_AVX2
+[ 93%] Linking CXX executable ../bin/Dict_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 93%] Built target Dict_test
+[ 93%] Linking CXX executable ../bin/Dimname_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 93%] Built target Dimname_test
+[ 93%] Linking CXX executable ../bin/MaybeOwned_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 93%] Built target MaybeOwned_test
+[ 93%] Linking CXX executable ../bin/NamedTensor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 93%] Built target NamedTensor_test
+[ 93%] Linking CXX executable ../bin/accelerator_graph_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 93%] Built target accelerator_graph_test
+[ 94%] Linking CXX executable ../bin/apply_utils_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target apply_utils_test
+[ 94%] Linking CXX executable ../bin/atest
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target atest
+[ 94%] Linking CXX executable ../bin/basic
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target basic
+[ 94%] Linking CXX executable ../bin/broadcast_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target broadcast_test
+[ 94%] Linking CXX executable ../bin/cpu_allocator_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target cpu_allocator_test
+[ 94%] Linking CXX executable ../bin/cpu_generator_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target cpu_generator_test
+[ 94%] Linking CXX executable ../bin/cpu_profiling_allocator_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target cpu_profiling_allocator_test
+[ 94%] Linking CXX executable ../bin/cpu_rng_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target cpu_rng_test
+[ 94%] Linking CXX executable ../bin/dlconvertor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target dlconvertor_test
+[ 94%] Linking CXX executable ../bin/extension_backend_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target extension_backend_test
+[ 94%] Linking CXX executable ../bin/half_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 94%] Built target half_test
+[ 94%] Linking CXX executable ../bin/ivalue_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target ivalue_test
+[ 94%] Linking CXX executable ../bin/lazy_tensor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 94%] Built target lazy_tensor_test
+[ 94%] Linking CXX executable ../bin/math_kernel_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target math_kernel_test
+[ 94%] Linking CXX executable ../bin/memory_format_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target memory_format_test
+[ 94%] Linking CXX executable ../bin/memory_overlapping_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target memory_overlapping_test
+[ 94%] Linking CXX executable ../bin/mobile_memory_cleanup
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target mobile_memory_cleanup
+[ 94%] Linking CXX executable ../bin/native_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target native_test
+[ 94%] Linking CXX executable ../bin/operator_name_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 94%] Built target operator_name_test
+[ 94%] Linking CXX executable ../bin/operators_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target operators_test
+[ 94%] Linking CXX executable ../bin/packedtensoraccessor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target packedtensoraccessor_test
+[ 94%] Linking CXX executable ../bin/pow_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target pow_test
+[ 94%] Linking CXX executable ../bin/quantized_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target quantized_test
+[ 94%] Linking CXX executable ../bin/reduce_ops_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target reduce_ops_test
+[ 94%] Linking CXX executable ../bin/reportMemoryUsage_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 94%] Built target reportMemoryUsage_test
+[ 94%] Linking CXX executable ../bin/scalar_tensor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target scalar_tensor_test
+[ 94%] Linking CXX executable ../bin/scalar_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target scalar_test
+[ 94%] Linking CXX executable ../bin/StorageUtils_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target StorageUtils_test
+[ 94%] Linking CXX executable ../bin/stride_properties_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target stride_properties_test
+[ 94%] Linking CXX executable ../bin/tensor_iterator_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target tensor_iterator_test
+[ 94%] Linking CXX executable ../bin/test_parallel
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target test_parallel
+[ 94%] Linking CXX executable ../bin/thread_init_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target thread_init_test
+[ 94%] Linking CXX executable ../bin/type_ptr_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target type_ptr_test
+[ 94%] Linking CXX executable ../bin/type_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target type_test
+[ 94%] Linking CXX executable ../bin/undefined_tensor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target undefined_tensor_test
+[ 94%] Linking CXX executable ../bin/verify_api_visibility
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 94%] Built target verify_api_visibility
+[ 94%] Linking CXX executable ../bin/legacy_vmap_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target legacy_vmap_test
+[ 94%] Linking CXX executable ../bin/weakref_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target weakref_test
+[ 94%] Linking CXX executable ../bin/wrapdim_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 94%] Built target wrapdim_test
+[ 95%] Linking CXX executable ../bin/xla_tensor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target xla_tensor_test
+[ 95%] Linking CXX executable ../bin/IListRef_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target IListRef_test
+[ 95%] Linking CXX executable ../bin/List_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target List_test
+[ 95%] Linking CXX executable ../bin/KernelFunction_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target KernelFunction_test
+[ 95%] Linking CXX executable ../bin/kernel_function_legacy_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target kernel_function_legacy_test
+[ 95%] Linking CXX executable ../bin/kernel_function_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target kernel_function_test
+[ 95%] Linking CXX executable ../bin/kernel_lambda_legacy_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target kernel_lambda_legacy_test
+[ 95%] Linking CXX executable ../bin/kernel_lambda_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target kernel_lambda_test
+[ 95%] Linking CXX executable ../bin/kernel_stackbased_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target kernel_stackbased_test
+[ 95%] Linking CXX executable ../bin/make_boxed_from_unboxed_functor_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target make_boxed_from_unboxed_functor_test
+[ 95%] Linking CXX executable ../bin/CppSignature_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 95%] Built target CppSignature_test
+[ 95%] Linking CXX executable ../bin/backend_fallback_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target backend_fallback_test
+[ 95%] Linking CXX executable ../bin/op_allowlist_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch_cpu.so
+[ 95%] Built target op_allowlist_test
+[ 95%] Linking CXX executable ../bin/op_registration_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target op_registration_test
+[ 95%] Linking CXX executable ../bin/inline_container_test
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target inline_container_test
+[ 95%] Built target mkrename_gnuabi
+[ 95%] Built target mkmasked_gnuabi
+[ 95%] Built target arraymap
+[ 95%] Built target addSuffix
+[ 95%] Linking CXX shared library ../lib/libtorchbind_test.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target torchbind_test
+[ 95%] Linking CXX shared library ../lib/libjitbackend_test.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target jitbackend_test
+[ 95%] Linking CXX shared library ../lib/libbackend_with_compiler.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 95%] Built target backend_with_compiler
+[ 95%] Linking CXX executable ../bin/test_jit
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libjitbackend_test.so
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libbackend_with_compiler.so
+[ 96%] Built target test_jit
+[ 96%] Linking CXX executable ../bin/test_lazy
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target test_lazy
+[ 96%] Linking CXX executable ../bin/test_privateuse1_profiler
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target test_privateuse1_profiler
+[ 96%] Linking CXX executable ../bin/test_comms_id
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target test_comms_id
+[ 96%] Linking CXX shared library ../lib/libaoti_custom_ops.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target aoti_custom_ops
+[ 96%] Built target test_aoti_abi_check
+[ 96%] Built target test_vec_half_DEFAULT
+[ 96%] Built target test_vec_half_AVX512
+[ 96%] Built target test_vec_half_AVX2
+[ 96%] Linking CXX executable ../bin/BackoffTest
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libc10.so
+[ 96%] Built target BackoffTest
+[ 96%] Linking CXX executable ../bin/FileStoreTest
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libc10.so
+[ 96%] Built target FileStoreTest
+[ 96%] Linking CXX executable ../bin/TCPStoreTest
+[ 96%] Built target TCPStoreTest
+[ 96%] Linking CXX executable ../bin/HashStoreTest
+[ 96%] Built target HashStoreTest
+[ 96%] Linking CXX executable ../bin/ProcessGroupGlooTest
+[ 96%] Built target ProcessGroupGlooTest
+[ 96%] Linking CXX executable ../bin/example_allreduce
+Warning: Unused direct dependencies:
+	/lib/x86_64-linux-gnu/libm.so.6
+[ 96%] Built target example_allreduce
+[ 96%] Linking CXX executable ../bin/test_dist_autograd
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target test_dist_autograd
+[ 96%] Linking CXX executable ../bin/test_cpp_rpc
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 96%] Built target test_cpp_rpc
+[ 96%] Linking CXX executable ../bin/test_api
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 97%] Built target test_api
+[ 97%] Linking CXX executable ../bin/parallel_benchmark
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[ 97%] Built target parallel_benchmark
+[ 97%] Linking CXX shared library ../../../../lib/libshm.so
+Warning: Unused direct dependencies:
+	/lib/x86_64-linux-gnu/libm.so.6
+[ 97%] Built target shm
+[ 97%] Built target generate-torch-sources
+[ 97%] Built target torch_python_stubs
+[ 97%] Regenerating version file...
+[ 97%] Built target gen_torch_version
+[ 97%] Linking CXX shared library ../../lib/libtorch_python.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[100%] Built target torch_python
+[100%] Linking CXX shared library ../../lib/libnnapi_backend.so
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libtorch.so
+[100%] Built target nnapi_backend
+[100%] Linking CXX executable ../../../../bin/torch_shm_manager
+Warning: Unused direct dependencies:
+	/home/saulius/work/ada-ctorch/externals/pytorch/build/lib/libshm.so
+	/lib/x86_64-linux-gnu/libm.so.6
+[100%] Built target torch_shm_manager
+Install the project...
+-- Install configuration: "Release"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/protoc-3.13.0.0" to "$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_AllocatorConfig_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_CompileTimeFunctionPointer_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_DeviceGuard_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Device_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_DispatchKeySet_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Scalar_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_StreamGuard_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_SymInt_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_InlineDeviceGuard_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_InlineStreamGuard_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_SizesAndStrides_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_cow_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ArrayRef_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Bitset_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ConstexprCrc_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_DeadlockDetection_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Enumerate_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Half_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_IntrusiveList_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_LeftRight_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_NetworkFlow_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Semaphore_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_Synchronized_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ThreadLocalDebugInfo_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ThreadLocal_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_TypeIndex_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_WaitCounter_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_accumulate_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_bfloat16_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_bit_cast_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_complex_math_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_complex_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_error_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_exception_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_flags_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_generic_math_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_intrusive_ptr_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_irange_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_lazy_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_logging_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_nofatal_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_optional_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ordered_preserving_dict_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_registry_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_small_vector_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_ssize_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_string_util_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_string_view_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_tempfile_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_typeid_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/c10_intrusive_ptr_benchmark" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libc10.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libtorchbind_test.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libjitbackend_test.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libbackend_with_compiler.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_jit" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_lazy" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_privateuse1_profiler" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_comms_id" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libaoti_custom_ops.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_aoti_abi_check" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/FileStoreTest" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/TCPStoreTest" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/HashStoreTest" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_dist_autograd" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_cpp_rpc" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/test_api" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libshm.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/bin/torch_shm_manager" to "$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libtorch_python.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libtorch_cpu.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libtorch.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/lib/libtorch_global_deps.so" to "$ORIGIN"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/Dict_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/Dimname_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/MaybeOwned_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/NamedTensor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/accelerator_graph_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/apply_utils_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/atest" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/basic" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/broadcast_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/cpu_allocator_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/cpu_generator_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/cpu_profiling_allocator_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/cpu_rng_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/dlconvertor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/extension_backend_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/half_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/ivalue_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/lazy_tensor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/math_kernel_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/memory_format_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/memory_overlapping_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/mobile_memory_cleanup" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/native_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/operator_name_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/operators_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/packedtensoraccessor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/pow_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/quantized_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/reduce_ops_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/reportMemoryUsage_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/scalar_tensor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/scalar_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/StorageUtils_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/stride_properties_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/tensor_iterator_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/test_parallel" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/thread_init_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/type_ptr_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/type_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/undefined_tensor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/verify_api_visibility" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/legacy_vmap_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/weakref_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/wrapdim_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/xla_tensor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/IListRef_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/List_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/KernelFunction_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/kernel_function_legacy_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/kernel_function_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/kernel_lambda_legacy_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/kernel_lambda_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/kernel_stackbased_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/make_boxed_from_unboxed_functor_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/CppSignature_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/backend_fallback_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/op_allowlist_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/op_registration_test" to "$ORIGIN:$ORIGIN/../lib"
+-- Set non-toolchain portion of runtime path of "/home/saulius/work/ada-ctorch/externals/install/pytorch/pytorch-main-commit-393c8054edc/test/inline_container_test" to "$ORIGIN:$ORIGIN/../lib"
++ date
+2026-05-08T06:58:55 EEST
