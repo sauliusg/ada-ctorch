@@ -19,10 +19,23 @@
 ## 
 ## gnatmake = ${HOME}/src/pytorch/build-e959dd017d7/python-ubuntu.sif gnatmake
 
-CFLAGS = -Isrc/cpp -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include
+PYTORCH_INSTALL_DIR = externals/install/pytorch/pytorch-main-commit-393c8054edc
 
-CPPFLAGS = -Isrc/cpp -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include/torch/csrc/api/include -I${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/include
+CFLAGS = -Isrc/cpp -I${PYTORCH_INSTALL_DIR}/include/torch/csrc/api/include -I${PYTORCH_INSTALL_DIR}/include
 
-LDFLAGS = ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libtorch_cpu.so ${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/libc10.so
+CPPFLAGS = -Isrc/cpp -I${PYTORCH_INSTALL_DIR}/include/torch/csrc/api/include -I${PYTORCH_INSTALL_DIR}/include
 
-GNATMAKE_OPTIONS = -Isrc/ -largs -Llib -L${HOME}/.alire/lib64 -L${HOME}/install/pytorch/pytorch-main-commit-d3d655ad14e/lib/ -lstdc++ -ltorch_cpu -lc10
+LDFLAGS = ${PYTORCH_INSTALL_DIR}/lib/libtorch_cpu.so ${PYTORCH_INSTALL_DIR}/lib/libc10.so
+
+ALIRE_PATH = ${HOME}/.alire/bin
+
+PATH := ${ALIRE_PATH}:${PATH}
+
+APPTAINERENV_APPEND_PATH = ${ALIRE_PATH}
+export APPTAINERENV_APPEND_PATH
+
+GNATMAKE_OPTIONS =  -largs ${PYTORCH_INSTALL_DIR}/lib/libtorch_cpu.so ${PYTORCH_INSTALL_DIR}/lib/libc10.so -lstdc++
+
+GNATMAKE_SRC_OPTIONS = -Isrc/ -Llib
+
+gnatmake = gnatmake
