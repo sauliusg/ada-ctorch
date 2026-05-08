@@ -4,3 +4,4 @@
   605  apptainer -q run apptainer/python-ubuntu.sif sh -c 'cd externals/pytorch/build; ./venv/bin/pip install -r ../requirements.txt'
   655  apptainer -q exec apptainer/python-ubuntu.sif bash -xc 'CWD=$(pwd); cd externals/pytorch/build; PATH=$(pwd)/venv/bin:$PATH cmake -DCMAKE_PREFIX_PATH=${HOME}/src/pytorch/build -DCMAKE_INSTALL_PREFIX=${CWD}/externals/install/pytorch/pytorch-main-commit-$(git log --oneline -1 | awk "{print \$1}") ..'
   171  (set -x; directory-metadata; apptainer -q exec apptainer/python-ubuntu.sif bash -xc 'cd externals/pytorch/build; PATH=$(pwd)/venv/bin:$PATH make'; date) &> MAKE.LOG & 
+  535  (set -x; directory-metadata; apptainer -q exec apptainer/python-ubuntu.sif bash -xc 'cd externals/pytorch/build; PATH=$(pwd)/venv/bin:$PATH make install'; date) &> INSTALL.LOG &
