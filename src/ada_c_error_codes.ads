@@ -3,6 +3,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces.C; use Interfaces.C;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
+with GNAT.Source_Info; use GNAT.Source_Info;
+
 package Ada_C_Error_Codes is
    
    type Ada_C_Error_Type is record
@@ -14,17 +16,20 @@ package Ada_C_Error_Codes is
    type Ada_C_Error_Access is access all Ada_C_Error_Type;
    
    procedure Ada_Set_Error_Code (E : Ada_C_Error_Access; Code : Interfaces.C.int)
-     with 
+   with 
      Export => True,
      Convention => CPP,
      External_Name => "ada_set_error_code";
    
    procedure Ada_Set_Error_Message (E : Ada_C_Error_Access; Message : chars_ptr)
-     with 
+   with 
      Export => True,
      Convention => CPP,
      External_Name => "ada_set_error_message";
    
    function Trim_Torch_Error_Message (M : String) return String;
+   
+   procedure Check_Error (Err : Ada_C_Error_Type;
+                          Entity_Name : String := Enclosing_Entity);
    
 end;

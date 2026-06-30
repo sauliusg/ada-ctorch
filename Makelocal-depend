@@ -1,11 +1,11 @@
 #--*- Makefile -*--
 
-bin/mnist: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+DEPEND_ADA_SRC_DIR ?= programs
+DEPEND_ADA_BIN_DIR ?= bin
 
-bin/try_conv2d: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+DEPEND_ADA_SOURCES ?= $(wildcard ${DEPEND_ADA_SRC_DIR}/*.adb)
 
-bin/try_layers: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+DEPEND_ADA_EXEC ?= \
+    ${DEPEND_ADA_SOURCES:${DEPEND_ADA_SRC_DIR}/%.adb=${DEPEND_ADA_BIN_DIR}/%}
 
-bin/try_datasets: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
-
-bin/mnist_exceptions: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+${DEPEND_ADA_EXEC}: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}

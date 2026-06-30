@@ -8,11 +8,20 @@ CPP_DIR ?= ${SRC_DIR}/cpp
 compile_cpp_CPP_SOURCES ?= $(wildcard ${CPP_DIR}/*.cpp)
 compile_cpp_CPP_OBJECTS ?= ${compile_cpp_CPP_SOURCES:${CPP_DIR}/%.cpp=${OBJ_DIR}/%.o}
 
+compile_cpp_CPP_DEPEND ?= ${compile_cpp_CPP_SOURCES:${CPP_DIR}/%.cpp=${OBJ_DIR}/%.dep}
+
+include ${compile_cpp_CPP_DEPEND}
+
 .PHONY: all clean compile-cpp-clean
 
 CXX ?= g++
+GCC ?= g++
 
 all:
+
+${OBJ_DIR}/%.dep: ${CPP_DIR}/%.cpp
+	${GCC} ${CFLAGS} -M -MG $< \
+	| sed -e 's,^${notdir $*}.o:,${OBJ_DIR}/$*.o:,' > $@
 
 ${OBJ_DIR}/%.o: ${CPP_DIR}/%.cpp
 	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@

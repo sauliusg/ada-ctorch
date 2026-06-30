@@ -70,13 +70,14 @@ void train(
         auto output = model.forward(data);
         auto loss = torch::nll_loss(output, targets);
         AT_ASSERT(!std::isnan(loss.template item<float>()));
+
         loss.backward();
         optimizer.step();
 
         if (batch_idx++ % kLogInterval == 0) {
             std::printf(
-                        "\rTrain Epoch: %ld [%5ld/%5ld] Loss: %.4f",
-                        epoch,
+                        "\rTrain Epoch: %2ld, Batch: %4d, Data: [%5ld/%5ld], Loss: %.6f",
+                        epoch, batch_idx - 1,                       
                         batch_idx * batch.data.size(0),
                         dataset_size,
                         loss.template item<float>());
@@ -94,26 +95,34 @@ void test(
     model.eval();
     double test_loss = 0;
     int32_t correct = 0;
+    float total_sum = 0;
     for (const auto& batch : data_loader) {
-    // for (auto batch = data_loader.begin(); batch != data_loader.end(); ++batch) {
         auto data = batch.data.to(device), targets = batch.target.to(device);
-        // auto data = batch->data.to(device), targets = batch->target.to(device);
         auto output = model.forward(data);
-        test_loss += torch::nll_loss(
-                                     output,
-                                     targets,
-                                     /*weight=*/{},
-                                     torch::Reduction::Sum)
+
+        auto current_loss = torch::nll_loss(
+                                            output,
+                                            targets,
+                                            /*weight=*/{},
+                                            torch::Reduction::Sum)
             .template item<float>();
+        
+        test_loss += current_loss;
         auto pred = output.argmax(1);
         correct += pred.eq(targets).sum().template item<int64_t>();
+        total_sum += output.sum().template item<float>();
     }
 
     test_loss /= dataset_size;
+
     std::printf(
-                "\nTest set: Average loss: %.4f | Accuracy: %.3f\n",
+                "\nTest set: Average loss: %.4f | Accuracy: "
+                "%5d / %5d  %.4f, total sum: %8.4f\n",
                 test_loss,
-                static_cast<double>(correct) / dataset_size);
+                correct, dataset_size,
+                static_cast<double>(correct) / dataset_size,
+                total_sum);
+
 }
 
 auto main() -> int {
@@ -136,16 +145,10 @@ auto main() -> int {
                            .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
                            .map(torch::data::transforms::Stack<>());
 
-  std::cout << "train_dataset size = " << train_dataset.size().value() << std::endl;
-
   const size_t train_dataset_size = train_dataset.size().value();
   auto train_loader =
       torch::data::make_data_loader<torch::data::samplers::SequentialSampler>(
           std::move(train_dataset), kTrainBatchSize);
-
-  std::cout << "train_dataset size = " << train_dataset.size().value() << std::endl;
-  
-  std::cout << typeid(train_loader).name() << std::endl;
 
   auto test_dataset = torch::data::datasets::MNIST(
                           kDataRoot, torch::data::datasets::MNIST::Mode::kTest)
@@ -155,13 +158,9 @@ auto main() -> int {
   auto test_loader =
       torch::data::make_data_loader(std::move(test_dataset), kTestBatchSize);
 
-  std::cout << typeid(test_loader).name() << std::endl;
-  
   torch::optim::SGD optimizer(
       model.parameters(), torch::optim::SGDOptions(0.01).momentum(0.5));
 
-  // exit (0);
-  
   for (size_t epoch = 1; epoch <= kNumberOfEpochs; ++epoch) {
     train(epoch, model, device, *train_loader, optimizer, train_dataset_size);
     test(model, device, *test_loader, test_dataset_size);

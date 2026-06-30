@@ -74,5 +74,13 @@ extern "C" {
         assert(shadow_module);
         shadow_module->eval();
     }
+
+    void
+    shadow_module_to_device (struct AdaShadowModule* shadow_module,
+                             torch::Device *device)
+    {
+        assert(shadow_module);
+        shadow_module->to(*device);
+    }
     
 }; // extern "C"

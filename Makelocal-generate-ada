@@ -1,0 +1,21 @@
+#--*- Makefile -*--
+
+PRG_DIR ?= .
+SRC_DIR ?= src
+OBJ_DIR ?= .obj
+ADA_DIR ?= .
+
+ADA_GEN_DIR ?= ${ADA_DIR}/generated
+
+all:
+
+${ADA_GEN_DIR}/torch_element_codes_h.ads: ${SRC_DIR}/cpp/torch-element-codes.h
+	cd $(dir $@); \
+	gcc -c -fdump-ada-spec ../$<
+
+.PHONY: generate-ada-clean
+
+generate-ada-clean:
+	rm -f ${ADA_GEN_DIR}
+
+clean: generate-ada-clean

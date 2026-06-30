@@ -472,7 +472,12 @@ package body Torch.NN is
    
    procedure Eval (M : Module) is
    begin
-      Train_Shadow_Module (M.Shadow_Module);
+      Eval_Shadow_Module (M.Shadow_Module);
+   end;
+   
+   procedure To (M : Module; D : Device_Type'Class) is
+   begin
+      Shadow_Module_To_Device (M.Shadow_Module, D.Shadow_Device);
    end;
    
 end;

@@ -1,0 +1,3 @@
+  642  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e-apptainer/lib ./mnist_cpp' | tr '\r' '\n' > mnist-apptainer.log
+  643  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e-apptainer/lib ./bin/mnist' | tr '\r' '\n' > mnist-apptainer-ada.log 
+  644  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'LD_LIBRARY_PATH=$HOME/install/pytorch/pytorch-main-commit-d3d655ad14e-apptainer/lib ./bin/mnist_stddecl' | tr '\r' '\n' > mnist-apptainer-ada-stddecl.log 

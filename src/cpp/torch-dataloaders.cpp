@@ -175,11 +175,10 @@ extern "C" {
     // Dataset batch interface:
 
     struct AdaShadowBatch {
-        int64_t refcount;
         torch::data::Example<> batch;
 
         AdaShadowBatch(torch::data::Example<> b):
-            batch(b), refcount(1) {};
+            batch(b) {};
     };
 
     AdaShadowBatch*
@@ -192,30 +191,14 @@ extern "C" {
     void
     delete_ada_shadow_batch(AdaShadowBatch *shadow)
     {
-        assert(!shadow || shadow->refcount == 0);
         delete shadow;
     }
 
-    void
-    inc_ada_shadow_batch_refcount(AdaShadowBatch *shadow)
+    AdaShadowBatch*
+    clone_ada_shadow_batch(AdaShadowBatch *shadow)
     {
         assert(shadow);
-        shadow->refcount++;
-    }
-    
-    int64_t
-    dec_ada_shadow_batch_refcount(AdaShadowBatch *shadow)
-    {
-        assert(shadow);
-        shadow->refcount--;
-        return shadow->refcount;
-    }
-    
-    int64_t
-    get_ada_shadow_batch_refcount(AdaShadowBatch *shadow)
-    {
-        assert(shadow);
-        return shadow->refcount;
+        return new (std::nothrow) AdaShadowBatch(shadow->batch);
     }
 
     AdaShadowTensor*

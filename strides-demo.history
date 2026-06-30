@@ -1,0 +1,2 @@
+  549  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'g++ -Isrc/cpp -Iexternals/install/pytorch/pytorch-main-commit-393c8054edc/include/torch/csrc/api/include -Iexternals/install/pytorch/pytorch-main-commit-393c8054edc/include -Lexternals/install/pytorch/pytorch-main-commit-393c8054edc/lib/ strides-demo.cpp -o strides-demo -lc10 -ltorch_cpu -ltorch'
+  550  apptainer -q run apptainer/python-ubuntu.sif bash -xc 'LD_LIBRARY_PATH=externals/install/pytorch/pytorch-main-commit-393c8054edc/lib ./strides-demo'

@@ -22,6 +22,8 @@ package Torch.NN is
    -- Switch the Module M to evaluation (test) mode:
    procedure Eval (M : Module);
    
+   procedure To (M : Module; D : Device_Type'Class);
+   
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options is new Ada.Finalization.Limited_Controlled with private;
@@ -156,10 +158,18 @@ private
      External_Name => "call_ada_forward_method";
 
    function Module_Is_Training (M : Shadow_Module_Access) return UInt8_T
-   with Import => True, 
+   with
+     Import => True, 
      Convention => CPP, 
      External_Name => "module_is_training";
    
+   procedure Shadow_Module_To_Device (M : Shadow_Module_Access;
+                                      D : Shadow_Torch_Device_Access)
+   with
+     Import => True, 
+     Convention => CPP, 
+     External_Name => "shadow_module_to_device";
+     
    -- ------------------------------------------------------------------------
    
    type Conv1d_Options_Access is access all Conv1d_Options;

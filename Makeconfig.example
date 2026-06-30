@@ -23,7 +23,7 @@ PYTORCH_INSTALL_DIR = externals/install/pytorch/pytorch-main-commit-393c8054edc
 
 CFLAGS = -Isrc/cpp -I${PYTORCH_INSTALL_DIR}/include/torch/csrc/api/include -I${PYTORCH_INSTALL_DIR}/include
 
-CPPFLAGS = -Isrc/cpp -I${PYTORCH_INSTALL_DIR}/include/torch/csrc/api/include -I${PYTORCH_INSTALL_DIR}/include
+CPPFLAGS = -std=c++20 -Isrc/cpp -I${PYTORCH_INSTALL_DIR}/include/torch/csrc/api/include -I${PYTORCH_INSTALL_DIR}/include
 
 LDFLAGS = ${PYTORCH_INSTALL_DIR}/lib/libtorch_cpu.so ${PYTORCH_INSTALL_DIR}/lib/libc10.so
 
@@ -36,6 +36,6 @@ export APPTAINERENV_APPEND_PATH
 
 GNATMAKE_OPTIONS =  -largs ${PYTORCH_INSTALL_DIR}/lib/libtorch_cpu.so ${PYTORCH_INSTALL_DIR}/lib/libc10.so -lstdc++
 
-GNATMAKE_SRC_OPTIONS = -Isrc/ -Llib
+GNATMAKE_SRC_OPTIONS = -Isrc/ -Igenerated/ -Llib
 
 gnatmake = gnatmake

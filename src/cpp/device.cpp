@@ -22,12 +22,15 @@ extern "C" {
     }
 
     void
-    shadow_tensor_to_device(AdaShadowTensor *tensor, torch::Device* device)
+    shadow_tensor_to_device(AdaShadowTensor *dst,
+                            AdaShadowTensor *src,
+                            torch::Device* device)
     {
-        assert(tensor);
+        assert(src);
+        assert(dst);
         assert(device);
 
-        *((torch::Tensor*)tensor) = tensor->to(*device);
+        dst->tensor = src->tensor.to(*device);
     }
     
 };  // extern "C"

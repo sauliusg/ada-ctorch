@@ -16,13 +16,6 @@ extern "C" {
 
     void ada_set_error_message (ada_c_error_type *e, char *message);
 
-    // The 'ada_propagate_error' constructs a message using a static buffer:    
-
-    void ada_propagate_error (ada_c_error_type *e,
-                              const char *exception_text,
-                              const char *function_name,
-                              int errcode);
-
 }
 
 #endif

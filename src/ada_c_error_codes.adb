@@ -1,3 +1,5 @@
+with Ada.Text_Io; use Ada.Text_Io;
+
 package body Ada_C_Error_Codes is
    
    procedure Ada_Set_Error_Code (E : Ada_C_Error_Access; Code : Interfaces.C.int) is
@@ -33,4 +35,24 @@ package body Ada_C_Error_Codes is
       return M (I .. J) & '"';
    end;
 
+   -- Error handling helper:
+   
+   procedure Check_Error (Err : Ada_C_Error_Type;
+                          Entity_Name : String := Enclosing_Entity) is
+   begin
+      if Err.Has_Error then
+         Put_Line (Standard_Error, 
+                   "STDERR: function """ & Entity_Name &
+                     """ raised exception " &
+                     To_String (Err.Error_Message) &
+                     " (code " & Err.Error_Code'Image & ")");
+         Ada.Text_Io.Flush;
+         raise PROGRAM_ERROR 
+           with "ERROR, function """ & Entity_Name &
+           """ raised exception " &
+           To_String (Err.Error_Message) &
+           " (code " & Err.Error_Code'Image & ")";         
+      end if;
+   end;
+   
 end;
