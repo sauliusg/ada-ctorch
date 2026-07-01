@@ -8,3 +8,11 @@
 ## GNATMAKE_OPTIONS ?= -g -gnata -gnateE -bargs -Es
 
 ## OPTFLAGS = -g
+
+# For Makelocal-generate-ada:
+
+ADA_DIR ?= .
+
+ADA_GEN_DIR ?= ${ADA_DIR}/generated
+
+ADA_GEN_FILES ?= ${ADA_GEN_DIR}/torch_element_codes_h.ads

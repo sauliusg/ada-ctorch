@@ -9,3 +9,8 @@ DEPEND_ADA_EXEC ?= \
     ${DEPEND_ADA_SOURCES:${DEPEND_ADA_SRC_DIR}/%.adb=${DEPEND_ADA_BIN_DIR}/%}
 
 ${DEPEND_ADA_EXEC}: ${compile_cpp_CPP_OBJECTS} ${generate_cpp_CPP_OBJECTS}
+
+# To invoke rules from Makelocal-generate-ada before compilation of
+# Ada sources:
+
+${DEPEND_ADA_EXEC}: ${ADA_GEN_FILES}
