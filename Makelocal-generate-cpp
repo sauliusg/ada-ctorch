@@ -35,7 +35,7 @@ ${GEN_DIR}/gen-torch-nn-%.cpp: \
 	${SED} $^ > $@
 
 ${OBJ_DIR}/%.o: ${GEN_DIR}/%.cpp
-	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@
+	${CXX} -c ${OPTFLAGS} ${CPPFLAGS} $< -o $@
 
 generate-cpp-clean:
 	rm -f ${generate_cpp_CPP_OBJECTS}

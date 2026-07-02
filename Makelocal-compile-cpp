@@ -20,11 +20,11 @@ GCC ?= g++
 all:
 
 ${OBJ_DIR}/%.dep: ${CPP_DIR}/%.cpp
-	${GCC} ${CFLAGS} -M -MG $< \
+	${GCC} ${CPPFLAGS} -M -MG $< \
 	| sed -e 's,^${notdir $*}.o:,${OBJ_DIR}/$*.o:,' > $@
 
 ${OBJ_DIR}/%.o: ${CPP_DIR}/%.cpp
-	${CXX} -c ${OPTFLAGS} ${CFLAGS} $< -o $@
+	${CXX} -c ${OPTFLAGS} ${CPPFLAGS} $< -o $@
 
 compile-cpp-clean:
 	rm -f ${compile_cpp_CPP_OBJECTS}
