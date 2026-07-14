@@ -177,7 +177,7 @@ extern "C" {
     struct AdaShadowBatch {
         torch::data::Example<> batch;
 
-        AdaShadowBatch(torch::data::Example<> b):
+        AdaShadowBatch(torch::data::Example<>& b):
             batch(b) {};
     };
 
