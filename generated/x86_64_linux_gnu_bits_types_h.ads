@@ -77,9 +77,9 @@ package x86_64_linux_gnu_bits_types_h is
 
    subtype uu_pid_t is int;  -- /usr/include/x86_64-linux-gnu/bits/types.h:154
 
-   type anon_array1022 is array (0 .. 1) of aliased int;
+   type anon_array1050 is array (0 .. 1) of aliased int;
    type uu_fsid_t is record
-      uu_val : aliased anon_array1022;  -- /usr/include/x86_64-linux-gnu/bits/types.h:155
+      uu_val : aliased anon_array1050;  -- /usr/include/x86_64-linux-gnu/bits/types.h:155
    end record
    with Convention => C_Pass_By_Copy;  -- /usr/include/x86_64-linux-gnu/bits/types.h:155
 

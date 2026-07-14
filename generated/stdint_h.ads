@@ -91,6 +91,46 @@ package stdint_h is
    --  unsupported macro: INTMAX_C(c) c ## L
    --  unsupported macro: UINTMAX_C(c) c ## UL
 
+   INT8_WIDTH : constant := 8;  --  /usr/include/stdint.h:267
+   UINT8_WIDTH : constant := 8;  --  /usr/include/stdint.h:268
+   INT16_WIDTH : constant := 16;  --  /usr/include/stdint.h:269
+   UINT16_WIDTH : constant := 16;  --  /usr/include/stdint.h:270
+   INT32_WIDTH : constant := 32;  --  /usr/include/stdint.h:271
+   UINT32_WIDTH : constant := 32;  --  /usr/include/stdint.h:272
+   INT64_WIDTH : constant := 64;  --  /usr/include/stdint.h:273
+   UINT64_WIDTH : constant := 64;  --  /usr/include/stdint.h:274
+
+   INT_LEAST8_WIDTH : constant := 8;  --  /usr/include/stdint.h:276
+   UINT_LEAST8_WIDTH : constant := 8;  --  /usr/include/stdint.h:277
+   INT_LEAST16_WIDTH : constant := 16;  --  /usr/include/stdint.h:278
+   UINT_LEAST16_WIDTH : constant := 16;  --  /usr/include/stdint.h:279
+   INT_LEAST32_WIDTH : constant := 32;  --  /usr/include/stdint.h:280
+   UINT_LEAST32_WIDTH : constant := 32;  --  /usr/include/stdint.h:281
+   INT_LEAST64_WIDTH : constant := 64;  --  /usr/include/stdint.h:282
+   UINT_LEAST64_WIDTH : constant := 64;  --  /usr/include/stdint.h:283
+
+   INT_FAST8_WIDTH : constant := 8;  --  /usr/include/stdint.h:285
+   UINT_FAST8_WIDTH : constant := 8;  --  /usr/include/stdint.h:286
+   --  unsupported macro: INT_FAST16_WIDTH __WORDSIZE
+   --  unsupported macro: UINT_FAST16_WIDTH __WORDSIZE
+   --  unsupported macro: INT_FAST32_WIDTH __WORDSIZE
+   --  unsupported macro: UINT_FAST32_WIDTH __WORDSIZE
+
+   INT_FAST64_WIDTH : constant := 64;  --  /usr/include/stdint.h:291
+   UINT_FAST64_WIDTH : constant := 64;  --  /usr/include/stdint.h:292
+   --  unsupported macro: INTPTR_WIDTH __WORDSIZE
+   --  unsupported macro: UINTPTR_WIDTH __WORDSIZE
+
+   INTMAX_WIDTH : constant := 64;  --  /usr/include/stdint.h:297
+   UINTMAX_WIDTH : constant := 64;  --  /usr/include/stdint.h:298
+   --  unsupported macro: PTRDIFF_WIDTH __WORDSIZE
+
+   SIG_ATOMIC_WIDTH : constant := 32;  --  /usr/include/stdint.h:301
+   --  unsupported macro: SIZE_WIDTH __WORDSIZE
+
+   WCHAR_WIDTH : constant := 32;  --  /usr/include/stdint.h:303
+   WINT_WIDTH : constant := 32;  --  /usr/include/stdint.h:304
+
    subtype int_fast8_t is signed_char;  -- /usr/include/stdint.h:47
 
    subtype int_fast16_t is long;  -- /usr/include/stdint.h:49
