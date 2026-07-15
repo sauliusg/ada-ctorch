@@ -128,34 +128,20 @@ package body Torch.Data.Datasets.Loaders is
    -- Batch_Cursor_Type
    
    overriding
-   procedure Finalize (Batch : in out Batch_Cursor_Type) is
+   procedure Finalize (Cursor : in out Batch_Cursor_Type) is
    begin
-      if Batch.Current_Shadow_Iterator /= null then
-          Delete_Ada_Shadow_Iterator (Batch.Current_Shadow_Iterator);
-      end if;
-      if Batch.End_Shadow_Iterator /= null then
-          Delete_Ada_Shadow_Iterator (Batch.End_Shadow_Iterator);
-      end if;
+      Release_Reference (Cursor.Current_Shadow_Iterator);
+      Release_Reference (Cursor.End_Shadow_Iterator);
+      
+      Cursor.Current_Shadow_Iterator := null;
+      Cursor.End_Shadow_Iterator := null;
    end;
    
    overriding
-   procedure Adjust (Batch : in out Batch_Cursor_Type) is
-      
-      procedure Clone (S : in out Shadow_Iterator_Access) is
-      begin
-         if S /= null then
-            S := Clone_Ada_Shadow_Iterator (S);
-            if S = null then
-               raise Storage_Error with
-                 "Could not clone Ada shadow iterator at """ &
-                 Enclosing_Entity & """";
-            end if;
-         end if;
-      end;
-      
+   procedure Adjust (Cursor : in out Batch_Cursor_Type) is
    begin
-      Clone (Batch.Current_Shadow_Iterator);
-      Clone (Batch.End_Shadow_Iterator);
+      Increment_Reference (Cursor.Current_Shadow_Iterator);
+      Increment_Reference (Cursor.End_Shadow_Iterator);
    end;
    
    -- -------------------------------------------------------------------------
@@ -218,6 +204,7 @@ package body Torch.Data.Datasets.Loaders is
    
    function Start (Container : Data_Loader_Type)
                   return Batch_Cursor_Type'Class is
+      Err : aliased Ada_C_Error_Type;
    begin
       return Ret : Batch_Cursor_Type :=
         (case Container.Mode is
@@ -226,30 +213,36 @@ package body Torch.Data.Datasets.Loaders is
                Ada.Finalization.Controlled with
                Current_Shadow_Iterator =>
                  New_Sequential_Sampler_Iterator_Start
-                   (Container.Shadow_Sequential_Data_Loader),
+                   (
+                    Container.Shadow_Sequential_Data_Loader,
+                    Err'Unchecked_Access
+                   ),
                End_Shadow_Iterator =>
                  New_Sequential_Sampler_Iterator_End
-                   (Container.Shadow_Sequential_Data_Loader)
+                   (
+                    Container.Shadow_Sequential_Data_Loader,
+                    Err'Unchecked_Access
+                   )
               ),
             when Random =>
               (
                Ada.Finalization.Controlled with
                Current_Shadow_Iterator =>
                  New_Default_Sampler_Iterator_Start
-                   (Container.Shadow_Random_Data_Loader),
+                   (
+                    Container.Shadow_Random_Data_Loader,
+                    Err'Unchecked_Access
+                   ),
                End_Shadow_Iterator =>
                  New_Default_Sampler_Iterator_End
-                   (Container.Shadow_Random_Data_Loader)
+                   (
+                    Container.Shadow_Random_Data_Loader,
+                    Err'Unchecked_Access
+                   )
               )
         )
       do
-         if Ret.Current_Shadow_Iterator = null or else
-           Ret.End_Shadow_Iterator = null
-         then
-            raise Storage_Error with
-              "Could not allocate C++ shadow objects in """ &
-              Enclosing_Entity & """";
-         end if;
+         Check_Error (Err);
       end return;
    end;
    
@@ -259,13 +252,7 @@ package body Torch.Data.Datasets.Loaders is
       Position  : in out Batch_Cursor_Type'Class
      ) return Batch_Cursor_Type'Class is
    begin
-      if Position.Current_Shadow_Iterator /= null then
-         Advance_Shadow_Iterator (Position.Current_Shadow_Iterator);
-         if not Has_Element (Container, Position) then
-            Delete_Ada_Shadow_Iterator (Position.Current_Shadow_Iterator);
-            Position.Current_Shadow_Iterator := null;
-         end if;
-      end if;
+      Advance_Shadow_Iterator (Position.Current_Shadow_Iterator);
       return Position;
    end;
    

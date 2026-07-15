@@ -7,6 +7,9 @@
 #include <ada_c_error_codes.h>
 #include <tensors.h>
 
+#include <ada_c_error_codes.h>
+#include <ada_c_error_code_helpers.h>
+
 extern "C" {
 
     // ---------------------------------------------------------------------------
@@ -109,53 +112,110 @@ extern "C" {
     typedef torch::data::Iterator<torch::data::Example<>> example_iterator_t;
     
     struct AdaShadowIteratorHolder {
+
         example_iterator_t it;
 
-        AdaShadowIteratorHolder(example_iterator_t iter): it(iter) {};
+        AdaShadowIteratorHolder(const example_iterator_t& iter)
+            : it(iter),
+              refcount(1)
+        {
+        }
+
+        void add_reference()
+        {
+            ++refcount;
+        }
+
+        bool release_reference()
+        {
+            return (--refcount) == 0;
+        }
+
+    private:
+
+        std::atomic_size_t refcount{1};
     };
 
     AdaShadowIteratorHolder*
-    new_sequential_sampler_iterator(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
+    new_sequential_sampler_iterator_start(
+        AdaShadowMNISTDataLoaderSequentialSampler* shadow,
+        ada_c_error_type* err)
     {
-        assert(shadow);
-        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
+        try {
+            assert(shadow);
+            return new AdaShadowIteratorHolder(shadow->dl->begin());
+        }
+        catch (...) {
+            handle_exception(err, __FUNCTION__);
+            return nullptr;
+        }
     }
 
     AdaShadowIteratorHolder*
-    new_sequential_sampler_iterator_end(AdaShadowMNISTDataLoaderSequentialSampler* shadow)
+    new_sequential_sampler_iterator_end(
+        AdaShadowMNISTDataLoaderSequentialSampler* shadow,
+        ada_c_error_type* err)
     {
-        assert(shadow);
-        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
+        try {
+            assert(shadow);
+            return new AdaShadowIteratorHolder(shadow->dl->end());
+        }
+        catch (...) {
+            handle_exception(err, __FUNCTION__);
+            return nullptr;
+        }
     }
 
     AdaShadowIteratorHolder*
-    new_default_sampler_iterator(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
+    new_default_sampler_iterator_start(
+        AdaShadowMNISTDataLoaderDefaultSampler* shadow,
+        ada_c_error_type* err)
     {
-        assert(shadow);
-        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->begin());
+        try {
+            assert(shadow);
+            return new AdaShadowIteratorHolder(shadow->dl->begin());
+        }
+        catch (...) {
+            handle_exception(err, __FUNCTION__);
+            return nullptr;
+        }
     }
     
     AdaShadowIteratorHolder*
-    new_default_sampler_iterator_end(AdaShadowMNISTDataLoaderDefaultSampler* shadow)
+    new_default_sampler_iterator_end(
+        AdaShadowMNISTDataLoaderDefaultSampler* shadow,
+        ada_c_error_type* err)
     {
-        assert(shadow);
-        return new (std::nothrow) AdaShadowIteratorHolder(shadow->dl->end());
+        try {
+            assert(shadow);
+            return new AdaShadowIteratorHolder(shadow->dl->end());
+        }
+        catch (...) {
+            handle_exception(err, __FUNCTION__);
+            return nullptr;
+        }
     }
 
-    AdaShadowIteratorHolder*
-    clone_shadow_iterator(AdaShadowIteratorHolder* old_holder)
-    {
-        assert(old_holder);
-        return new (std::nothrow) AdaShadowIteratorHolder(old_holder->it);
-    }
-    
     // Delete iterators created by any of the above functions:
+
     void
-    delete_ada_shadow_iterator_holder(AdaShadowIteratorHolder* holder)
+    iterator_add_reference(AdaShadowIteratorHolder* shadow)
     {
-        delete holder;
+        assert(shadow);
+        shadow->add_reference();
     }
 
+    void
+    iterator_release_reference(AdaShadowIteratorHolder* shadow)
+    {
+        assert(shadow);
+        if (shadow->release_reference()) {
+            delete shadow;
+        }
+    }
+    
+    // Advancing and checking iterators:
+    
     void
     advance_iterator(AdaShadowIteratorHolder* holder)
     {

@@ -83,10 +83,10 @@ private
       end record;
    
    overriding
-   procedure Finalize (Batch : in out Batch_Cursor_Type);
+   procedure Finalize (Cursor : in out Batch_Cursor_Type);
    
    overriding
-   procedure Adjust (Batch : in out Batch_Cursor_Type);
+   procedure Adjust (Cursor : in out Batch_Cursor_Type);
    
    -- -------------------------------------------------------------------------
    
@@ -210,46 +210,61 @@ private
    -- -------------------------------------------------------------------------
    -- C++ side functions for Shadow Iterators:
    
-   function New_Sequential_Sampler_Iterator_Start (S : Shadow_Data_Sequential_Loader_Access)
-                                                  return Shadow_Iterator_Access
+   function New_Sequential_Sampler_Iterator_Start
+     (
+      S : Shadow_Data_Sequential_Loader_Access;
+      E : Ada_C_Error_Access
+     )
+     return Shadow_Iterator_Access
    with
      Import => True,
      Convention => CPP,
-     External_Name => "new_sequential_sampler_iterator";
+     External_Name => "new_sequential_sampler_iterator_start";
 
-   function New_Sequential_Sampler_Iterator_End (S : Shadow_Data_Sequential_Loader_Access)
-                                                return Shadow_Iterator_Access
+   function New_Sequential_Sampler_Iterator_End
+     (
+      S : Shadow_Data_Sequential_Loader_Access;
+      E : Ada_C_Error_Access
+     )
+     return Shadow_Iterator_Access
    with
      Import => True,
      Convention => CPP,
      External_Name => "new_sequential_sampler_iterator_end";
 
-   function New_Default_Sampler_Iterator_Start (S : Shadow_Data_Random_Loader_Access)
-                                               return Shadow_Iterator_Access
+   function New_Default_Sampler_Iterator_Start
+     (
+      S : Shadow_Data_Random_Loader_Access;
+      E : Ada_C_Error_Access
+     )
+     return Shadow_Iterator_Access
    with
      Import => True,
      Convention => CPP,
-     External_Name => "new_default_sampler_iterator";
+     External_Name => "new_default_sampler_iterator_start";
 
-   function New_Default_Sampler_Iterator_End (S : Shadow_Data_Random_Loader_Access)
-                                             return Shadow_Iterator_Access
+   function New_Default_Sampler_Iterator_End 
+     (
+      S : Shadow_Data_Random_Loader_Access;
+      E : Ada_C_Error_Access
+     )
+     return Shadow_Iterator_Access
    with
      Import => True,
      Convention => CPP,
      External_Name => "new_default_sampler_iterator_end";
 
-   function Clone_Ada_Shadow_Iterator (S : Shadow_Iterator_Access)
-                                      return Shadow_Iterator_Access
+   procedure Increment_Reference (S : Shadow_Iterator_Access)
    with
      Import => True,
      Convention => CPP,
-     External_Name => "clone_shadow_iterator";
+     External_Name => "iterator_add_reference";
 
-   procedure Delete_Ada_Shadow_Iterator (S : Shadow_Iterator_Access)
+   procedure Release_Reference (S : Shadow_Iterator_Access)
    with
      Import => True,
      Convention => CPP,
-     External_Name => "delete_ada_shadow_iterator_holder";
+     External_Name => "iterator_release_reference";
    
    procedure Advance_Shadow_Iterator (S : Shadow_Iterator_Access)
    with
