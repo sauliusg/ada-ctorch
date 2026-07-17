@@ -24,6 +24,20 @@
 struct AdaShadowBatch;
 struct AdaShadowTensor;
 
+class AdaShadowDataLoader;
+
+struct AdaDataLoaderOptions
+{
+    std::size_t batch_size;
+
+    enum class Sampler
+    {
+        Sequential,
+        Random
+    };
+
+    Sampler sampler;
+};
 
 /*
  * Abstract C++ facade for datasets.
@@ -56,6 +70,14 @@ public:
     virtual AdaShadowBatch*
     new_ada_shadow_batch(std::size_t index) const = 0;
 
+
+    /*
+     * Create a data loader, say for ANN training or validation
+     * purposes.
+     */    
+    virtual AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions&) = 0;
+    
     /*
      * Dataset transformations.
      *
