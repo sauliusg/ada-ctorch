@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <stdexcept>
 
+#include <ada-dataloader-codes.h>
+
 /*
   Ownership conventions:
 
@@ -29,14 +31,7 @@ class AdaShadowDataLoader;
 struct AdaDataLoaderOptions
 {
     std::size_t batch_size;
-
-    enum class Sampler
-    {
-        Sequential,
-        Random
-    };
-
-    Sampler sampler;
+    Ada_DataLoader_Code_Enum sampler_kind;
 };
 
 /*
