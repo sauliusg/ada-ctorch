@@ -5,6 +5,18 @@
 #include <stdexcept>
 
 /*
+  Ownership conventions:
+
+  for a class or struct X:
+
+  new_x()         returns a newly allocated object; caller owns it.
+  delete_x()      destroys an owned object. // 
+  create_x(X **)  requires *p == NULL; allocates into *p.
+  dispose_x(X **) destroys *p and sets it to NULL.
+  x_member()      returns borrowed references valid while the parent object exists.
+ */
+
+/*
  * Forward declarations.
  *
  * Concrete definitions are intentionally hidden.
@@ -42,7 +54,7 @@ public:
      * AdaShadowBatch.
      */
     virtual AdaShadowBatch*
-    new_batch(std::size_t index) const = 0;
+    new_ada_shadow_batch(std::size_t index) const = 0;
 
     /*
      * Dataset transformations.
@@ -65,4 +77,4 @@ public:
     }
 };
 
-#endif // ADA_CTORCH_SHADOW_DATASET_HPP
+#endif // _ADA_CTORCH_SHADOW_DATASET_HPP_
