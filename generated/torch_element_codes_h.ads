@@ -8,7 +8,7 @@ with x86_64_linux_gnu_bits_stdint_intn_h;
 
 package torch_element_codes_h is
 
-   subtype Torch_Element_Code is x86_64_linux_gnu_bits_stdint_intn_h.int32_t;  -- ../src/cpp/torch-element-codes.h:12
+   subtype Torch_Element_Code is x86_64_linux_gnu_bits_stdint_intn_h.int32_t;  -- ../src/cpp/torch_element_codes.h:12
 
    subtype Torch_Element_Code_Enum is int;
    Torch_Element_Code_Enum_TORCH_ELEMENT_INVALID : constant Torch_Element_Code_Enum := -1;
@@ -24,7 +24,7 @@ package torch_element_codes_h is
    Torch_Element_Code_Enum_TORCH_ELEMENT_FLOAT64 : constant Torch_Element_Code_Enum := 9;
    Torch_Element_Code_Enum_TORCH_ELEMENT_COMPLEX32 : constant Torch_Element_Code_Enum := 10;
    Torch_Element_Code_Enum_TORCH_ELEMENT_COMPLEX64 : constant Torch_Element_Code_Enum := 11;
-   Torch_Element_Code_Enum_TORCH_ELEMENT_COMPLEX128 : constant Torch_Element_Code_Enum := 12;  -- ../src/cpp/torch-element-codes.h:41
+   Torch_Element_Code_Enum_TORCH_ELEMENT_COMPLEX128 : constant Torch_Element_Code_Enum := 12;  -- ../src/cpp/torch_element_codes.h:41
 
 end torch_element_codes_h;
 

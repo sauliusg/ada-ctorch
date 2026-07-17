@@ -2,6 +2,8 @@ with Ada.Finalization;
 
 with Torch.Data.Datasets; use Torch.Data.Datasets;
 
+with Ada_Dataloader_Codes_H; use Ada_Dataloader_Codes_H;
+
 package Torch.Data.Datasets.Loaders is
    
    -- -------------------------------------------------------------------------

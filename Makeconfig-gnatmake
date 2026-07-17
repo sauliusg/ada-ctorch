@@ -15,4 +15,6 @@ ADA_DIR ?= .
 
 ADA_GEN_DIR ?= ${ADA_DIR}/generated
 
-ADA_GEN_FILES ?= ${ADA_GEN_DIR}/torch_element_codes_h.ads
+ADA_GEN_FILES ?= \
+    ${ADA_GEN_DIR}/torch_element_codes_h.ads \
+    ${ADA_GEN_DIR}/ada_dataloader_codes_h.ads
