@@ -29,17 +29,37 @@ private:
 
 
 AdaShadowIteratorHolder*
-new_ada_shadow_iterator_holder(
-    torch::data::Iterator<torch::data::Example<>> iterator)
+new_ada_shadow_iterator_holder
+(torch::data::Iterator<torch::data::Example<>> iterator)
 {
     return new AdaShadowIteratorHolder(iterator);
 }
 
+/*
+ * Ada ABI functions
+ */
 
 extern "C"
 void
-delete_ada_shadow_data_loader(
-    AdaShadowDataLoader* loader)
+delete_ada_shadow_data_loader(AdaShadowDataLoader* loader)
 {
     delete loader;
+}
+
+
+extern "C"
+AdaShadowIteratorHolder*
+new_ada_stadow_iterator_start(AdaShadowDataLoader *loader)
+{
+    assert(loader);
+    return loader->new_ada_shadow_iterator_start();
+}
+
+
+extern "C"
+AdaShadowIteratorHolder*
+new_ada_stadow_iterator_end(AdaShadowDataLoader *loader)
+{
+    assert(loader);
+    return loader->new_ada_shadow_iterator_end();
 }
