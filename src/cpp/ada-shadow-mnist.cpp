@@ -92,7 +92,7 @@ make_mnist_random_loader(
 } // anonymous namespace
 
 // -------------------------------------------------------------------------
-    
+
 class AdaShadowMNISTDataset final
     : public AdaShadowDataset
 {
