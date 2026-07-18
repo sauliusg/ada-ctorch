@@ -77,7 +77,6 @@ private:
 
     MNISTDatasetType dataset_;
 
-
 public:
 
     explicit AdaShadowMNISTDataset(const std::string& path,
