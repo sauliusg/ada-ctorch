@@ -35,3 +35,11 @@ new_ada_shadow_iterator_holder(
     return new AdaShadowIteratorHolder(iterator);
 }
 
+
+extern "C"
+void
+delete_ada_shadow_data_loader(
+    AdaShadowDataLoader* loader)
+{
+    delete loader;
+}

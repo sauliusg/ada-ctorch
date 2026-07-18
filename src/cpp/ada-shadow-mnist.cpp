@@ -174,12 +174,3 @@ delete_ada_shadow_mnist_dataset(
 {
     delete dataset;
 }
-
-
-extern "C"
-void
-delete_ada_shadow_data_loader(
-    AdaShadowDataLoader* loader)
-{
-    delete loader;
-}
