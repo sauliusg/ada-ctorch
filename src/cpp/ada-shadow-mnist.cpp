@@ -21,8 +21,19 @@
 namespace
 {
 
-auto make_mnist_dataset(const std::string& path,
-                        double x, double y)
+auto
+make_mnist_dataset(const std::string& path)
+{
+    return torch::data::datasets::MNIST(path);
+}
+
+using MNISTDatasetType =
+    decltype(make_mnist_dataset(std::declval<const std::string&>()));
+
+// ------------------------------------------------------------------------
+    
+auto make_mnist_dataset_normalise_and_stack(const std::string& path,
+                                            double x, double y)
 {
     return torch::data::datasets::MNIST(path)
         .map(torch::data::transforms::Normalize<>(x, y))
@@ -30,18 +41,29 @@ auto make_mnist_dataset(const std::string& path,
 }
 
 
-using MNISTDatasetType =
+using MNISTNormalisedStackedDatasetType =
     decltype(
-        make_mnist_dataset(std::declval<const std::string&>(),
-                           std::declval<double>(),
-                           std::declval<double>()
-                           ));
+        make_mnist_dataset_normalise_and_stack
+            (std::declval<const std::string&>(),
+             std::declval<double>(),
+             std::declval<double>()
+            ));
 
+MNISTNormalisedStackedDatasetType
+make_mnist_dataset_normalise_and_stack(MNISTDatasetType &ds,
+                                       double x, double y)
+{
+    return ds
+        .map(torch::data::transforms::Normalize<>(x, y))
+        .map(torch::data::transforms::Stack<>());
+}
+    
 // -------------------------------------------------------------------------
 
+template<typename DatasetType>
 auto
 make_mnist_sequential_loader(
-    MNISTDatasetType dataset,
+    DatasetType dataset,
     std::size_t batch_size)
 {
     return torch::data::make_data_loader<
@@ -52,9 +74,10 @@ make_mnist_sequential_loader(
             );
 }
 
+template<typename DatasetType>
 auto
 make_mnist_random_loader(
-    MNISTDatasetType dataset,
+    DatasetType dataset,
     std::size_t batch_size)
 {
     return
@@ -75,13 +98,13 @@ class AdaShadowMNISTDataset final
 {
 private:
 
-    MNISTDatasetType dataset_;
+    MNISTNormalisedStackedDatasetType dataset_;
 
 public:
 
     explicit AdaShadowMNISTDataset(const std::string& path,
                                    double x, double y):
-        dataset_(make_mnist_dataset(path, x, y))
+        dataset_(make_mnist_dataset_normalise_and_stack(path, x, y))
     {}
 
     virtual std::size_t size() const
