@@ -1,1 +1,2 @@
   775  apptainer build python-ubuntu.sif python-ubuntu.def
+  535  apptainer build --force python-ubuntu.sif python-ubuntu.def
