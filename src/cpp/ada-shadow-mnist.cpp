@@ -13,21 +13,10 @@
 
 
 /*
- * Forward declaration of the iterator holder creation helpers.
- *
- * The actual implementation is in the iterator source file.
- */
-extern AdaShadowIteratorHolder*
-new_ada_shadow_iterator_holder(
-    torch::data::Iterator<torch::data::Example<>> iterator);
-
-
-/*
  * Concrete MNIST dataset type.
  *
  * All template details remain private to this compilation unit.
  */
-
 
 namespace
 {
@@ -35,10 +24,8 @@ namespace
 auto make_mnist_dataset(const std::string& path)
 {
     return torch::data::datasets::MNIST(path)
-        .map(
-            torch::data::transforms::Normalize<>(0.1307, 0.3081))
-        .map(
-            torch::data::transforms::Stack<>());
+        .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
+        .map(torch::data::transforms::Stack<>());
 }
 
 
@@ -47,98 +34,39 @@ using MNISTDatasetType =
         make_mnist_dataset(
             std::declval<const std::string&>()));
 
+// -------------------------------------------------------------------------
 
-using MNISTSequentialLoaderType =
-    decltype(
-        torch::data::make_data_loader<
-            torch::data::samplers::SequentialSampler>(
-                std::declval<MNISTDatasetType>(),
-                std::declval<std::size_t>()));
-
-
-using MNISTRandLoaderType =
-    decltype(
-        torch::data::make_data_loader<
-            torch::data::samplers::RandomSampler>(
-                std::declval<MNISTDatasetType>(),
-                std::declval<std::size_t>()));
-
-
-class AdaShadowMNISTDataLoader final
-    : public AdaShadowDataLoader
+auto
+make_mnist_sequential_loader(
+    MNISTDatasetType dataset,
+    std::size_t batch_size)
 {
-private:
+    return torch::data::make_data_loader<
+        torch::data::samplers::SequentialSampler>
+            (
+                std::move(dataset),
+                batch_size
+            );
+}
 
-    std::unique_ptr<MNISTSequentialLoaderType> sequential_loader_;
+auto
+make_mnist_random_loader(
+    MNISTDatasetType dataset,
+    std::size_t batch_size)
+{
+    return
+        torch::data::make_data_loader<
+            torch::data::samplers::RandomSampler>
+            (
+                std::move(dataset),
+                batch_size
+            );
+}
+    
+} // anonymous namespace
 
-    std::unique_ptr<MNISTRandLoaderType> random_loader_;
-
-
-public:
-
-    /*
-     * Exactly one of the two pointers is initialized.
-     */
-
-    explicit AdaShadowMNISTDataLoader(
-        std::unique_ptr<MNISTSequentialLoaderType> loader)
-        :
-        sequential_loader_(std::move(loader))
-    {
-    }
-
-
-    explicit AdaShadowMNISTDataLoader(
-        std::unique_ptr<MNISTRandLoaderType> loader)
-        :
-        random_loader_(std::move(loader))
-    {
-    }
-
-
-    Ada_DataLoader_Code
-    kind() const override
-    {
-        if (sequential_loader_)
-            return ADA_DATALOADER_SEQUENTIAL;
-
-        if (random_loader_)
-            return ADA_DATALOADER_RANDOM;
-
-        return ADA_DATALOADER_INVALID;
-    }
-
-
-    AdaShadowIteratorHolder*
-    new_ada_shadow_iterator_start() override
-    {
-        if (sequential_loader_)
-            return new_ada_shadow_iterator_holder((*sequential_loader_)->begin());
-
-        if (random_loader_)
-            return new_ada_shadow_iterator_holder((*random_loader_)->begin());
-
-        throw std::runtime_error(
-            "Invalid MNIST data loader state");
-    }
-
-
-    AdaShadowIteratorHolder*
-    new_ada_shadow_iterator_end() override
-    {
-        if (sequential_loader_)
-            return new_ada_shadow_iterator_holder((*sequential_loader_)->end());
-
-        if (random_loader_)
-            return new_ada_shadow_iterator_holder((*random_loader_)->end());
-
-        throw std::runtime_error(
-            "Invalid MNIST data loader state");
-    }
-};
-
-
-
+// -------------------------------------------------------------------------
+    
 class AdaShadowMNISTDataset final
     : public AdaShadowDataset
 {
@@ -156,49 +84,62 @@ public:
     {
     }
 
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
 
     AdaShadowDataLoader*
-    new_ada_shadow_data_loader(
-        const AdaDataLoaderOptions& options) override
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
     {
         switch (options.sampler_kind)
-        {
-        case ADA_DATALOADER_SEQUENTIAL:
-        {
-            auto loader =
-                torch::data::make_data_loader<
-                    torch::data::samplers::SequentialSampler>(
-                        std::move(dataset_),
-                        options.batch_size);
+            {
+            case ADA_DATALOADER_SEQUENTIAL:
+                {
+                    auto loader =
+                        make_mnist_sequential_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                         );
 
-            return new AdaShadowMNISTDataLoader(std::move(loader));
-        }
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                         );
+                }
 
+            case ADA_DATALOADER_RANDOM:
+                {
+                    auto loader =
+                        make_mnist_random_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                         );
 
-        case ADA_DATALOADER_RANDOM:
-        {
-            auto loader =
-                torch::data::make_data_loader<
-                    torch::data::samplers::RandomSampler>(
-                        std::move(dataset_),
-                        options.batch_size);
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                         );
+                }
+                
+            default:
+                throw std::invalid_argument("Unsupported MNIST sampler.");
+            }
+    };
 
-            return new AdaShadowMNISTDataLoader(
-                std::move(loader));
-        }
-
-
-        default:
-
-            throw std::runtime_error(
-                "Unsupported MNIST sampler");
-        }
-    }
-};
-
-
-} // anonymous namespace
-
+}; // class
 
 
 /*

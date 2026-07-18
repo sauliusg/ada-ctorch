@@ -62,8 +62,8 @@ public:
      * The exact representation of a sample is hidden behind
      * AdaShadowBatch.
      */
-    virtual AdaShadowBatch*
-    new_ada_shadow_batch(std::size_t index) const = 0;
+    // virtual AdaShadowBatch*
+    // new_ada_shadow_batch(std::size_t index) const = 0;
 
 
     /*
