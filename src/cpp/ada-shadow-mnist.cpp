@@ -21,18 +21,21 @@
 namespace
 {
 
-auto make_mnist_dataset(const std::string& path)
+auto make_mnist_dataset(const std::string& path,
+                        double x, double y)
 {
     return torch::data::datasets::MNIST(path)
-        .map(torch::data::transforms::Normalize<>(0.1307, 0.3081))
+        .map(torch::data::transforms::Normalize<>(x, y))
         .map(torch::data::transforms::Stack<>());
 }
 
 
 using MNISTDatasetType =
     decltype(
-        make_mnist_dataset(
-            std::declval<const std::string&>()));
+        make_mnist_dataset(std::declval<const std::string&>(),
+                           std::declval<double>(),
+                           std::declval<double>()
+                           ));
 
 // -------------------------------------------------------------------------
 
@@ -77,12 +80,10 @@ private:
 
 public:
 
-    explicit AdaShadowMNISTDataset(
-        const std::string& path)
-        :
-        dataset_(make_mnist_dataset(path))
-    {
-    }
+    explicit AdaShadowMNISTDataset(const std::string& path,
+                                   double x, double y):
+        dataset_(make_mnist_dataset(path, x, y))
+    {}
 
     virtual std::size_t size() const
     {
@@ -151,13 +152,14 @@ extern "C"
 AdaShadowDataset*
 new_ada_shadow_mnist_dataset(
     const char* path,
+    double x, double y,
     ada_c_error_type* err)
 {
     try
     {
         assert(path);
 
-        return new AdaShadowMNISTDataset(path);
+        return new AdaShadowMNISTDataset(path, x, y);
     }
     catch (...)
     {
