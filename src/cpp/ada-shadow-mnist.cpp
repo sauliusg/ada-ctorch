@@ -468,10 +468,9 @@ public:
  * Ada ABI functions
  */
 
-
 extern "C"
 AdaShadowDataset*
-new_ada_shadow_mnist_dataset(
+new_ada_shadow_mnist_normalised_stacked_dataset(
     const char* path,
     double x, double y,
     ada_c_error_type* err)
@@ -479,7 +478,6 @@ new_ada_shadow_mnist_dataset(
     try
     {
         assert(path);
-
         return new AdaShadowMNISTNormalisedStackedDataset(path, x, y);
     }
     catch (...)
@@ -489,6 +487,46 @@ new_ada_shadow_mnist_dataset(
     }
 }
 
+extern "C"
+AdaShadowDataset*
+new_ada_shadow_normalised_dataset(
+    AdaShadowDataset* dataset,
+    double x, double y,
+    ada_c_error_type* err)
+{
+    try
+    {
+        assert(dataset);
+        return dataset->normalize(x, y);
+    }
+    catch (...)
+    {
+        handle_exception(err, __FUNCTION__);
+        return nullptr;
+    }
+}
+
+
+extern "C"
+AdaShadowDataset*
+new_ada_shadow_stacked_dataset(
+    AdaShadowDataset* dataset,
+    ada_c_error_type* err)
+{
+    try
+    {
+        assert(dataset);
+        return dataset->stack();
+    }
+    catch (...)
+    {
+        handle_exception(err, __FUNCTION__);
+        return nullptr;
+    }
+}
+
+
+// Binding to destructor:
 
 extern "C"
 void
