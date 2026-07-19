@@ -1,27 +1,11 @@
 #ifndef ADA_CTORCH_SHADOW_DATALOADER_HPP_
 #define ADA_CTORCH_SHADOW_DATALOADER_HPP_
 
+// uses:
 #include <torch/torch.h>
 
-#include "ada_dataloader_codes.h"
-
-/*
- * Forward declarations.
- */
-
-struct AdaShadowIteratorHolder;
-
-// FIXME: to be removed when AdaShadowIteratorHolder gets its own
-// header (S.G.)
-
-/*
- * Forward declaration of the iterator holder creation helpers.
- *
- * The actual implementation is in the iterator source file.
- */
-extern AdaShadowIteratorHolder*
-new_ada_shadow_iterator_holder(
-    torch::data::Iterator<torch::data::Example<>> iterator);
+#include <ada_dataloader_codes.h>
+#include <ada-shadow-iterator.hpp>
 
 /*
  * Abstract façade for libtorch data loaders.

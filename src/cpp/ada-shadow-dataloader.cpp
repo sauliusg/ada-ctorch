@@ -5,59 +5,6 @@
 #include <ada_c_error_code_helpers.h>
 #include <ada_dataloader_codes.h>
 
-typedef torch::data::Iterator<torch::data::Example<>> example_iterator_t;
-    
-struct AdaShadowIteratorHolder {
-
-    example_iterator_t it;
-
-    AdaShadowIteratorHolder(const example_iterator_t& iter)
-        : it(iter),
-          refcount(1)
-    {
-    }
-
-    void inc_reference()
-    {
-        ++refcount;
-    }
-
-    bool release_reference()
-    {
-        assert (refcount > 0);
-        return (--refcount) == 0;
-    }
-
-private:
-
-    std::atomic_size_t refcount{1};
-};
-
-extern "C"
-void
-ada_shadow_iterator_holder_release_reference (AdaShadowIteratorHolder* iter)
-{
-    assert (iter);
-    if (iter->release_reference()) {
-        delete iter;
-    }
-}
-
-extern "C"
-void
-ada_shadow_iterator_holder_inc_reference (AdaShadowIteratorHolder* iter)
-{
-    assert (iter);
-    iter->inc_reference();
-}
-
-
-AdaShadowIteratorHolder*
-new_ada_shadow_iterator_holder (torch::data::Iterator<torch::data::Example<>> iterator)
-{
-    return new AdaShadowIteratorHolder(iterator);
-}
-
 /*
  * Ada ABI functions
  */
@@ -85,7 +32,6 @@ new_ada_shadow_iterator_start(AdaShadowDataLoader *loader,
     }
 }
 
-
 extern "C"
 AdaShadowIteratorHolder*
 new_ada_shadow_iterator_end(AdaShadowDataLoader *loader,
@@ -99,4 +45,24 @@ new_ada_shadow_iterator_end(AdaShadowDataLoader *loader,
         handle_exception(err, __FUNCTION__);
         return nullptr;
     }
+}
+
+// Advancing and checking iterators:
+    
+extern "C"
+void
+advance_iterator(AdaShadowIteratorHolder* holder)
+{
+    assert(holder);
+    ++(holder->it);
+}
+
+extern "C"
+int8_t
+iterators_are_equal(AdaShadowIteratorHolder* h1,
+                    AdaShadowIteratorHolder* h2)
+{
+    assert(h1);
+    assert(h2);
+    return (h1->it) == (h2->it);
 }
