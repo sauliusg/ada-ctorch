@@ -96,9 +96,15 @@ make_mnist_dataset_normalised(MNISTDatasetType& ds,
 // MNISTStackedNormalised
     
 auto make_mnist_dataset_normalised_and_stacked(const std::string& path,
-                                               double x, double y)
+                                               double x, double y,
+                                               int8_t mode)
 {
-    return torch::data::datasets::MNIST(path)
+    torch::data::datasets::MNIST::Mode torch_mode =
+        mode == 0 ?
+        torch::data::datasets::MNIST::Mode::kTest :
+        torch::data::datasets::MNIST::Mode::kTrain;
+
+    return torch::data::datasets::MNIST(path, torch_mode)
         .map(torch::data::transforms::Normalize<>(x, y))
         .map(torch::data::transforms::Stack<>());
 }
@@ -109,7 +115,8 @@ using MNISTNormalisedStackedDatasetType =
         make_mnist_dataset_normalised_and_stacked
             (std::declval<const std::string&>(),
              std::declval<double>(),
-             std::declval<double>()
+             std::declval<double>(),
+             std::declval<int8_t>()
             ));
 
 // We can also create MNISTNormalisedStackedDatasetType from the
@@ -181,8 +188,8 @@ private:
 public:
 
     explicit AdaShadowMNISTNormalisedStackedDataset
-    (const std::string& path, double x, double y):
-        dataset_(make_mnist_dataset_normalised_and_stacked(path, x, y))
+    (const std::string& path, double x, double y, int8_t mode):
+        dataset_(make_mnist_dataset_normalised_and_stacked(path, x, y, mode))
     {}
 
     explicit AdaShadowMNISTNormalisedStackedDataset
@@ -473,12 +480,13 @@ AdaShadowDataset*
 new_ada_shadow_mnist_normalised_stacked_dataset(
     const char* path,
     double x, double y,
+    uint8_t mode,
     ada_c_error_type* err)
 {
     try
     {
         assert(path);
-        return new AdaShadowMNISTNormalisedStackedDataset(path, x, y);
+        return new AdaShadowMNISTNormalisedStackedDataset(path, x, y, mode);
     }
     catch (...)
     {
