@@ -56,7 +56,7 @@ package body Torch.Datasets.MNIST is
       return Ret : Dataset :=
         (
          Ada.Finalization.Limited_Controlled with
-         Shadow_Normalised_Mnist =>
+         Shadow_Dataset =>
            New_Ada_Shadow_Normalised_MNIST 
              (
               To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),
@@ -88,7 +88,7 @@ package body Torch.Datasets.MNIST is
       return Ret : Dataset :=
         (
          Ada.Finalization.Limited_Controlled with
-         Shadow_Stacked_Mnist =>
+         Shadow_Dataset =>
            New_Ada_Shadow_Stacked_Mnist
              (
               To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),
@@ -129,7 +129,7 @@ package body Torch.Datasets.MNIST is
       return Ret : Dataset :=
         (
          Ada.Finalization.Limited_Controlled with
-         Shadow_Normalised_Mnist =>
+         Shadow_Dataset =>
            New_Ada_Shadow_Normalised_Stacked_MNIST
              (
               To_Chars_Ptr (Dir_Name_Chars'Unchecked_Access),

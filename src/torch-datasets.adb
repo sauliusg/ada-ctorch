@@ -12,7 +12,7 @@ package body Torch.Datasets is
    with
      Import => True,
      Convention => CPP,
-     External_Name => "Delete_Ada_Shadow_Dataset";
+     External_Name => "delete_ada_shadow_dataset";
    
    overriding
    procedure Finalize (C : in out Dataset) is
