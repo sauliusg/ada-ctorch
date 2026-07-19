@@ -81,14 +81,14 @@ public:
      */
 
     virtual AdaShadowDataset*
-    normalize(float mean, float std) const
+    normalize(float mean, float std)
     {
         throw std::runtime_error("Normalize transformation is not supported by this dataset");
     }
 
 
     virtual AdaShadowDataset*
-    stack() const
+    stack()
     {
         throw std::runtime_error("Stack transformation is not supported by this dataset");
     }
