@@ -51,7 +51,7 @@ package body Torch.Datasets.Loaders is
              (
               D.Shadow_Dataset,
               Batch_Size,
-              Data_Loader_Mode'Pos (Mode),
+              Data_Loader_Mode'Enum_Rep (Mode),
               Err'Unchecked_Access
              )
         )

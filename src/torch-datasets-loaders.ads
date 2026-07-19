@@ -28,7 +28,7 @@ package Torch.Datasets.Loaders is
      (
       Invalid    => Ada_Dataloader_Code_Enum_Ada_Dataloader_Invalid,
       Sequential => Ada_Dataloader_Code_Enum_Ada_Dataloader_Sequential,
-      Random     => Ada_DataLoader_Code_Enum_ADA_DATALOADER_RANDOM
+      Random     => Ada_Dataloader_Code_Enum_Ada_Dataloader_Random
      );
    
    type Data_Loader_Type is tagged limited private
