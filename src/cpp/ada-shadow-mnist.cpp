@@ -95,8 +95,8 @@ make_mnist_dataset_normalised(MNISTDatasetType& ds,
 // ------------------------------------------------------------------------
 // MNISTStackedNormalised
     
-auto make_mnist_dataset_normalise_and_stack(const std::string& path,
-                                            double x, double y)
+auto make_mnist_dataset_normalised_and_stacked(const std::string& path,
+                                               double x, double y)
 {
     return torch::data::datasets::MNIST(path)
         .map(torch::data::transforms::Normalize<>(x, y))
@@ -106,7 +106,7 @@ auto make_mnist_dataset_normalise_and_stack(const std::string& path,
 
 using MNISTNormalisedStackedDatasetType =
     decltype(
-        make_mnist_dataset_normalise_and_stack
+        make_mnist_dataset_normalised_and_stacked
             (std::declval<const std::string&>(),
              std::declval<double>(),
              std::declval<double>()
@@ -116,8 +116,8 @@ using MNISTNormalisedStackedDatasetType =
 // pre-existing data types:
     
 MNISTNormalisedStackedDatasetType
-make_mnist_dataset_normalise_and_stack(MNISTDatasetType &ds,
-                                       double x, double y)
+make_mnist_dataset_normalised_and_stacked(MNISTDatasetType &ds,
+                                          double x, double y)
 {
     return ds
         .map(torch::data::transforms::Normalize<>(x, y))
@@ -125,7 +125,7 @@ make_mnist_dataset_normalise_and_stack(MNISTDatasetType &ds,
 }
     
 MNISTNormalisedStackedDatasetType
-make_mnist_dataset_normalise_and_stack(MNISTNormalisedDatasetType &ds)
+make_mnist_dataset_normalised_and_stacked(MNISTNormalisedDatasetType &ds)
 {
     return ds
         .map(torch::data::transforms::Stack<>());
@@ -165,8 +165,11 @@ make_mnist_random_loader(
 } // anonymous namespace
 
 // -------------------------------------------------------------------------
+// Concrete implementations of the class AdaShadowDataset
+// descendants, so that we can present the template-expanded MNIST
+// dataset types using run-time polymorphism:
 
-class AdaShadowMNISTDataset final
+class AdaShadowMNISTNormalisedStackedDataset final
     : public AdaShadowDataset
 {
 private:
@@ -175,9 +178,9 @@ private:
 
 public:
 
-    explicit AdaShadowMNISTDataset(const std::string& path,
-                                   double x, double y):
-        dataset_(make_mnist_dataset_normalise_and_stack(path, x, y))
+    explicit AdaShadowMNISTNormalisedStackedDataset(const std::string& path,
+                                                    double x, double y):
+        dataset_(make_mnist_dataset_normalised_and_stacked(path, x, y))
     {}
 
     virtual std::size_t size() const
@@ -203,14 +206,14 @@ public:
                         (
                          dataset_,
                          options.batch_size
-                         );
+                        );
 
                     return
                         new AdaShadowDataLoaderImpl<decltype(loader)>
                         (
                          std::move(loader),
                          options.sampler_kind
-                         );
+                        );
                 }
 
             case ADA_DATALOADER_RANDOM:
@@ -220,14 +223,14 @@ public:
                         (
                          dataset_,
                          options.batch_size
-                         );
+                        );
 
                     return
                         new AdaShadowDataLoaderImpl<decltype(loader)>
                         (
                          std::move(loader),
                          options.sampler_kind
-                         );
+                        );
                 }
                 
             default:
@@ -254,7 +257,7 @@ new_ada_shadow_mnist_dataset(
     {
         assert(path);
 
-        return new AdaShadowMNISTDataset(path, x, y);
+        return new AdaShadowMNISTNormalisedStackedDataset(path, x, y);
     }
     catch (...)
     {
