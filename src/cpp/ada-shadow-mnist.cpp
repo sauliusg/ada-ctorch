@@ -169,6 +169,80 @@ make_mnist_random_loader(
 // descendants, so that we can present the template-expanded MNIST
 // dataset types using run-time polymorphism:
 
+// Stacked dataset:
+
+class AdaShadowMNISTStackedDataset final
+    : public AdaShadowDataset
+{
+private:
+
+    MNISTStackedDatasetType dataset_;
+
+public:
+
+    explicit AdaShadowMNISTStackedDataset(const std::string& path):
+        dataset_(make_mnist_dataset_stacked(path))
+    {}
+
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
+
+    AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
+    {
+        switch (options.sampler_kind)
+            {
+            case ADA_DATALOADER_SEQUENTIAL:
+                {
+                    auto loader =
+                        make_mnist_sequential_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                        );
+
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                        );
+                }
+
+            case ADA_DATALOADER_RANDOM:
+                {
+                    auto loader =
+                        make_mnist_random_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                        );
+
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                        );
+                }
+                
+            default:
+                throw std::invalid_argument("Unsupported MNIST sampler.");
+            }
+    };
+
+}; // class
+
+// Normalised and stacked:
+
 class AdaShadowMNISTNormalisedStackedDataset final
     : public AdaShadowDataset
 {
