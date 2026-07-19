@@ -77,16 +77,17 @@ procedure Mnist_Stddecl is
      (if Argument_Count > 0 then Argument (1) else "data/");
    
    Train_Mnist_Dataset : Torch.Datasets.Dataset :=
-     Make_Stacked_Normalised (
-                              Make_MNIST (Root_Dir, Mode => Train),
-                              0.1307, 0.3081
-                             );
+     Make_Stacked (
+                   Make_Normalised_MNIST (Root_Dir, Mode => Train),
+                   0.1307, 0.3081
+                  );
    
    Test_MNIST_Dataset : Torch.Datasets.Dataset := 
-     Make_Stacked_Normalised (
-                              Make_MNIST (Root_Dir, Mode => Test),
-                              0.1307, 0.3081
-                             );
+     Make_Stacked_Normalised_MNIST (
+                                    Root_Dir,
+                                    0.1307, 0.3081,
+                                    Mode => Test
+                                   );
    
    Train_Dataset_Size : UInt64_T := Size (Train_MNIST_Dataset);
    Test_Dataset_Size  : UInt64_T := Size (Test_MNIST_Dataset);   

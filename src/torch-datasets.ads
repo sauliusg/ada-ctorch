@@ -12,15 +12,9 @@ package Torch.Datasets is
    
    type Dataset is tagged limited private;
    
-   function Make_Normalised (M : Dataset; X, Y : Long_Float) return Dataset;
+   function Make_Normalised (D : Dataset; X, Y : Long_Float) return Dataset;
    
-   function Make_Stacked (M : Dataset) return Dataset;
-   
-   function Make_Stacked_Normalised (M : Dataset; X, Y : Long_Float)
-                                    return Dataset;
-   
-   function Make_Stacked_Normalised (Dir : String; X, Y : Long_Float)
-                                    return Dataset;
+   function Make_Stacked (D : Dataset) return Dataset;
    
    function Size (M : Dataset) return UInt64_T;
    
