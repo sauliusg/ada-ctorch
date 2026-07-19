@@ -4,6 +4,12 @@ with GNAT.Source_Info; use GNAT.Source_Info;
 
 package body Torch.Datasets.Loaders is
    
+   procedure Delete_Ada_Shadow_Data_Loader (L : Ada_Shadow_Data_Loader_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "delete_ada_shadow_data_loader";     
+   
    overriding
    procedure Finalize (L : in out Data_Loader_Type) is
    begin
