@@ -200,7 +200,7 @@ public:
     {
         throw std::invalid_argument("Only Stack<>() transformed datasets can "
                                     "currently produce loaders. "
-                                    "This is just a Normalized MNIST dataset.");
+                                    "This is just a \"raw\" MNIST dataset.");
     };
 
 }; // class
