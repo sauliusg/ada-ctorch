@@ -169,6 +169,42 @@ make_mnist_random_loader(
 // descendants, so that we can present the template-expanded MNIST
 // dataset types using run-time polymorphism:
 
+// "Raw" dataset:
+
+class AdaShadowMNISTDataset final
+    : public AdaShadowDataset
+{
+private:
+
+    MNISTDatasetType dataset_;
+
+public:
+
+    explicit AdaShadowMNISTDataset(const std::string& path):
+        dataset_(make_mnist_dataset(path))
+    {}
+
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
+
+    AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
+    {
+        throw std::invalid_argument("Only Stack<>() transformed datasets can "
+                                    "currently produce loaders. "
+                                    "This is just a Normalized MNIST dataset.");
+    };
+
+}; // class
+
 // Normalised dataset:
 
 class AdaShadowMNISTNormalisedDataset final
