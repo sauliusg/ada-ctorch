@@ -169,6 +169,48 @@ make_mnist_random_loader(
 // descendants, so that we can present the template-expanded MNIST
 // dataset types using run-time polymorphism:
 
+// Normalised dataset:
+
+class AdaShadowMNISTNormalisedDataset final
+    : public AdaShadowDataset
+{
+private:
+
+    MNISTNormalisedDatasetType dataset_;
+
+public:
+
+    explicit AdaShadowMNISTNormalisedDataset(const std::string& path,
+                                             double x, double y):
+        dataset_(make_mnist_dataset_normalised(path, x, y))
+    {}
+
+    explicit AdaShadowMNISTNormalisedDataset(MNISTDatasetType &ds,
+                                             double x, double y):
+        dataset_(make_mnist_dataset_normalised(ds, x, y))
+    {}
+
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
+
+    AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
+    {
+        throw std::invalid_argument("Only Stack<>() transformed datasets can "
+                                    "currently produce loaders. "
+                                    "This is just a Normalized MNIST dataset.");
+    };
+
+}; // class
+
 // Stacked dataset:
 
 class AdaShadowMNISTStackedDataset final
@@ -182,6 +224,10 @@ public:
 
     explicit AdaShadowMNISTStackedDataset(const std::string& path):
         dataset_(make_mnist_dataset_stacked(path))
+    {}
+
+    explicit AdaShadowMNISTStackedDataset(MNISTDatasetType& ds):
+        dataset_(make_mnist_dataset_stacked(ds))
     {}
 
     virtual std::size_t size() const
@@ -255,6 +301,16 @@ public:
     explicit AdaShadowMNISTNormalisedStackedDataset(const std::string& path,
                                                     double x, double y):
         dataset_(make_mnist_dataset_normalised_and_stacked(path, x, y))
+    {}
+
+    explicit AdaShadowMNISTNormalisedStackedDataset(MNISTDatasetType& ds,
+                                                    double x, double y):
+        dataset_(make_mnist_dataset_normalised_and_stacked(ds, x, y))
+    {}
+
+    explicit AdaShadowMNISTNormalisedStackedDataset
+    (MNISTNormalisedDatasetType& ds):
+        dataset_(make_mnist_dataset_normalised_and_stacked(ds))
     {}
 
     virtual std::size_t size() const
