@@ -5,6 +5,10 @@
 #include <ada_c_error_code_helpers.h>
 #include <assert.h>
 
+/*
+ * Ada ABI functions
+ */
+
 extern "C"
 AdaShadowDataLoader*
 new_ada_shadow_data_loader(
@@ -34,5 +38,60 @@ new_ada_shadow_data_loader(
     {
         handle_exception(err, __FUNCTION__);
         return nullptr;
+    }
+}
+
+extern "C"
+AdaShadowDataset*
+new_ada_shadow_normalised_dataset(
+    AdaShadowDataset* dataset,
+    double x, double y,
+    ada_c_error_type* err)
+{
+    try
+    {
+        assert(dataset);
+        return dataset->normalize(x, y);
+    }
+    catch (...)
+    {
+        handle_exception(err, __FUNCTION__);
+        return nullptr;
+    }
+}
+
+
+extern "C"
+AdaShadowDataset*
+new_ada_shadow_stacked_dataset(
+    AdaShadowDataset* dataset,
+    ada_c_error_type* err)
+{
+    try
+    {
+        assert(dataset);
+        return dataset->stack();
+    }
+    catch (...)
+    {
+        handle_exception(err, __FUNCTION__);
+        return nullptr;
+    }
+}
+
+
+// Binding to destructor:
+
+extern "C"
+void
+delete_ada_shadow_dataset(AdaShadowDataset* dataset, ada_c_error_type* err)
+{
+    try
+    {
+        delete dataset;
+    }
+    catch (...)
+    {
+        handle_exception(err, __FUNCTION__);
     }
 }
