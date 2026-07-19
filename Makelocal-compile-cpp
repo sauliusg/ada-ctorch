@@ -28,5 +28,6 @@ ${OBJ_DIR}/%.o: ${CPP_DIR}/%.cpp
 
 compile-cpp-clean:
 	rm -f ${compile_cpp_CPP_OBJECTS}
+	rm -f ${compile_cpp_CPP_DEPEND}
 
 clean: compile-cpp-clean
