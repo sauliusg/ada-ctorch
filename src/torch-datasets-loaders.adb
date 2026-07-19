@@ -61,26 +61,6 @@ package body Torch.Datasets.Loaders is
    end;
    
    -- -------------------------------------------------------------------------
-   -- Batch_Cursor_Type
-   
-   overriding
-   procedure Finalize (Cursor : in out Batch_Cursor_Type) is
-   begin
-      Release_Reference (Cursor.Current_Shadow_Iterator);
-      Release_Reference (Cursor.End_Shadow_Iterator);
-      
-      Cursor.Current_Shadow_Iterator := null;
-      Cursor.End_Shadow_Iterator := null;
-   end;
-   
-   overriding
-   procedure Adjust (Cursor : in out Batch_Cursor_Type) is
-   begin
-      Increment_Reference (Cursor.Current_Shadow_Iterator);
-      Increment_Reference (Cursor.End_Shadow_Iterator);
-   end;
-   
-   -- -------------------------------------------------------------------------
    -- Batch_Type
    
    overriding
@@ -129,53 +109,77 @@ package body Torch.Datasets.Loaders is
    end;
    
    -- -------------------------------------------------------------------------
-   -- Iterator infrastructure:
+   -- Iterator infrastructure:   
    
-   -- Created and maintained on the C++ side:
-   type Shadow_Data_Loader_Iterator_Type is
-     null record;
+   -- -------------------------------------------------------------------------
+   -- Batch_Cursor_Type
    
-   type Shadow_Data_Loader_Iterator_Access is 
-     access Shadow_Data_Loader_Iterator_Type;
+   procedure Release_Reference (I : Shadow_Iterator_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "ada_shadow_iterator_holder_release_reference";
+   
+   procedure Increment_Reference (I : Shadow_Iterator_Access)
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "ada_shadow_iterator_holder_inc_reference";
+   
+   overriding
+   procedure Finalize (Cursor : in out Batch_Cursor_Type) is
+   begin
+      Release_Reference (Cursor.Current_Shadow_Iterator);
+      Release_Reference (Cursor.End_Shadow_Iterator);
+      
+      Cursor.Current_Shadow_Iterator := null;
+      Cursor.End_Shadow_Iterator := null;
+   end;
+   
+   overriding
+   procedure Adjust (Cursor : in out Batch_Cursor_Type) is
+   begin
+      Increment_Reference (Cursor.Current_Shadow_Iterator);
+      Increment_Reference (Cursor.End_Shadow_Iterator);
+   end;
+   
+   -- Initialise iterators:
+   
+   function New_Ada_Shadow_Iterator_Start (L : Ada_Shadow_Data_Loader_Access;
+                                           E : Ada_C_Error_Access)
+                                          return Shadow_Iterator_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_ada_shadow_iterator_start";
+   
+   function New_Ada_Shadow_Iterator_End (L : Ada_Shadow_Data_Loader_Access;
+                                         E : Ada_C_Error_Access)
+                                        return Shadow_Iterator_Access
+   with
+     Import => True,
+     Convention => CPP,
+     External_Name => "new_ada_shadow_iterator_end";
    
    function Start (Container : Data_Loader_Type)
                   return Batch_Cursor_Type'Class is
       Err : aliased Ada_C_Error_Type;
    begin
       return Ret : Batch_Cursor_Type :=
-        (case Container.Mode is
-            when Sequential =>
-              (
-               Ada.Finalization.Controlled with
-               Current_Shadow_Iterator =>
-                 New_Sequential_Sampler_Iterator_Start
-                   (
-                    Container.Shadow_Sequential_Data_Loader,
-                    Err'Unchecked_Access
-                   ),
-               End_Shadow_Iterator =>
-                 New_Sequential_Sampler_Iterator_End
-                   (
-                    Container.Shadow_Sequential_Data_Loader,
-                    Err'Unchecked_Access
-                   )
-              ),
-            when Random =>
-              (
-               Ada.Finalization.Controlled with
-               Current_Shadow_Iterator =>
-                 New_Default_Sampler_Iterator_Start
-                   (
-                    Container.Shadow_Random_Data_Loader,
-                    Err'Unchecked_Access
-                   ),
-               End_Shadow_Iterator =>
-                 New_Default_Sampler_Iterator_End
-                   (
-                    Container.Shadow_Random_Data_Loader,
-                    Err'Unchecked_Access
-                   )
-              )
+        (
+         Ada.Finalization.Controlled with
+         Current_Shadow_Iterator =>
+           New_Ada_Shadow_Iterator_Start
+             (
+              Container.Shadow_Data_Loader,
+              Err'Unchecked_Access
+             ),
+         End_Shadow_Iterator =>
+           New_Ada_Shadow_Iterator_End
+             (
+              Container.Shadow_Data_Loader,
+              Err'Unchecked_Access
+             )
         )
       do
          Check_Error (Err);
