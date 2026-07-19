@@ -560,7 +560,7 @@ new_ada_shadow_normalised_mnist(
 
 extern "C"
 AdaShadowDataset*
-new_ada_shadow_mnist_normalised_stacked_dataset(
+new_ada_shadow_normalised_stacked_mnist(
     const char* path,
     double x, double y,
     uint8_t mode,

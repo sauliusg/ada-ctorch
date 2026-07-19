@@ -101,7 +101,7 @@ package body Torch.Datasets.MNIST is
       end return;
    end;
    
-   function New_Ada_Shadow_Normalised_Stacked_Mnist
+   function New_Ada_Shadow_Normalised_Stacked_MNIST
      (
       Dir_Name : Chars_Ptr;
       X, Y : Interfaces.C.Double;
@@ -112,7 +112,7 @@ package body Torch.Datasets.MNIST is
    with
      Import => True,
      Convention => CPP,
-     External_Name => "new_ada_shadow_normalised_mnist";
+     External_Name => "new_ada_shadow_normalised_stacked_mnist";
    
    function Make_Normalised_Stacked_Mnist
      (
