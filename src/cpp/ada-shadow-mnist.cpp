@@ -41,7 +41,7 @@ auto
 make_mnist_dataset(const std::string& path, uint8_t mode)
 {
     torch::data::datasets::MNIST::Mode torch_mode =
-        mode == 0 ?
+        mode == 1 ?
         torch::data::datasets::MNIST::Mode::kTest :
         torch::data::datasets::MNIST::Mode::kTrain;
 
@@ -61,7 +61,7 @@ auto
 make_mnist_dataset_stacked(const std::string& path, uint8_t mode)
 {
     torch::data::datasets::MNIST::Mode torch_mode =
-        mode == 0 ?
+        mode == 1 ?
         torch::data::datasets::MNIST::Mode::kTest :
         torch::data::datasets::MNIST::Mode::kTrain;
 
@@ -91,7 +91,7 @@ make_mnist_dataset_normalised(const std::string& path,
                               uint8_t mode)
 {
     torch::data::datasets::MNIST::Mode torch_mode =
-        mode == 0 ?
+        mode == 1 ?
         torch::data::datasets::MNIST::Mode::kTest :
         torch::data::datasets::MNIST::Mode::kTrain;
 
@@ -123,7 +123,7 @@ auto make_mnist_dataset_normalised_and_stacked(const std::string& path,
                                                int8_t mode)
 {
     torch::data::datasets::MNIST::Mode torch_mode =
-        mode == 0 ?
+        mode == 1 ?
         torch::data::datasets::MNIST::Mode::kTest :
         torch::data::datasets::MNIST::Mode::kTrain;
 
