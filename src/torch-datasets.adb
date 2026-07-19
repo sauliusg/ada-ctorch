@@ -2,7 +2,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNAT.Source_Info; use GNAT.Source_Info;
 
-package body Torch.Data.Datasets is
+package body Torch.Datasets is
    
    overriding
    procedure Finalize (C : in out MNIST) is

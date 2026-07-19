@@ -4,7 +4,7 @@ with Ada.Command_Line; use Ada.Command_Line;
 with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 
-with Torch.Data.Datasets;
+with Torch.Datasets;
 
 procedure MNIST_Exceptions is
    

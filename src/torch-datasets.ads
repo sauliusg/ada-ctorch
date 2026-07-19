@@ -3,7 +3,7 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with Ada.Finalization;
 
-package Torch.Data.Datasets is
+package Torch.Datasets is
    
    type MNIST_Dataset_Mode is (Train, Test);
    
@@ -11,6 +11,8 @@ package Torch.Data.Datasets is
    for MNIST_Dataset_Mode'Size use 8;
    
    type MNIST_Dataset_Kind is (Plain, Normalised, Stacked);
+   
+   type Dataset is null record;
    
    type MNIST (Kind : MNIST_Dataset_Kind := Plain) is new 
      Ada.Finalization.Limited_Controlled with private;

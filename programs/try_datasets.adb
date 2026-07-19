@@ -2,7 +2,7 @@ with Ada.Text_Io; use Ada.Text_Io;
 
 with Torch; use Torch; -- for UInt64_T
 with Torch.NN; -- need to satisfy C++ linker, provides Ada callback for C++
-with Torch.Data.Datasets; use Torch.Data.Datasets;
+with Torch.Datasets; use Torch.Datasets;
 with Ada.Command_Line; use Ada.Command_Line;
 
 procedure Try_Datasets is

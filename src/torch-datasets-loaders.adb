@@ -2,7 +2,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNAT.Source_Info; use GNAT.Source_Info;
 
-package body Torch.Data.Datasets.Loaders is
+package body Torch.Datasets.Loaders is
    
    overriding
    procedure Finalize (L : in out Data_Loader_Type) is

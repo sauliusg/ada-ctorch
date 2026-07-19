@@ -10,8 +10,8 @@ with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 with Torch.Tensor_IO; use Torch.Tensor_IO;
 
-with Torch.Data.Datasets; use Torch.Data.Datasets;
-with Torch.Data.Datasets.Loaders; use Torch.Data.Datasets.Loaders;
+with Torch.Datasets; use Torch.Datasets;
+with Torch.Datasets.Loaders; use Torch.Datasets.Loaders;
 
 with Torch.Optim; use Torch.Optim;
 
@@ -75,13 +75,13 @@ begin
       Root_Dir : constant String :=
         (if Argument_Count > 0 then Argument (1) else "data/");
       
-      Train_Mnist_Dataset : Torch.Data.Datasets.Mnist :=
+      Train_Mnist_Dataset : Torch.Datasets.Mnist :=
         Make_Stacked_Normalised_MNIST (
                                        Make_MNIST (Root_Dir, Mode => Train),
                                        0.1307, 0.3081
                                       );
       
-      Test_MNIST_Dataset : Torch.Data.Datasets.MNIST := 
+      Test_MNIST_Dataset : Torch.Datasets.MNIST := 
         Make_Stacked_Normalised_MNIST (
                                        Make_MNIST (Root_Dir, Mode => Test),
                                        0.1307, 0.3081
