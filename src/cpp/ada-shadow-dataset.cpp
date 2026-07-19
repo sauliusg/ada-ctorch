@@ -17,8 +17,7 @@ new_ada_shadow_data_loader(
     Ada_DataLoader_Code sampler_kind,
     ada_c_error_type* err)
 {
-    try
-    {
+    try {
         assert(dataset);
         
         AdaDataLoaderOptions options
@@ -34,8 +33,7 @@ new_ada_shadow_data_loader(
 
         return dataset->new_ada_shadow_data_loader(options);
     }
-    catch (...)
-    {
+    catch (...) {
         handle_exception(err, __FUNCTION__);
         return nullptr;
     }
@@ -48,13 +46,11 @@ new_ada_shadow_normalised_dataset(
     double x, double y,
     ada_c_error_type* err)
 {
-    try
-    {
+    try {
         assert(dataset);
         return dataset->normalize(x, y);
     }
-    catch (...)
-    {
+    catch (...) {
         handle_exception(err, __FUNCTION__);
         return nullptr;
     }
@@ -67,13 +63,11 @@ new_ada_shadow_stacked_dataset(
     AdaShadowDataset* dataset,
     ada_c_error_type* err)
 {
-    try
-    {
+    try {
         assert(dataset);
         return dataset->stack();
     }
-    catch (...)
-    {
+    catch (...) {
         handle_exception(err, __FUNCTION__);
         return nullptr;
     }
@@ -86,12 +80,26 @@ extern "C"
 void
 delete_ada_shadow_dataset(AdaShadowDataset* dataset, ada_c_error_type* err)
 {
-    try
-    {
+    try {
         delete dataset;
     }
-    catch (...)
-    {
+    catch (...) {
         handle_exception(err, __FUNCTION__);
+    }
+}
+
+// Accessor functions:
+
+extern "C"
+uint64_t
+ada_shadow_dataset_size(AdaShadowDataset* dataset, ada_c_error_type* err)
+{
+    try {
+        assert (dataset);
+        return dataset->size();
+    }    
+    catch (...) {
+        handle_exception(err, __FUNCTION__);
+        return 0;
     }
 }
