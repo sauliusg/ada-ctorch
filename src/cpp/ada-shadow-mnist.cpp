@@ -21,6 +21,22 @@
 namespace
 {
 
+// ------------------------------------------------------------------------
+// The MNIST data set will be repesented in four different ways:
+//
+//    MMIST                  /* no transformations applied */
+//    MMISTStacked           /* Stack<>() transformation applied */
+//    MMISTNormalised        /* Normalise<>() transformation applied */
+//    MMISTStackedNormalised /* Normalised then stacked */
+//
+//    Since in PyTorch C++ layer these transformations are implemented
+//    as template instantiations, we define four maker functions and
+//    four types automatically deribed from return values of these
+//    functions.
+    
+// ------------------------------------------------------------------------
+// MNIST -- the raw, untransformed dataset.
+    
 auto
 make_mnist_dataset(const std::string& path)
 {
@@ -31,6 +47,53 @@ using MNISTDatasetType =
     decltype(make_mnist_dataset(std::declval<const std::string&>()));
 
 // ------------------------------------------------------------------------
+// MNISTStacked
+    
+auto
+make_mnist_dataset_stacked(const std::string& path)
+{
+    return torch::data::datasets::MNIST(path)
+        .map(torch::data::transforms::Stack<>());
+}
+
+using MNISTStackedDatasetType =
+    decltype(make_mnist_dataset_stacked(std::declval<const std::string&>()));
+
+MNISTStackedDatasetType
+make_mnist_dataset_stacked(MNISTDatasetType& ds)
+{
+    return ds
+        .map(torch::data::transforms::Stack<>());
+}
+
+// ------------------------------------------------------------------------
+// MNISTNormalised
+    
+auto
+make_mnist_dataset_normalised(const std::string& path,
+                              double x, double y)
+{
+    return torch::data::datasets::MNIST(path)
+        .map(torch::data::transforms::Normalize<>(x, y));
+}
+
+using MNISTNormalisedDatasetType =
+    decltype(make_mnist_dataset_normalised
+             (std::declval<const std::string&>(),
+              std::declval<double>(),
+              std::declval<double>()
+             ));
+
+MNISTNormalisedDatasetType
+make_mnist_dataset_normalised(MNISTDatasetType& ds,
+                              double x, double y)
+{
+    return ds
+        .map(torch::data::transforms::Normalize<>(x, y));
+}
+
+// ------------------------------------------------------------------------
+// MNISTStackedNormalised
     
 auto make_mnist_dataset_normalise_and_stack(const std::string& path,
                                             double x, double y)
@@ -49,6 +112,9 @@ using MNISTNormalisedStackedDatasetType =
              std::declval<double>()
             ));
 
+// We can also create MNISTNormalisedStackedDatasetType from the
+// pre-existing data types:
+    
 MNISTNormalisedStackedDatasetType
 make_mnist_dataset_normalise_and_stack(MNISTDatasetType &ds,
                                        double x, double y)
@@ -58,6 +124,13 @@ make_mnist_dataset_normalise_and_stack(MNISTDatasetType &ds,
         .map(torch::data::transforms::Stack<>());
 }
     
+MNISTNormalisedStackedDatasetType
+make_mnist_dataset_normalise_and_stack(MNISTNormalisedDatasetType &ds)
+{
+    return ds
+        .map(torch::data::transforms::Stack<>());
+}
+
 // -------------------------------------------------------------------------
 
 template<typename DatasetType>
