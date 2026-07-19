@@ -169,124 +169,6 @@ make_mnist_random_loader(
 // descendants, so that we can present the template-expanded MNIST
 // dataset types using run-time polymorphism:
 
-// Normalised dataset:
-
-class AdaShadowMNISTNormalisedDataset final
-    : public AdaShadowDataset
-{
-private:
-
-    MNISTNormalisedDatasetType dataset_;
-
-public:
-
-    explicit AdaShadowMNISTNormalisedDataset(const std::string& path,
-                                             double x, double y):
-        dataset_(make_mnist_dataset_normalised(path, x, y))
-    {}
-
-    explicit AdaShadowMNISTNormalisedDataset(MNISTDatasetType &ds,
-                                             double x, double y):
-        dataset_(make_mnist_dataset_normalised(ds, x, y))
-    {}
-
-    virtual std::size_t size() const
-    {
-        auto s = dataset_.size();
-
-        if (!s) {
-            throw std::runtime_error("MNIST dataset has no defined size.");
-        }
-        
-        return *s;
-    }
-
-    AdaShadowDataLoader*
-    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
-    {
-        throw std::invalid_argument("Only Stack<>() transformed datasets can "
-                                    "currently produce loaders. "
-                                    "This is just a Normalized MNIST dataset.");
-    };
-
-}; // class
-
-// Stacked dataset:
-
-class AdaShadowMNISTStackedDataset final
-    : public AdaShadowDataset
-{
-private:
-
-    MNISTStackedDatasetType dataset_;
-
-public:
-
-    explicit AdaShadowMNISTStackedDataset(const std::string& path):
-        dataset_(make_mnist_dataset_stacked(path))
-    {}
-
-    explicit AdaShadowMNISTStackedDataset(MNISTDatasetType& ds):
-        dataset_(make_mnist_dataset_stacked(ds))
-    {}
-
-    virtual std::size_t size() const
-    {
-        auto s = dataset_.size();
-
-        if (!s) {
-            throw std::runtime_error("MNIST dataset has no defined size.");
-        }
-        
-        return *s;
-    }
-
-    AdaShadowDataLoader*
-    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
-    {
-        switch (options.sampler_kind)
-            {
-            case ADA_DATALOADER_SEQUENTIAL:
-                {
-                    auto loader =
-                        make_mnist_sequential_loader
-                        (
-                         dataset_,
-                         options.batch_size
-                        );
-
-                    return
-                        new AdaShadowDataLoaderImpl<decltype(loader)>
-                        (
-                         std::move(loader),
-                         options.sampler_kind
-                        );
-                }
-
-            case ADA_DATALOADER_RANDOM:
-                {
-                    auto loader =
-                        make_mnist_random_loader
-                        (
-                         dataset_,
-                         options.batch_size
-                        );
-
-                    return
-                        new AdaShadowDataLoaderImpl<decltype(loader)>
-                        (
-                         std::move(loader),
-                         options.sampler_kind
-                        );
-                }
-                
-            default:
-                throw std::invalid_argument("Unsupported MNIST sampler.");
-            }
-    };
-
-}; // class
-
 // Normalised and stacked:
 
 class AdaShadowMNISTNormalisedStackedDataset final
@@ -364,10 +246,173 @@ public:
                 }
                 
             default:
+                throw std::invalid_argument("Unsupported MNIST sampler");
+            }
+    };
+
+    virtual AdaShadowDataset*
+    normalize(float mean, float std)
+    {
+        throw std::invalid_argument("The MNIST dataset you are asking to "
+                                    "normalise is already normalised and stacked");
+    }
+
+
+    virtual AdaShadowDataset*
+    stack()
+    {
+        throw std::invalid_argument("The MNIST dataset you are asking to "
+                                    "stack is already normalised and stacked");
+    }    
+    
+}; // class
+
+// Normalised dataset:
+
+class AdaShadowMNISTNormalisedDataset final
+    : public AdaShadowDataset
+{
+private:
+
+    MNISTNormalisedDatasetType dataset_;
+
+public:
+
+    explicit AdaShadowMNISTNormalisedDataset(const std::string& path,
+                                             double x, double y):
+        dataset_(make_mnist_dataset_normalised(path, x, y))
+    {}
+
+    explicit AdaShadowMNISTNormalisedDataset(MNISTDatasetType &ds,
+                                             double x, double y):
+        dataset_(make_mnist_dataset_normalised(ds, x, y))
+    {}
+
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
+
+    AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
+    {
+        throw std::invalid_argument("Only Stack<>() transformed datasets can "
+                                    "currently produce loaders. "
+                                    "This is just a Normalized MNIST dataset.");
+    };
+
+    virtual AdaShadowDataset*
+    normalize(float mean, float std)
+    {
+        throw std::invalid_argument("The MNIST dataset you are asking to "
+                                    "normalise is already normalised");
+    }
+
+
+    virtual AdaShadowDataset*
+    stack()
+    {
+        return new AdaShadowMNISTNormalisedStackedDataset (dataset_);        
+    }    
+    
+}; // class
+
+// Stacked dataset:
+
+class AdaShadowMNISTStackedDataset final
+    : public AdaShadowDataset
+{
+private:
+
+    MNISTStackedDatasetType dataset_;
+
+public:
+
+    explicit AdaShadowMNISTStackedDataset(const std::string& path):
+        dataset_(make_mnist_dataset_stacked(path))
+    {}
+
+    explicit AdaShadowMNISTStackedDataset(MNISTDatasetType& ds):
+        dataset_(make_mnist_dataset_stacked(ds))
+    {}
+
+    virtual std::size_t size() const
+    {
+        auto s = dataset_.size();
+
+        if (!s) {
+            throw std::runtime_error("MNIST dataset has no defined size.");
+        }
+        
+        return *s;
+    }
+
+    AdaShadowDataLoader*
+    new_ada_shadow_data_loader(const AdaDataLoaderOptions& options) override
+    {
+        switch (options.sampler_kind)
+            {
+            case ADA_DATALOADER_SEQUENTIAL:
+                {
+                    auto loader =
+                        make_mnist_sequential_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                        );
+
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                        );
+                }
+
+            case ADA_DATALOADER_RANDOM:
+                {
+                    auto loader =
+                        make_mnist_random_loader
+                        (
+                         dataset_,
+                         options.batch_size
+                        );
+
+                    return
+                        new AdaShadowDataLoaderImpl<decltype(loader)>
+                        (
+                         std::move(loader),
+                         options.sampler_kind
+                        );
+                }
+                
+            default:
                 throw std::invalid_argument("Unsupported MNIST sampler.");
             }
     };
 
+    virtual AdaShadowDataset*
+    normalize(float mean, float std)
+    {
+        throw std::invalid_argument("The MNIST dataset you are asking to "
+                                    "normalise is already stacked and "
+                                    "cannot be normalised");
+    }
+
+
+    virtual AdaShadowDataset*
+    stack()
+    {
+        throw std::invalid_argument("The MNIST dataset you are asking to "
+                                    "stack is already stacked");
+    }    
+    
 }; // class
 
 // "Raw" dataset:
