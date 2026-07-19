@@ -1,8 +1,6 @@
 package Torch.Tensors is
    pragma Preelaborate;
 
-   type Tensor is limited private;
-
    -------------------------------------------------------------------
    -- Construction
    -------------------------------------------------------------------
