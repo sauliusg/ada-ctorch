@@ -7,11 +7,13 @@ ADA_DIR ?= .
 
 ADA_GEN_DIR ?= ${ADA_DIR}/generated
 
-ADA_GEN_FILES ?= ${ADA_GEN_DIR}/torch_element_codes_h.ads
+ADA_GEN_FILES ?= \
+    ${ADA_GEN_DIR}/torch_element_codes_h.ads \
+    ${ADA_GEN_DIR}/ada_dataloader_codes_h.ads
 
-all:
+all: ${ADA_GEN_FILES}
 
-${ADA_GEN_FILES}: ${SRC_DIR}/cpp/torch-element-codes.h
+${ADA_GEN_DIR}/%_h.ads: ${SRC_DIR}/cpp/%.h
 	cd $(dir $@); \
 	gcc -c -fdump-ada-spec ../$<
 

@@ -19,6 +19,8 @@ GCC ?= g++
 
 all:
 
+cpp: ${compile_cpp_CPP_OBJECTS}
+
 ${OBJ_DIR}/%.dep: ${CPP_DIR}/%.cpp
 	${GCC} ${CPPFLAGS} -M -MG $< \
 	| sed -e 's,^${notdir $*}.o:,${OBJ_DIR}/$*.o:,' > $@
@@ -28,5 +30,6 @@ ${OBJ_DIR}/%.o: ${CPP_DIR}/%.cpp
 
 compile-cpp-clean:
 	rm -f ${compile_cpp_CPP_OBJECTS}
+	rm -f ${compile_cpp_CPP_DEPEND}
 
 clean: compile-cpp-clean

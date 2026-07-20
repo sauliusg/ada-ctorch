@@ -1,5 +1,5 @@
-#ifndef TORCH_ELEMENT_CODES_H
-#define TORCH_ELEMENT_CODES_H
+#ifndef _TORCH_ELEMENT_CODES_H_
+#define _TORCH_ELEMENT_CODES_H_
 
 #include <stdint.h>
 
@@ -40,4 +40,4 @@ typedef enum
 
 } Torch_Element_Code_Enum;
 
-#endif /* TORCH_ELEMENT_CODES_H */
+#endif /* _TORCH_ELEMENT_CODES_H_ */

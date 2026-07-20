@@ -4,7 +4,7 @@
 
 #include "ada_c_error_code_helpers.h"
 #include "tensors.h"
-#include "torch-element-codes.h"
+#include "torch_element_codes.h"
 
 extern "C"
 Torch_Element_Code

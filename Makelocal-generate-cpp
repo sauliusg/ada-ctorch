@@ -28,6 +28,8 @@ SED ?= perl -p
 
 all:
 
+cpp: ${generate_cpp_CPP_OBJECTS}
+
 ${GEN_DIR}/gen-torch-nn-%.cpp: \
     ${SCRIPT_DIR}/%.sed \
     ${TEMPLATE_DIR}/gen-torch-nn-layer.cppin \

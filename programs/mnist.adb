@@ -10,8 +10,9 @@ with Torch; use Torch;
 with Torch.NN; use Torch.NN;
 with Torch.Tensor_IO; use Torch.Tensor_IO;
 
-with Torch.Data.Datasets; use Torch.Data.Datasets;
-with Torch.Data.Datasets.Loaders; use Torch.Data.Datasets.Loaders;
+with Torch.Datasets; use Torch.Datasets;
+with Torch.Datasets.MNIST; use Torch.Datasets.MNIST;
+with Torch.Datasets.Loaders; use Torch.Datasets.Loaders;
 
 with Torch.Optim; use Torch.Optim;
 
@@ -75,17 +76,20 @@ begin
       Root_Dir : constant String :=
         (if Argument_Count > 0 then Argument (1) else "data/");
       
-      Train_Mnist_Dataset : Torch.Data.Datasets.Mnist :=
-        Make_Stacked_Normalised_MNIST (
+      Train_Mnist_Dataset : Torch.Datasets.Dataset :=
+        Make_Stacked (
+                      Make_Normalised (
                                        Make_MNIST (Root_Dir, Mode => Train),
                                        0.1307, 0.3081
-                                      );
+                                      )
+                     );
       
-      Test_MNIST_Dataset : Torch.Data.Datasets.MNIST := 
-        Make_Stacked_Normalised_MNIST (
+      Test_MNIST_Dataset : Torch.Datasets.Dataset := 
+        Make_Stacked (Make_Normalised (
                                        Make_MNIST (Root_Dir, Mode => Test),
                                        0.1307, 0.3081
-                                      );
+                                      )
+                     );
       
       Train_Dataset_Size : UInt64_T := Size (Train_MNIST_Dataset);
       Test_Dataset_Size  : UInt64_T := Size (Test_MNIST_Dataset);   
@@ -94,7 +98,7 @@ begin
       Test_Batch_Size  : constant Int64_T := 1000;
       
       Train_Loader : Data_Loader_Type :=
-        Make_Mnist_Data_Loader
+        Make_Data_Loader
           (
            Train_MNIST_Dataset,
            Train_Batch_Size,
@@ -102,7 +106,7 @@ begin
           );
       
       Test_Loader : Data_Loader_Type :=
-        Make_Mnist_Data_Loader
+        Make_Data_Loader
           (
            Test_MNIST_Dataset,
            Test_Batch_Size,

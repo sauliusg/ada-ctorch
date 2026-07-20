@@ -2,7 +2,8 @@ with Ada.Text_Io; use Ada.Text_Io;
 
 with Torch; use Torch; -- for UInt64_T
 with Torch.NN; -- need to satisfy C++ linker, provides Ada callback for C++
-with Torch.Data.Datasets; use Torch.Data.Datasets;
+with Torch.Datasets; use Torch.Datasets;
+with Torch.Datasets.MNIST; use Torch.Datasets.MNIST;
 with Ada.Command_Line; use Ada.Command_Line;
 
 procedure Try_Datasets is
@@ -10,13 +11,13 @@ procedure Try_Datasets is
    Root_Dir : String :=
      (if Argument_Count > 0 then Argument (1) else "data/");
    
-   Plain_MNIST_Dataset : MNIST := Make_MNIST (Root_Dir);
+   Plain_MNIST_Dataset : Dataset := Make_MNIST (Root_Dir);
    
-   Normalised_MNIST_Dataset : MNIST :=
-     Make_Normalised_MNIST (Plain_MNIST_Dataset, 0.1307, 0.3081);
+   Normalised_MNIST_Dataset : Dataset :=
+     Make_Normalised (Plain_MNIST_Dataset, 0.1307, 0.3081);
    
-   Stacked_MNIST_Dataset : MNIST :=
-     Make_Stacked_Normalised_MNIST (Root_Dir, 0.1307, 0.3081);
+   Stacked_MNIST_Dataset : Dataset :=
+     Make_Normalised_Stacked_MNIST (Root_Dir, 0.1307, 0.3081);
    
    Plain_DS_Size : UInt64_T := Size (Plain_MNIST_Dataset);
    
@@ -24,13 +25,17 @@ procedure Try_Datasets is
    
    Stacked_DS_Size : UInt64_T := Size (Stacked_MNIST_Dataset);
    
-   Test_MNIST_Dataset : MNIST := Make_MNIST (Root_Dir, Mode => Test);
+   Test_MNIST_Dataset : Dataset := Make_MNIST (Root_Dir, Mode => Test);
    
-   Test_MNIST_Normalised_DS :
-     MNIST := Make_Stacked_Normalised_MNIST (
-                                           Make_MNIST (Root_Dir, Mode => Test),
-                                           0.1307, 0.3081
-                                          );
+   Test_MNIST_Normalised_DS : Dataset :=
+     Make_Stacked
+       (
+        Make_Normalised_Stacked_MNIST
+          (
+           Root_Dir, 0.1307, 0.3081,
+           Mode => Test
+          )
+       );
    
 begin
    Put_Line ("Plain_MNIST_Dataset size       = " & Plain_DS_Size'Image);

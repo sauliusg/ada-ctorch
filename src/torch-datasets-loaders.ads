@@ -1,8 +1,10 @@
 with Ada.Finalization;
 
-with Torch.Data.Datasets; use Torch.Data.Datasets;
+with Torch.Datasets; use Torch.Datasets;
 
-package Torch.Data.Datasets.Loaders is
+with Ada_Dataloader_Codes_H; use Ada_Dataloader_Codes_H;
+
+package Torch.Datasets.Loaders is
    
    -- -------------------------------------------------------------------------
    
@@ -20,10 +22,16 @@ package Torch.Data.Datasets.Loaders is
    -- https://gcc.gnu.org/onlinedocs/gcc-14.3.0/gnat_rm/Aspect-Iterable.html
    -- S.G.
    
-   type Data_Loader_Mode is (Sequential, Random);
+   type Data_Loader_Mode is (Invalid, Sequential, Random);
    
-   type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
-     tagged limited private
+   for Data_Loader_Mode use
+     (
+      Invalid    => Ada_Dataloader_Code_Enum_Ada_Dataloader_Invalid,
+      Sequential => Ada_Dataloader_Code_Enum_Ada_Dataloader_Sequential,
+      Random     => Ada_Dataloader_Code_Enum_Ada_Dataloader_Random
+     );
+   
+   type Data_Loader_Type is tagged limited private
    with
      Iterable =>
        (
@@ -55,9 +63,9 @@ package Torch.Data.Datasets.Loaders is
    
    -- -------------------------------------------------------------------------
    
-   function Make_Mnist_Data_Loader
+   function Make_Data_Loader
      (
-      Dataset : MNIST;
+      D : Dataset;
       Batch_Size : Int64_T;
       Mode : Data_Loader_Mode
      )
@@ -83,10 +91,10 @@ private
       end record;
    
    overriding
-   procedure Finalize (Batch : in out Batch_Cursor_Type);
+   procedure Finalize (Cursor : in out Batch_Cursor_Type);
    
    overriding
-   procedure Adjust (Batch : in out Batch_Cursor_Type);
+   procedure Adjust (Cursor : in out Batch_Cursor_Type);
    
    -- -------------------------------------------------------------------------
    
@@ -143,113 +151,22 @@ private
    -- -------------------------------------------------------------------------
    
    -- declared and managed on the C++ side:
-   type Shadow_Data_Sequential_Loader_Type is null record;
+   type Ada_Shadow_Data_Loader_Type is null record;
    
-   type Shadow_Data_Sequential_Loader_Access is access all 
-     Shadow_Data_Sequential_Loader_Type;
+   type Ada_Shadow_Data_Loader_Access is access all 
+     Ada_Shadow_Data_Loader_Type;
    
-   type Shadow_Data_Random_Loader_Type is null record;
-   
-   type Shadow_Data_Random_Loader_Access is access all 
-     Shadow_Data_Random_Loader_Type;
-   
-   type Data_Loader_Type (Mode : Data_Loader_Mode := Sequential) is
+   type Data_Loader_Type is
      new Ada.Finalization.Limited_Controlled with 
       record
-         case Mode is
-            
-            when Sequential =>
-               Shadow_Sequential_Data_Loader :
-                 Shadow_Data_Sequential_Loader_Access;
-               
-            when Random =>
-               Shadow_Random_Data_Loader :
-                 Shadow_Data_Random_Loader_Access;
-            
-         end case;
+         Shadow_Data_Loader : Ada_Shadow_Data_Loader_Access;
       end record;
 
    overriding
    procedure Finalize (L : in out Data_Loader_Type);
    
    -- -------------------------------------------------------------------------
-   -- C++ side allocating functions for the MNIST datasets:
-   
-   function New_MNIST_Data_Loader_Sequential_Sampler
-     (
-      D : Shadow_Stacked_MNIST_Access;
-      Batch_Size : Int64_T;
-      E : Ada_C_Error_Access
-     ) return Shadow_Data_Sequential_Loader_Access
-   with Import => True,
-     Convention => CPP,
-     External_Name => "new_mnist_data_loader_sequential_sampler";
-   
-   procedure Delete_MNIST_Data_Loader_Sequential_Sampler
-     (S : Shadow_Data_Sequential_Loader_Access)
-   with Import => True,
-     Convention => CPP,
-     External_Name => "delete_mnist_data_loader_sequential_sampler";
-   
-   function New_MNIST_Data_Loader_Default_Sampler
-     (
-      D : Shadow_Stacked_MNIST_Access;
-      Batch_Size : Int64_T;
-      E : Ada_C_Error_Access
-     ) return Shadow_Data_Random_Loader_Access
-   with Import => True,
-     Convention => CPP,
-     External_Name => "new_mnist_data_loader_default_sampler";
-   
-   procedure Delete_MNIST_Data_Loader_Default_Sampler
-     (S : Shadow_Data_Random_Loader_Access)
-   with Import => True,
-     Convention => CPP,
-     External_Name => "delete_mnist_data_loader_default_sampler";
-   
-   -- -------------------------------------------------------------------------
    -- C++ side functions for Shadow Iterators:
-   
-   function New_Sequential_Sampler_Iterator_Start (S : Shadow_Data_Sequential_Loader_Access)
-                                                  return Shadow_Iterator_Access
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "new_sequential_sampler_iterator";
-
-   function New_Sequential_Sampler_Iterator_End (S : Shadow_Data_Sequential_Loader_Access)
-                                                return Shadow_Iterator_Access
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "new_sequential_sampler_iterator_end";
-
-   function New_Default_Sampler_Iterator_Start (S : Shadow_Data_Random_Loader_Access)
-                                               return Shadow_Iterator_Access
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "new_default_sampler_iterator";
-
-   function New_Default_Sampler_Iterator_End (S : Shadow_Data_Random_Loader_Access)
-                                             return Shadow_Iterator_Access
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "new_default_sampler_iterator_end";
-
-   function Clone_Ada_Shadow_Iterator (S : Shadow_Iterator_Access)
-                                      return Shadow_Iterator_Access
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "clone_shadow_iterator";
-
-   procedure Delete_Ada_Shadow_Iterator (S : Shadow_Iterator_Access)
-   with
-     Import => True,
-     Convention => CPP,
-     External_Name => "delete_ada_shadow_iterator_holder";
    
    procedure Advance_Shadow_Iterator (S : Shadow_Iterator_Access)
    with
