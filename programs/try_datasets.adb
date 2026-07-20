@@ -30,7 +30,7 @@ procedure Try_Datasets is
    Test_MNIST_Normalised_DS : Dataset :=
      Make_Stacked
        (
-        Make_Normalised_Stacked_MNIST
+        Make_Normalised_MNIST
           (
            Root_Dir, 0.1307, 0.3081,
            Mode => Test
